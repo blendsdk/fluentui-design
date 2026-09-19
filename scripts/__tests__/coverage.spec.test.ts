@@ -5,6 +5,7 @@ import type { CoverageRow } from "../lib/coverage.js";
 /** Build a complete coverage row from a known-good default. */
 function row(overrides: Partial<CoverageRow> = {}): CoverageRow {
   return {
+    kind: "topic",
     topic: "App shell and navigation",
     sources: ["SRC-001"],
     reviewedEvidence: "Reviewed the shell guidance.",

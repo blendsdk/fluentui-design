@@ -2,8 +2,8 @@
 
 > **Document**: 99-execution-plan.md
 > **Parent**: [Index](00-index.md)
-> **Last Updated**: 2026-09-20 01:28
-> **Progress**: 9/72 tasks (13%)
+> **Last Updated**: 2026-09-20 01:33
+> **Progress**: 15/72 tasks (21%)
 > **CodeOps Artifact Schema**: 1
 
 ## Overview
@@ -106,12 +106,12 @@ task-size criteria in the plan quality checklist)
 **Reference**: [03-01](03-01-evidence-pipeline.md) §Implementation Details · plan AR #5, #7
 **Objective**: Implement the catalogs, validators, and analysis documents.
 
-- [ ] 1.2.1 Add `sources/sources.schema.json` and `scripts/lib/sources.ts` (`parseSources`, `renderSourcesMarkdown`)
-- [ ] 1.2.2 Add `scripts/validate-sources.ts` (schema + integrity checks)
-- [ ] 1.2.3 Add `scripts/lib/coverage.ts` (`parseCoverage`, `checkCoverage`) and `scripts/lib/analysis.ts` (`parseFindings`, `parseConflicts`)
-- [ ] 1.2.4 Author `sources/sources.json`: all 38 seed entries from the brief plus the catalog-expansion targets, each `analyzed`/`blocked` as its retrieval dictates
-- [ ] 1.2.5 Author `research/coverage.md` (12 topics + 8 patterns) and `research/findings.md` + `research/conflicts.md` with the 8-item risky-simplification register
-- [ ] 1.2.6 Run the spec tests — verify they PASS (green phase); if any fails, fix the implementation, not the test
+- [x] 1.2.1 Add `sources/sources.schema.json` and `scripts/lib/sources.ts` (`parseSources`, `renderSourcesMarkdown`) ✅ (completed: 2026-09-20 01:33)
+- [x] 1.2.2 Add `scripts/validate-sources.ts` (schema + integrity checks) ✅ (completed: 2026-09-20 01:33)
+- [x] 1.2.3 Add `scripts/lib/coverage.ts` (`parseCoverage`, `checkCoverage`) and `scripts/lib/analysis.ts` (`parseFindings`, `parseConflicts`) ✅ (completed: 2026-09-20 01:33)
+- [x] 1.2.4 Author `sources/sources.json`: all 38 seed entries from the brief plus the catalog-expansion targets, each `analyzed`/`blocked` as its retrieval dictates ✅ (completed: 2026-09-20 01:33)
+- [x] 1.2.5 Author `research/coverage.md` (12 topics + 8 patterns) and `research/findings.md` + `research/conflicts.md` with the 8-item risky-simplification register ✅ (completed: 2026-09-20 01:33)
+- [x] 1.2.6 Run the spec tests — verify they PASS (green phase); if any fails, fix the implementation, not the test ✅ (completed: 2026-09-20 01:33)
 
 **Deliverables**:
 - `validate-sources` exits 0 on the committed catalog and non-zero on ST-2..ST-5 inputs

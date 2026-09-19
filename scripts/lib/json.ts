@@ -1,4 +1,5 @@
 import { readFile, writeFile } from "node:fs/promises";
+import { readFileSync } from "node:fs";
 
 /**
  * Narrow an unknown JSON value to a plain object.
@@ -33,6 +34,28 @@ export function isJsonObject(value: unknown): value is Record<string, unknown> {
  */
 export async function readJsonFile(filePath: string): Promise<unknown> {
   const text = await readFile(filePath, "utf8");
+  try {
+    const parsed: unknown = JSON.parse(text);
+    return parsed;
+  } catch (error) {
+    const reason = error instanceof Error ? error.message : String(error);
+    throw new Error(`Failed to parse JSON at ${filePath}: ${reason}`);
+  }
+}
+
+/**
+ * Read a UTF-8 JSON file and parse it synchronously.
+ *
+ * Useful inside validators and tests that must produce an answer without an
+ * `await` boundary. The error is wrapped with the file path, as in
+ * {@link readJsonFile}.
+ *
+ * @param filePath - Path to the JSON file, relative to the process working directory.
+ * @returns The parsed JSON value.
+ * @throws Error when the file cannot be read or contains invalid JSON.
+ */
+export function readJsonFileSync(filePath: string): unknown {
+  const text = readFileSync(filePath, "utf8");
   try {
     const parsed: unknown = JSON.parse(text);
     return parsed;

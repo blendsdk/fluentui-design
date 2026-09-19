@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fluentui-design.local/schemas/sources.schema.json",
+  "title": "FluentUI Design source catalog",
+  "type": "array",
+  "items": { "$ref": "#/$defs/source" },
+  "$defs": {
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "seedId",
+        "title",
+        "publisher",
+        "requestedUrl",
+        "resolvedUrl",
+        "category",
+        "platform",
+        "productScope",
+        "tags",
+        "applicableVersion",
+        "publicationDate",
+        "retrievalDate",
+        "status",
+        "accessLimitation",
+        "exclusionReason",
+        "locators",
+        "summary",
+        "evidenceRefs",
+        "conflicts",
+        "linkedRuleIds",
+        "licenseNotes"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^SRC-\\d{3}$" },
+        "seedId": { "type": ["string", "null"], "pattern": "^[A-Z]\\d{2}$" },
+        "title": { "type": "string", "minLength": 1 },
+        "publisher": { "type": "string", "minLength": 1 },
+        "requestedUrl": { "type": "string", "format": "uri" },
+        "resolvedUrl": { "type": "string", "format": "uri" },
+        "category": {
+          "enum": [
+            "discovery",
+            "foundation",
+            "component-discovery",
+            "component-usage",
+            "implementation",
+            "version-tracking",
+            "supplemental-evidence",
+            "product-pattern",
+            "content-design",
+            "accessibility-standard",
+            "accessibility-guidance",
+            "design-asset"
+          ]
+        },
+        "platform": {
+          "enum": ["web-react", "fluent2-cross-platform", "agnostic", "figma", "other"]
+        },
+        "productScope": { "type": "string" },
+        "tags": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "applicableVersion": { "type": ["string", "null"] },
+        "publicationDate": { "type": ["string", "null"], "format": "date" },
+        "retrievalDate": { "type": "string", "format": "date" },
+        "status": {
+          "enum": ["discovered", "retrieved", "analyzed", "blocked", "obsolete", "excluded"]
+        },
+        "accessLimitation": { "type": ["string", "null"] },
+        "exclusionReason": { "type": ["string", "null"] },
+        "locators": { "type": "array", "items": { "$ref": "#/$defs/locator" } },
+        "summary": { "type": "string", "minLength": 1 },
+        "evidenceRefs": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^(FND|CNF)-\\d{3}$" }
+        },
+        "conflicts": { "type": "array", "items": { "type": "string", "pattern": "^CNF-\\d{3}$" } },
+        "linkedRuleIds": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^RULE-\\d{3}$" }
+        },
+        "licenseNotes": { "type": "string", "minLength": 1 }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "status": { "const": "blocked" } }, "required": ["status"] },
+          "then": { "properties": { "accessLimitation": { "type": "string", "minLength": 1 } } }
+        },
+        {
+          "if": { "properties": { "status": { "const": "excluded" } }, "required": ["status"] },
+          "then": { "properties": { "exclusionReason": { "type": "string", "minLength": 1 } } }
+        }
+      ]
+    },
+    "locator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "value"],
+      "properties": {
+        "kind": { "enum": ["heading", "anchor", "repo-path", "commit", "spec", "section"] },
+        "value": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

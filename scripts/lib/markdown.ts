@@ -76,3 +76,89 @@ export function renderTable(
 export function ensureTrailingNewline(text: string): string {
   return text.endsWith("\n") ? text : `${text}\n`;
 }
+
+/** A parsed Markdown table: the header cells and the data rows. */
+export interface ParsedTable {
+  headers: string[];
+  rows: string[][];
+}
+
+/**
+ * Split one Markdown table line into its cells.
+ *
+ * A backslash-escaped pipe (`\|`) is treated as a literal pipe inside a cell, so
+ * escaped content does not create phantom columns.
+ *
+ * @param line - A line that starts with `|`.
+ * @returns The trimmed cell values in order.
+ */
+export function splitTableRow(line: string): string[] {
+  const trimmed = line.trim().replace(/^\|/, "").replace(/\|$/, "");
+  const cells: string[] = [];
+  let current = "";
+
+  for (let index = 0; index < trimmed.length; index += 1) {
+    const char = trimmed.charAt(index);
+    if (char === "\\" && trimmed.charAt(index + 1) === "|") {
+      current += "|";
+      index += 1;
+      continue;
+    }
+    if (char === "|") {
+      cells.push(current.trim());
+      current = "";
+      continue;
+    }
+    current += char;
+  }
+  cells.push(current.trim());
+  return cells;
+}
+
+/** Report whether a parsed row is the table's `---` separator line. */
+function isSeparatorRow(cells: readonly string[]): boolean {
+  return cells.length > 0 && cells.every((cell) => /^:?-{3,}:?$/.test(cell));
+}
+
+/**
+ * Parse the first pipe table found in a block of lines.
+ *
+ * @param lines - Lines to search; the first line beginning with `|` starts the table.
+ * @returns The headers and data rows, or `undefined` when no table is present.
+ */
+export function parseTable(lines: readonly string[]): ParsedTable | undefined {
+  const tableLines = lines.filter((line) => line.trim().startsWith("|"));
+  if (tableLines.length < 2) {
+    return undefined;
+  }
+  const headerLine = tableLines[0] ?? "";
+  const headers = splitTableRow(headerLine);
+  const rows = tableLines
+    .slice(1)
+    .map(splitTableRow)
+    .filter((cells) => !isSeparatorRow(cells));
+  return { headers, rows };
+}
+
+/**
+ * Parse a two-column `| Field | Value |` table into a record.
+ *
+ * Later rows win when a field name repeats, which keeps the function total.
+ *
+ * @param lines - Lines that include the field table.
+ * @returns A mapping of field name to value (empty strings preserved).
+ */
+export function parseFieldTable(lines: readonly string[]): Record<string, string> {
+  const record: Record<string, string> = {};
+  const table = parseTable(lines);
+  if (table === undefined) {
+    return record;
+  }
+  for (const row of table.rows) {
+    const key = row[0];
+    if (key !== undefined && key.length > 0) {
+      record[key] = row[1] ?? "";
+    }
+  }
+  return record;
+}
