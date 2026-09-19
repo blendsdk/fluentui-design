@@ -2,8 +2,8 @@
 
 > **Document**: 99-execution-plan.md
 > **Parent**: [Index](00-index.md)
-> **Last Updated**: 2026-09-20 01:34
-> **Progress**: 17/72 tasks (24%)
+> **Last Updated**: 2026-09-20 01:58
+> **Progress**: 27/72 tasks (37%)
 > **CodeOps Artifact Schema**: 1
 
 ## Overview
@@ -146,9 +146,9 @@ task-size criteria in the plan quality checklist)
 **Reference**: [03-02](03-02-rules-and-patterns.md) · [07](07-testing-strategy.md) ST-12..ST-20 · plan AR #5, #11
 **Objective**: Encode rule-validator and pattern-structure expectations first.
 
-- [ ] 2.1.1 [spec-author] Write rule spec tests — `scripts/__tests__/rules.spec.test.ts` (ST-12..ST-16)
-- [ ] 2.1.2 [spec-author] Write pattern spec tests — `scripts/__tests__/patterns.spec.test.ts` (ST-17..ST-20)
-- [ ] 2.1.3 Run the spec tests — verify they FAIL (red phase)
+- [x] 2.1.1 [spec-author] Write rule spec tests — `scripts/__tests__/rules.spec.test.ts` (ST-12..ST-16) ✅ (completed: 2026-09-20 01:52)
+- [x] 2.1.2 [spec-author] Write pattern spec tests — `scripts/__tests__/patterns.spec.test.ts` (ST-17..ST-20) ✅ (completed: 2026-09-20 01:52)
+- [x] 2.1.3 Run the spec tests — verify they FAIL (red phase) ✅ (completed: 2026-09-20 01:52; both files fail on missing `lib/facts`, `lib/rules`, `lib/patterns`)
 
 **Deliverables**:
 - Spec tests exist and fail for the right reason
@@ -160,11 +160,11 @@ task-size criteria in the plan quality checklist)
 **Reference**: [03-02](03-02-rules-and-patterns.md) §Implementation Details · plan AR #5, #11
 **Objective**: Build the allowlist, rule validators, and the rule/pattern content.
 
-- [ ] 2.2.1 Add `scripts/extract-facts.ts` and generate `facts/verified-exports.json` from the sibling schema at `d595d79`
-- [ ] 2.2.2 Add `rules/rules.schema.json`, `scripts/lib/rules.ts`, `scripts/validate-rules.ts`, `scripts/lint-rules.ts`, `scripts/check-facts.ts`
-- [ ] 2.2.3 Author `rules/rules.json` across the coverage topics with verified or application-owned mappings
-- [ ] 2.2.4 Author the eight pattern documents `skill/references/patterns/PAT-001..008-*.md` with frontmatter
-- [ ] 2.2.5 Run the spec tests — verify they PASS (green phase)
+- [x] 2.2.1 Add `scripts/extract-facts.ts` and generate `facts/verified-exports.json` from the sibling schema at `d595d79` ✅ (completed: 2026-09-20 01:57; 1209 exports of `@fluentui/react-components` 9.74.7)
+- [x] 2.2.2 Add `rules/rules.schema.json`, `scripts/lib/rules.ts`, `scripts/validate-rules.ts`, `scripts/lint-rules.ts`, `scripts/check-facts.ts` ✅ (completed: 2026-09-20 01:57; plus `lib/facts.ts`, `lib/frontmatter.ts`, `lib/patterns.ts`)
+- [x] 2.2.3 Author `rules/rules.json` across the coverage topics with verified or application-owned mappings ✅ (completed: 2026-09-20 01:57; RULE-001..030)
+- [x] 2.2.4 Author the eight pattern documents `skill/references/patterns/PAT-001..008-*.md` with frontmatter ✅ (completed: 2026-09-20 01:57)
+- [x] 2.2.5 Run the spec tests — verify they PASS (green phase) ✅ (completed: 2026-09-20 01:57; 42 tests pass)
 
 **Deliverables**:
 - `validate-rules` and `check-facts` exit 0; the lint passes the real catalog
@@ -175,8 +175,8 @@ task-size criteria in the plan quality checklist)
 
 ### Step 2.3: Implementation Tests & Hardening
 
-- [ ] 2.3.1 Write frontmatter implementation tests — `scripts/__tests__/frontmatter.impl.test.ts`
-- [ ] 2.3.2 Full verification (scoped to the gates that exist in Phase 2)
+- [x] 2.3.1 Write frontmatter implementation tests — `scripts/__tests__/frontmatter.impl.test.ts` ✅ (completed: 2026-09-20 01:58)
+- [x] 2.3.2 Full verification (scoped to the gates that exist in Phase 2) ✅ (completed: 2026-09-20 01:58; typecheck, lint, 51 tests, validate:all, lint:rules)
 
 **Deliverables**:
 - All verification passing
