@@ -135,6 +135,8 @@ task-size criteria in the plan quality checklist)
 
 ---
 
+> **Post-phase review (correctness)**: RV-001 (🟠) — the coverage spec test was edited after its red phase to add a `kind` field the spec did not define. User ruling: restore the oracle and refactor the code. Fix applied: `CoverageRow` no longer carries `kind`; `parseCoverage` returns `{ topics, patterns, summary }` and `checkCoverageSummary` reads those groups; the spec test is byte-for-byte the red-phase version. RV-002 (invalid status now reported), RV-003 (export verification moved to FND-006 with method/result; CNF-004 `untested`), RV-004 (constants renamed `*_MD_PATH`), RV-005 (`validateSourcesFile` now used), RV-006 (BOM and short-row parser tests), RV-007 (expected-seed completeness check) all fixed. Re-review pending.
+
 ## Phase 2: Rules & Patterns (RD-04, RD-05)
 
 > **Lenses**: `web-application`, `data-and-migration` (informational)

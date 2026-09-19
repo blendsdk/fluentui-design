@@ -3,13 +3,13 @@ import { isJsonObject, readJsonFile, readJsonFileSync } from "./lib/json.js";
 import { runChecks } from "./lib/report.js";
 import { checkCoverage, checkCoverageSummary, parseCoverage } from "./lib/coverage.js";
 import { parseConflicts, parseFindings, validateConflicts, validateFindings } from "./lib/analysis.js";
-import { parseSources, SOURCES_JSON_PATH, validateSourcesData } from "./lib/sources.js";
+import { parseSources, SOURCES_JSON_PATH, validateSourcesFile } from "./lib/sources.js";
 import type { CoverageRuleRef, CoverageSourceRef } from "./lib/coverage.js";
 import type { CheckOutcome, GateCheck } from "./lib/report.js";
 
-const COVERAGE_JSON_PATH = "research/coverage.md";
-const FINDINGS_JSON_PATH = "research/findings.md";
-const CONFLICTS_JSON_PATH = "research/conflicts.md";
+const COVERAGE_MD_PATH = "research/coverage.md";
+const FINDINGS_MD_PATH = "research/findings.md";
+const CONFLICTS_MD_PATH = "research/conflicts.md";
 const RULES_JSON_PATH = "rules/rules.json";
 
 /**
@@ -60,9 +60,7 @@ async function main(): Promise<number> {
   const checks: GateCheck[] = [
     {
       name: "sources",
-      run: (): CheckOutcome => {
-        return toOutcome("sources", validateSourcesData(readJsonFileSync(SOURCES_JSON_PATH)));
-      },
+      run: (): CheckOutcome => toOutcome("sources", validateSourcesFile()),
     },
     {
       name: "coverage",
@@ -73,9 +71,9 @@ async function main(): Promise<number> {
           status: entry.status,
         }));
         const rules = await loadRuleRefs();
-        const document = parseCoverage(await readFile(COVERAGE_JSON_PATH, "utf8"));
+        const document = parseCoverage(await readFile(COVERAGE_MD_PATH, "utf8"));
         const errors = [
-          ...checkCoverage(document.rows, sources, rules),
+          ...checkCoverage([...document.topics, ...document.patterns], sources, rules),
           ...checkCoverageSummary(document),
         ];
         return toOutcome("coverage", errors);
@@ -84,14 +82,14 @@ async function main(): Promise<number> {
     {
       name: "findings",
       run: async (): Promise<CheckOutcome> => {
-        const findings = parseFindings(await readFile(FINDINGS_JSON_PATH, "utf8"));
+        const findings = parseFindings(await readFile(FINDINGS_MD_PATH, "utf8"));
         return toOutcome("findings", validateFindings(findings));
       },
     },
     {
       name: "conflicts",
       run: async (): Promise<CheckOutcome> => {
-        const conflicts = parseConflicts(await readFile(CONFLICTS_JSON_PATH, "utf8"));
+        const conflicts = parseConflicts(await readFile(CONFLICTS_MD_PATH, "utf8"));
         return toOutcome("conflicts", validateConflicts(conflicts));
       },
     },

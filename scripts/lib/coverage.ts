@@ -1,22 +1,19 @@
 import { parseTable } from "./markdown.js";
 import type { ParsedTable } from "./markdown.js";
 
-/** Whether a coverage row describes a coverage topic or a required pattern. */
-export type CoverageKind = "topic" | "pattern";
-
-/** Whether a coverage row is fully supported by evidence or is an explicit gap. */
+/** The two valid coverage statuses. */
 export type CoverageStatus = "Supported" | "Gap";
 
 /** One row of the coverage matrix. */
 export interface CoverageRow {
-  kind: CoverageKind;
   topic: string;
   sources: string[];
   reviewedEvidence: string;
   extractedRules: string[];
   unresolvedQuestions: string[];
   examples: string[];
-  status: CoverageStatus;
+  /** Kept as a plain string so an invalid value can be reported rather than coerced. */
+  status: string;
   gapNote: string;
 }
 
@@ -28,9 +25,10 @@ export interface CoverageSummary {
   patternsGap: number;
 }
 
-/** A parsed coverage document: its rows plus the counts it claims. */
+/** A parsed coverage document: topic rows, pattern rows, and the counts it claims. */
 export interface CoverageDocument {
-  rows: CoverageRow[];
+  topics: CoverageRow[];
+  patterns: CoverageRow[];
   summary: CoverageSummary;
 }
 
@@ -79,17 +77,15 @@ function cell(cells: readonly string[], index: number): string {
 }
 
 /** Convert one parsed table row into a coverage row. */
-function toRow(kind: CoverageKind, cells: readonly string[]): CoverageRow {
-  const status = cell(cells, 6) === "Gap" ? "Gap" : "Supported";
+function toRow(cells: readonly string[]): CoverageRow {
   return {
-    kind,
     topic: cell(cells, 0),
     sources: splitList(cell(cells, 1)),
     reviewedEvidence: cell(cells, 2),
     extractedRules: splitList(cell(cells, 3)),
     unresolvedQuestions: splitList(cell(cells, 4)),
     examples: splitList(cell(cells, 5)),
-    status,
+    status: cell(cells, 6),
     gapNote: cell(cells, 7),
   };
 }
@@ -121,29 +117,30 @@ function toSummary(table: ParsedTable | undefined): CoverageSummary {
 }
 
 /**
- * Parse `research/coverage.md` into rows and declared counts.
+ * Parse `research/coverage.md` into topic rows, pattern rows, and declared counts.
  *
  * @param markdown - Full text of the coverage document.
- * @returns The topic and pattern rows plus the summary counts.
+ * @returns The two row groups plus the summary counts.
  */
 export function parseCoverage(markdown: string): CoverageDocument {
   const topics = parseTable(sectionLines(markdown, "Coverage Topics"));
   const patterns = parseTable(sectionLines(markdown, "Required Patterns"));
-  const rows: CoverageRow[] = [
-    ...(topics?.rows ?? []).map((cells) => toRow("topic", cells)),
-    ...(patterns?.rows ?? []).map((cells) => toRow("pattern", cells)),
-  ];
-  return { rows, summary: toSummary(parseTable(sectionLines(markdown, "Summary"))) };
+  return {
+    topics: (topics?.rows ?? []).map(toRow),
+    patterns: (patterns?.rows ?? []).map(toRow),
+    summary: toSummary(parseTable(sectionLines(markdown, "Summary"))),
+  };
 }
 
 /**
  * Check the coverage floors and cross-references.
  *
  * Rules: a `Supported` row must cite at least one `analyzed` source and at least
- * one rule; a `Gap` row must carry a gap note; every cited source must exist; and
- * every known rule must be mapped by at least one row.
+ * one rule; a `Gap` row must carry a gap note; every row's status must be exactly
+ * `Supported` or `Gap`; every cited source must exist; and every known rule must
+ * be mapped by at least one row.
  *
- * @param rows - Parsed coverage rows.
+ * @param rows - Parsed coverage rows (topic and pattern rows together).
  * @param sources - Known sources (id and status).
  * @param rules - Known rules (id).
  * @returns Human-readable errors; empty when the matrix is consistent.
@@ -162,10 +159,8 @@ export function checkCoverage(
       if (row.gapNote.trim().length === 0) {
         errors.push(`coverage row "${row.topic}" is a Gap but its gapNote is empty`);
       }
-    } else {
-      const hasAnalyzed = row.sources.some(
-        (id) => sourceById.get(id)?.status === "analyzed",
-      );
+    } else if (row.status === "Supported") {
+      const hasAnalyzed = row.sources.some((id) => sourceById.get(id)?.status === "analyzed");
       if (!hasAnalyzed) {
         const cited = row.sources.length > 0 ? row.sources.join(", ") : "no source";
         errors.push(`coverage row "${row.topic}" is Supported but cites no analyzed source (${cited})`);
@@ -173,6 +168,10 @@ export function checkCoverage(
       if (row.extractedRules.length === 0) {
         errors.push(`coverage row "${row.topic}" is Supported but cites no extracted rule`);
       }
+    } else {
+      errors.push(
+        `coverage row "${row.topic}" has invalid status "${row.status}" (expected Supported or Gap)`,
+      );
     }
 
     for (const id of row.sources) {
@@ -201,14 +200,13 @@ export function checkCoverage(
  * @returns Human-readable errors; empty when the counts agree.
  */
 export function checkCoverageSummary(document: CoverageDocument): string[] {
-  const rows = document.rows;
-  const count = (kind: CoverageKind, status: CoverageStatus): number =>
-    rows.filter((row) => row.kind === kind && row.status === status).length;
+  const count = (rows: readonly CoverageRow[], status: CoverageStatus): number =>
+    rows.filter((row) => row.status === status).length;
   const expected: CoverageSummary = {
-    topicsSupported: count("topic", "Supported"),
-    topicsGap: count("topic", "Gap"),
-    patternsSupported: count("pattern", "Supported"),
-    patternsGap: count("pattern", "Gap"),
+    topicsSupported: count(document.topics, "Supported"),
+    topicsGap: count(document.topics, "Gap"),
+    patternsSupported: count(document.patterns, "Supported"),
+    patternsGap: count(document.patterns, "Gap"),
   };
   const errors: string[] = [];
   const labels: Record<keyof CoverageSummary, string> = {

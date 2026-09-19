@@ -52,4 +52,4 @@
 | resolution | Keep task-required fields and their validation feedback outside collapsed sections; use accordions only for optional or advanced content. |
 | rationale | Collapsed content is not announced or visible by default, so errors inside it can be missed; disclosure is for progressive detail, not for required input. |
 | uncertainty | None material. |
-| tested | Implementation claim verified — imported `@fluentui/react-components` 9.74.7 and confirmed that FluentProvider, Dialog and Drawer parts, DataGrid parts, Table, Nav, Toolbar, Toast and Toaster, Field, MessageBar, Card, Breadcrumb, Popover, Tooltip, Spinner, Skeleton, ProgressBar, Badge, Accordion, Tree, and the form controls are all exported. Method: dynamic `import` of the installed package plus a membership check; result: pass (no missing exports). |
+| tested | untested |

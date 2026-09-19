@@ -33,4 +33,14 @@ describe("markdown table parsing", () => {
   it("should return undefined when no table is present", () => {
     expect(parseTable(["no table here"])).toBeUndefined();
   });
+
+  it("should still read fields from a table whose header starts with a BOM", () => {
+    const fields = parseFieldTable(["\uFEFF| Field | Value |", "| --- | --- |", "| id | x |"]);
+    expect(fields).toEqual({ id: "x" });
+  });
+
+  it("should keep a short row that has fewer cells than the header", () => {
+    const table = parseTable(["| H1 | H2 |", "| --- | --- |", "| a |"]);
+    expect(table?.rows).toEqual([["a"]]);
+  });
 });

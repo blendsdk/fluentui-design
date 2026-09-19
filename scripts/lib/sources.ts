@@ -67,6 +67,20 @@ export const SOURCES_JSON_PATH = "sources/sources.json";
 /** Repository-relative path of the catalog's JSON Schema. */
 export const SOURCES_SCHEMA_PATH = "sources/sources.schema.json";
 
+/**
+ * The seed ids the brief requires, each present in the catalog exactly once.
+ *
+ * Keeping the list in code makes a dropped or duplicated brief entry a hard
+ * failure instead of a silent loss of coverage.
+ */
+export const EXPECTED_SEED_IDS = [
+  "F01", "F02", "F03", "F04", "F05", "F06", "F07", "F08", "F09", "F10", "F11",
+  "C01", "C02", "C03", "C04", "C05", "C06", "C07", "C08", "C09", "C10", "C11", "C12", "C13",
+  "I01", "I02", "I03", "I04", "I05", "I06", "I07",
+  "P01", "P02", "P03",
+  "A01", "A02", "A03", "A04",
+] as const;
+
 let cachedValidator: SchemaValidator<SourceEntry[]> | undefined;
 
 /**
@@ -98,7 +112,8 @@ function getValidator(): SchemaValidator<SourceEntry[]> {
 function checkSourceIntegrity(entries: readonly SourceEntry[]): string[] {
   const errors: string[] = [];
   const seenIds = new Map<string, number>();
-  const seenSeeds = new Map<string, number>();
+  const expectedSeeds = new Set<string>(EXPECTED_SEED_IDS);
+  const seedCounts = new Map<string, number>();
 
   entries.forEach((entry, index) => {
     const previousId = seenIds.get(entry.id);
@@ -109,14 +124,19 @@ function checkSourceIntegrity(entries: readonly SourceEntry[]): string[] {
     }
 
     if (entry.seedId !== null) {
-      const previousSeed = seenSeeds.get(entry.seedId);
-      if (previousSeed !== undefined) {
-        errors.push(`duplicate seedId "${entry.seedId}" at entries ${previousSeed} and ${index}`);
-      } else {
-        seenSeeds.set(entry.seedId, index);
+      seedCounts.set(entry.seedId, (seedCounts.get(entry.seedId) ?? 0) + 1);
+      if (!expectedSeeds.has(entry.seedId)) {
+        errors.push(`unknown seedId "${entry.seedId}" at entry ${index}`);
       }
     }
   });
+
+  for (const seed of EXPECTED_SEED_IDS) {
+    const count = seedCounts.get(seed) ?? 0;
+    if (count !== 1) {
+      errors.push(`seed id ${seed} appears ${count} time(s); expected exactly once`);
+    }
+  }
 
   return errors;
 }
