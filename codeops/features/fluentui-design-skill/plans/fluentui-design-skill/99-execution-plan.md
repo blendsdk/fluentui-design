@@ -2,8 +2,8 @@
 
 > **Document**: 99-execution-plan.md
 > **Parent**: [Index](00-index.md)
-> **Last Updated**: 2026-09-20 01:23
-> **Progress**: 5/72 tasks (7%)
+> **Last Updated**: 2026-09-20 01:28
+> **Progress**: 9/72 tasks (13%)
 > **CodeOps Artifact Schema**: 1
 
 ## Overview
@@ -81,16 +81,20 @@ task-size criteria in the plan quality checklist)
 ## Phase 1: Evidence Pipeline (RD-01..RD-03)
 
 > **Lenses**: `web-application`, `data-and-migration` (informational)
+> **Phase baseline tree**: 2cfad3e1f96e709d53f24072b0658434b8e48631 · scope: strict
+> **Expected modification set**: `sources/sources.schema.json`, `sources/sources.json`, `sources/sources.md`, `research/coverage.md`, `research/findings.md`, `research/conflicts.md`, `scripts/lib/{sources,coverage,analysis,markdown}.ts`, `scripts/validate-sources.ts`, `scripts/__tests__/*.test.ts`
+>
+> **Runtime notes (smallest viable reading of the approved scripts)**: all `scripts/lib/**` logic is exported from libraries; the `scripts/*.ts` files are thin CLI wrappers that report through `runChecks`. Evidence-pipeline validation lives in `validate-sources` (RD-01/02/03 structural + integrity checks over `sources.json`, `coverage.md`, `findings.md`, `conflicts.md`); the rule↔coverage completeness direction (a rule not mapped by any row) is enforced by `validate-rules` in Phase 2, and `checkCoverage` exposes it now for its spec test. The module table in `03-01` lists planned helper names; the implemented helpers are the Phase 0 lib API (`readJsonFile`, `stringifyJson`, `createSchemaValidator`, `generatedMarker`, `renderTable`, `runChecks`).
 
 ### Step 1.1: Specification Tests
 
 **Reference**: [03-01](03-01-evidence-pipeline.md) · [07](07-testing-strategy.md) ST-1..ST-11 · plan AR #5, #7, #11
 **Objective**: Encode expected validator behavior from the spec before writing validators.
 
-- [ ] 1.1.1 [spec-author] Write source-catalog spec tests — `scripts/__tests__/sources.spec.test.ts` (ST-1..ST-5)
-- [ ] 1.1.2 [spec-author] Write coverage spec tests — `scripts/__tests__/coverage.spec.test.ts` (ST-6..ST-8)
-- [ ] 1.1.3 [spec-author] Write findings/conflicts spec tests — `scripts/__tests__/analysis.spec.test.ts` (ST-9..ST-11)
-- [ ] 1.1.4 Run the spec tests — verify they FAIL (red phase); record which fail
+- [x] 1.1.1 [spec-author] Write source-catalog spec tests — `scripts/__tests__/sources.spec.test.ts` (ST-1..ST-5) ✅ (completed: 2026-09-20 01:28)
+- [x] 1.1.2 [spec-author] Write coverage spec tests — `scripts/__tests__/coverage.spec.test.ts` (ST-6..ST-8) ✅ (completed: 2026-09-20 01:28)
+- [x] 1.1.3 [spec-author] Write findings/conflicts spec tests — `scripts/__tests__/analysis.spec.test.ts` (ST-9..ST-11) ✅ (completed: 2026-09-20 01:28)
+- [x] 1.1.4 Run the spec tests — verify they FAIL (red phase); record which fail ✅ (completed: 2026-09-20 01:28)
 
 **Deliverables**:
 - Spec tests exist and fail for the right reason (module/behavior absent)
