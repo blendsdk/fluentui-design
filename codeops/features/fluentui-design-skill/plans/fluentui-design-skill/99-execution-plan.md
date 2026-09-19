@@ -2,8 +2,8 @@
 
 > **Document**: 99-execution-plan.md
 > **Parent**: [Index](00-index.md)
-> **Last Updated**: 2026-09-20 01:22
-> **Progress**: 4/72 tasks (6%)
+> **Last Updated**: 2026-09-20 01:23
+> **Progress**: 5/72 tasks (7%)
 > **CodeOps Artifact Schema**: 1
 
 ## Overview
@@ -65,7 +65,7 @@ task-size criteria in the plan quality checklist)
 - [x] 0.1.2 Add `tsconfig.json` (strict, NodeNext), `eslint.config.js` (typescript-eslint flat config), `vitest.config.ts`, `playwright.config.ts` (Chromium), and `.gitignore` entries (`node_modules/`, `dist/`, `playwright-report/`, `test-results/`) ✅ (completed: 2026-09-20 01:20)
 - [x] 0.1.3 Create `scripts/lib/json.ts`, `scripts/lib/schema.ts`, `scripts/lib/markdown.ts`, `scripts/lib/report.ts` with documented exports ✅ (completed: 2026-09-20 01:22)
 - [x] 0.1.4 [spec-author] Write a smoke spec test for the gate runner/report helper: an injected failing check makes the runner return non-zero and a passing check returns zero; it MUST never spawn `npm` or `verify:static` (recursion risk) — `scripts/__tests__/toolchain.spec.test.ts` (plan AR #6) ✅ (completed: 2026-09-20 01:22)
-- [ ] 0.1.5 Update `AGENTS.md`: name `npm run verify`, record the pin (`d595d79`, package 9.74.7), and list generated directories
+- [x] 0.1.5 Update `AGENTS.md`: name `npm run verify`, record the pin (`d595d79`, package 9.74.7), and list generated directories ✅ (completed: 2026-09-20 01:23)
 
 **Deliverables**:
 - Root toolchain installs and `npm run typecheck` exits 0
