@@ -69,7 +69,7 @@
 | kind | versioned-implementation-fact |
 | sources | SRC-026 (repo-path: packages/react-components) and SRC-027 (repo-path: packages/react-components/react-components) |
 | versionScope | @fluentui/react-components 9.74.7 |
-| confidence | High — verified at 9.74.7 by dynamically importing the installed package and checking membership of 40 composition exports; result: none missing |
+| confidence | High — verified at 9.74.7 by dynamically importing the installed package and checking that every named composition export resolves; result: none missing |
 | informsRules | RULE-026, RULE-028 |
 
 ### FND-007 — Product templates are transferable patterns, not mandates
