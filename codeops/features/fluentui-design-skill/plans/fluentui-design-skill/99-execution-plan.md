@@ -2,8 +2,8 @@
 
 > **Document**: 99-execution-plan.md
 > **Parent**: [Index](00-index.md)
-> **Last Updated**: 2026-09-20 01:33
-> **Progress**: 15/72 tasks (21%)
+> **Last Updated**: 2026-09-20 01:34
+> **Progress**: 17/72 tasks (24%)
 > **CodeOps Artifact Schema**: 1
 
 ## Overview
@@ -125,13 +125,13 @@ task-size criteria in the plan quality checklist)
 **Reference**: [07](07-testing-strategy.md) §Implementation Tests
 **Objective**: Cover parser edge cases and finish the phase green.
 
-- [ ] 1.3.1 Write parser implementation tests — `scripts/__tests__/markdown.impl.test.ts` (missing column, extra pipe, CRLF, BOM)
-- [ ] 1.3.2 Full verification
+- [x] 1.3.1 Write parser implementation tests — `scripts/__tests__/markdown.impl.test.ts` (missing column, extra pipe, CRLF, BOM) ✅ (completed: 2026-09-20 01:33)
+- [x] 1.3.2 Full verification (scoped to the gates that exist in Phase 1) ✅ (completed: 2026-09-20 01:33)
 
 **Deliverables**:
 - All verification passing
 
-**Verify**: `npm run verify:static`
+**Verify**: `npm run typecheck && npm run lint && npm run test && npm run validate:sources`
 
 ---
 
@@ -174,12 +174,12 @@ task-size criteria in the plan quality checklist)
 ### Step 2.3: Implementation Tests & Hardening
 
 - [ ] 2.3.1 Write frontmatter implementation tests — `scripts/__tests__/frontmatter.impl.test.ts`
-- [ ] 2.3.2 Full verification
+- [ ] 2.3.2 Full verification (scoped to the gates that exist in Phase 2)
 
 **Deliverables**:
 - All verification passing
 
-**Verify**: `npm run verify:static`
+**Verify**: `npm run typecheck && npm run lint && npm run test && npm run validate:all && npm run lint:rules`
 
 ---
 
