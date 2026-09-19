@@ -79,7 +79,7 @@ evaluation tasks with recorded results (RD-08, RD-09).
 | Dependency | Version | Use | Notes |
 | ---------- | ------- | --- | ----- |
 | `@fluentui/react-components` | 9.74.7 | Fixture UI; example-gate type resolution | Peer React `>=16.14.0 <20.0.0` |
-| `@fluentui/react-icons` | current 9.x at install | Fixture icons | Exact version recorded by the lockfile |
+| `@fluentui/react-icons` | current 2.x at install | Fixture icons | Exact version recorded by the lockfile |
 | `react` / `react-dom` | 18.x | Fixture runtime | Locked |
 | `vite`, `@vitejs/plugin-react` | current stable | Fixture build | Locked |
 | `vitest` | current stable | Unit tests | Locked |

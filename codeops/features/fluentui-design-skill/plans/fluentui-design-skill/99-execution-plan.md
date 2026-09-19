@@ -2,8 +2,8 @@
 
 > **Document**: 99-execution-plan.md
 > **Parent**: [Index](00-index.md)
-> **Last Updated**: 2026-09-20 00:59
-> **Progress**: 0/72 tasks (0%)
+> **Last Updated**: 2026-09-20 01:20
+> **Progress**: 1/72 tasks (1%)
 > **CodeOps Artifact Schema**: 1
 
 ## Overview
@@ -51,22 +51,26 @@ task-size criteria in the plan quality checklist)
 ## Phase 0: Foundation & Toolchain
 
 > **Lenses**: `web-application`, `data-and-migration` (informational)
+> **Phase baseline tree**: 90d8d576bbef92c068f70109e62684c4651699cf · scope: strict
+> **Expected modification set**: `package.json`, `package-lock.json`, `tsconfig.json`, `eslint.config.js`, `vitest.config.ts`, `playwright.config.ts`, `.gitignore`, `scripts/lib/*.ts`, `scripts/__tests__/toolchain.spec.test.ts`, `AGENTS.md`
+>
+> **Runtime corrections (mechanical)**: `@fluentui/react-icons` currently ships 2.x, not 9.x — corrected in `02-current-state.md`. TypeScript is pinned to `5.9.3` because `typescript-eslint` 8.x requires `>=4.8.4 <6.1.0` (latest TS is 7.x). React is pinned to `18.3.1` because `@fluentui/react-components` 9.74.7 requires React `<20`. Deliverable summary bullets were converted from checkboxes to plain bullets so the plan progress tool counts only the 72 tracked tasks.
 
 ### Step 0.1: Repository foundation
 
 **Reference**: [03-04](03-04-verification-tooling.md) §Scripts · plan AR #2, #3, #4, #6
 **Objective**: One root toolchain that typechecks, lints, tests, and hosts the catalog scripts.
 
-- [ ] 0.1.1 Create `package.json` (private ESM) with pinned devDependencies and scripts (`typecheck`, `lint`, `test`, `extract-facts`, `validate:sources`, `validate:rules`, `validate:all`, `lint:rules`, `check:facts`, `generate`, `generate:check`, `check:refs`, `check:examples`, `scan:secrets`, `freshness`, `verify:static`, `test:e2e`, `verify`); run install to produce `package-lock.json`
+- [x] 0.1.1 Create `package.json` (private ESM) with pinned devDependencies and scripts (`typecheck`, `lint`, `test`, `extract-facts`, `validate:sources`, `validate:rules`, `validate:all`, `lint:rules`, `check:facts`, `generate`, `generate:check`, `check:refs`, `check:examples`, `scan:secrets`, `freshness`, `verify:static`, `test:e2e`, `verify`); run install to produce `package-lock.json` ✅ (completed: 2026-09-20 01:20)
 - [ ] 0.1.2 Add `tsconfig.json` (strict, NodeNext), `eslint.config.js` (typescript-eslint flat config), `vitest.config.ts`, `playwright.config.ts` (Chromium), and `.gitignore` entries (`node_modules/`, `dist/`, `playwright-report/`, `test-results/`)
 - [ ] 0.1.3 Create `scripts/lib/json.ts`, `scripts/lib/schema.ts`, `scripts/lib/markdown.ts`, `scripts/lib/report.ts` with documented exports
 - [ ] 0.1.4 [spec-author] Write a smoke spec test for the gate runner/report helper: an injected failing check makes the runner return non-zero and a passing check returns zero; it MUST never spawn `npm` or `verify:static` (recursion risk) — `scripts/__tests__/toolchain.spec.test.ts` (plan AR #6)
 - [ ] 0.1.5 Update `AGENTS.md`: name `npm run verify`, record the pin (`d595d79`, package 9.74.7), and list generated directories
 
 **Deliverables**:
-- [ ] Root toolchain installs and `npm run typecheck` exits 0
-- [ ] `npm run lint` and `npm run test` run (the only Phase 0 test is the report-helper smoke test)
-- [ ] All verification passing
+- Root toolchain installs and `npm run typecheck` exits 0
+- `npm run lint` and `npm run test` run (the only Phase 0 test is the report-helper smoke test)
+- All verification passing
 
 **Verify**: `npm run typecheck && npm run lint && npm run test`
 
@@ -87,7 +91,7 @@ task-size criteria in the plan quality checklist)
 - [ ] 1.1.4 Run the spec tests — verify they FAIL (red phase); record which fail
 
 **Deliverables**:
-- [ ] Spec tests exist and fail for the right reason (module/behavior absent)
+- Spec tests exist and fail for the right reason (module/behavior absent)
 
 **Verify**: `npm run test -- scripts/__tests__/*.spec.test.ts` (expected RED)
 
@@ -104,9 +108,9 @@ task-size criteria in the plan quality checklist)
 - [ ] 1.2.6 Run the spec tests — verify they PASS (green phase); if any fails, fix the implementation, not the test
 
 **Deliverables**:
-- [ ] `validate-sources` exits 0 on the committed catalog and non-zero on ST-2..ST-5 inputs
-- [ ] Coverage and analysis documents parse and satisfy their checks
-- [ ] All verification passing
+- `validate-sources` exits 0 on the committed catalog and non-zero on ST-2..ST-5 inputs
+- Coverage and analysis documents parse and satisfy their checks
+- All verification passing
 
 **Verify**: `npm run validate:sources && npm run test -- scripts/__tests__/*.spec.test.ts`
 
@@ -119,7 +123,7 @@ task-size criteria in the plan quality checklist)
 - [ ] 1.3.2 Full verification
 
 **Deliverables**:
-- [ ] All verification passing
+- All verification passing
 
 **Verify**: `npm run verify:static`
 
@@ -139,7 +143,7 @@ task-size criteria in the plan quality checklist)
 - [ ] 2.1.3 Run the spec tests — verify they FAIL (red phase)
 
 **Deliverables**:
-- [ ] Spec tests exist and fail for the right reason
+- Spec tests exist and fail for the right reason
 
 **Verify**: `npm run test -- scripts/__tests__/rules.spec.test.ts scripts/__tests__/patterns.spec.test.ts` (expected RED)
 
@@ -155,9 +159,9 @@ task-size criteria in the plan quality checklist)
 - [ ] 2.2.5 Run the spec tests — verify they PASS (green phase)
 
 **Deliverables**:
-- [ ] `validate-rules` and `check-facts` exit 0; the lint passes the real catalog
-- [ ] Eight patterns exist with all sections
-- [ ] All verification passing
+- `validate-rules` and `check-facts` exit 0; the lint passes the real catalog
+- Eight patterns exist with all sections
+- All verification passing
 
 **Verify**: `npm run validate:all && npm run lint:rules && npm run test -- scripts/__tests__/*.spec.test.ts`
 
@@ -167,7 +171,7 @@ task-size criteria in the plan quality checklist)
 - [ ] 2.3.2 Full verification
 
 **Deliverables**:
-- [ ] All verification passing
+- All verification passing
 
 **Verify**: `npm run verify:static`
 
@@ -186,7 +190,7 @@ task-size criteria in the plan quality checklist)
 - [ ] 3.1.2 Run the spec tests — verify they FAIL (red phase)
 
 **Deliverables**:
-- [ ] Spec tests exist and fail for the right reason
+- Spec tests exist and fail for the right reason
 
 **Verify**: `npm run test -- scripts/__tests__/skill-package.spec.test.ts` (expected RED)
 
@@ -202,9 +206,9 @@ task-size criteria in the plan quality checklist)
 - [ ] 3.2.5 Run the spec tests — verify they PASS (green phase)
 
 **Deliverables**:
-- [ ] `SKILL.md` frontmatter valid; all nine sections present; ≤320 lines
-- [ ] Routing index resolves; mirror is byte-identical to `skill/`; `generate:check` detects drift and stale markers
-- [ ] All verification passing
+- `SKILL.md` frontmatter valid; all nine sections present; ≤320 lines
+- Routing index resolves; mirror is byte-identical to `skill/`; `generate:check` detects drift and stale markers
+- All verification passing
 
 **Verify**: `npm run generate && npm run generate:check && npm run check:refs && npm run test -- scripts/__tests__/*.spec.test.ts`
 
@@ -214,7 +218,7 @@ task-size criteria in the plan quality checklist)
 - [ ] 3.3.2 Full verification (scoped: the static gates that exist after Phase 3)
 
 **Deliverables**:
-- [ ] All verification passing
+- All verification passing
 
 **Verify**: `npm run typecheck && npm run lint && npm run test && npm run generate:check && npm run check:refs`
 
@@ -233,7 +237,7 @@ task-size criteria in the plan quality checklist)
 - [ ] 4.1.2 Run the spec tests — verify they FAIL (red phase)
 
 **Deliverables**:
-- [ ] Spec tests exist and fail for the right reason
+- Spec tests exist and fail for the right reason
 
 **Verify**: `npm run test -- scripts/__tests__/tooling.spec.test.ts` (expected RED)
 
@@ -248,8 +252,8 @@ task-size criteria in the plan quality checklist)
 - [ ] 4.2.4 Run the spec tests — verify they PASS (green phase)
 
 **Deliverables**:
-- [ ] Example gate names a bad import and never executes code; secret scan flags a fake key and ignores lock hashes
-- [ ] `npm run verify:static` is authoritative and exits 0
+- Example gate names a bad import and never executes code; secret scan flags a fake key and ignores lock hashes
+- `npm run verify:static` is authoritative and exits 0
 
 **Verify**: `npm run verify:static`
 
@@ -259,7 +263,7 @@ task-size criteria in the plan quality checklist)
 - [ ] 4.3.2 Full verification (`verify:static` is authoritative from here; full `verify` runs once the fixture exists in Phase 5)
 
 **Deliverables**:
-- [ ] All verification passing
+- All verification passing
 
 **Verify**: `npm run verify:static`
 
@@ -280,7 +284,7 @@ task-size criteria in the plan quality checklist)
 - [ ] 5.1.4 Run the E2E specs — verify they FAIL (red phase)
 
 **Deliverables**:
-- [ ] E2E specs exist and fail because the app/pages are absent
+- E2E specs exist and fail because the app/pages are absent
 
 **Verify**: `npm run test:e2e` (expected RED; install Chromium once if needed)
 
@@ -296,9 +300,9 @@ task-size criteria in the plan quality checklist)
 - [ ] 5.2.5 Wire the fixture typecheck into `check-examples`; run the E2E specs — verify they PASS (green phase)
 
 **Deliverables**:
-- [ ] All states reachable; zero console errors in tested flows
-- [ ] Focus returns to triggers after Escape
-- [ ] All verification passing
+- All states reachable; zero console errors in tested flows
+- Focus returns to triggers after Escape
+- All verification passing
 
 **Verify**: `npm run verify`
 
@@ -308,7 +312,7 @@ task-size criteria in the plan quality checklist)
 - [ ] 5.3.2 Full verification
 
 **Deliverables**:
-- [ ] All verification passing
+- All verification passing
 
 **Verify**: `npm run verify`
 
@@ -327,7 +331,7 @@ task-size criteria in the plan quality checklist)
 - [ ] 6.1.2 Run the spec tests — verify they FAIL (red phase)
 
 **Deliverables**:
-- [ ] Spec tests exist and fail for the right reason
+- Spec tests exist and fail for the right reason
 
 **Verify**: `npm run test -- scripts/__tests__/evaluation.spec.test.ts` (expected RED)
 
@@ -343,8 +347,8 @@ task-size criteria in the plan quality checklist)
 - [ ] 6.2.5 Run the spec tests — verify they PASS (green phase)
 
 **Deliverables**:
-- [ ] Every task cites an artifact or is `untested`; no conformance claim
-- [ ] All verification passing
+- Every task cites an artifact or is `untested`; no conformance claim
+- All verification passing
 
 **Verify**: `npm run verify`
 
@@ -354,7 +358,7 @@ task-size criteria in the plan quality checklist)
 - [ ] 6.3.2 Full verification
 
 **Deliverables**:
-- [ ] All verification passing
+- All verification passing
 
 **Verify**: `npm run verify`
 
@@ -373,7 +377,7 @@ task-size criteria in the plan quality checklist)
 - [ ] 7.1.2 Run the spec tests — verify they FAIL (red phase)
 
 **Deliverables**:
-- [ ] Spec tests exist and fail for the right reason
+- Spec tests exist and fail for the right reason
 
 **Verify**: `npm run test -- scripts/__tests__/docs.spec.test.ts` (expected RED)
 
@@ -388,8 +392,8 @@ task-size criteria in the plan quality checklist)
 - [ ] 7.2.4 Run the spec tests — verify they PASS (green phase)
 
 **Deliverables**:
-- [ ] Docs contain all required parts; ids stable; gaps named
-- [ ] All verification passing
+- Docs contain all required parts; ids stable; gaps named
+- All verification passing
 
 **Verify**: `npm run verify`
 
@@ -399,8 +403,8 @@ task-size criteria in the plan quality checklist)
 - [ ] 7.3.2 Full verification and present the completion summary
 
 **Deliverables**:
-- [ ] `npm run verify` exits 0 on a clean tree
-- [ ] All phases complete; no warnings/errors; no dead code
+- `npm run verify` exits 0 on a clean tree
+- All phases complete; no warnings/errors; no dead code
 
 **Verify**: `npm run verify`
 
