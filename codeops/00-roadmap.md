@@ -2,7 +2,7 @@
 
 > **Status**: Active
 > **Last Updated**: 2026-09-20 00:45
-> **Features**: 0 / 0 done
+> **Features**: 0 / 1 done
 > **CodeOps Artifact Schema**: 1
 
 ## Legend
@@ -13,6 +13,7 @@
 
 | Feature | Roadmap | Stage Summary | Progress | Status | Last Updated |
 |---------|---------|---------------|----------|--------|--------------|
+| fluentui-design-skill | [→](features/fluentui-design-skill/00-roadmap.md) | 10 RDs · requirements drafted | 0/10 RDs | ⬜ | 2026-09-20 |
 
 ## Archived
 
