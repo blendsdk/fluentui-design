@@ -67,8 +67,8 @@ It never invokes a model.
 
 ## Error Handling
 
-| Error Case | Handling Strategy | AR Ref |
-| ---------- | ----------------- | ------ |
+| Error Case | Handling Strategy | Ref |
+| ---------- | ----------------- | --- |
 | A task cites a rule that does not exist | Reproduction script reports it; results mark `fail` | RD-09 |
 | Agent comparison not run | Section marked `untested` with reason; never fabricated | plan AR #10 |
 | Automated a11y violation found | Recorded as a finding with viewport; not a conformance claim | RD-09 |

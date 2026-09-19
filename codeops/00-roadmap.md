@@ -13,7 +13,7 @@
 
 | Feature | Roadmap | Stage Summary | Progress | Status | Last Updated |
 |---------|---------|---------------|----------|--------|--------------|
-| fluentui-design-skill | [→](features/fluentui-design-skill/00-roadmap.md) | 10 RDs · plan created (73 tasks, 8 phases) | 0/10 RDs | 📋 | 2026-09-20 |
+| fluentui-design-skill | [→](features/fluentui-design-skill/00-roadmap.md) | 10 RDs · plan preflighted (72 tasks, 8 phases) | 0/10 RDs | 🔬 | 2026-09-20 |
 
 ## Archived
 

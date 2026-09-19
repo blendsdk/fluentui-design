@@ -104,8 +104,8 @@ fixed pixel width that would break at 375 px.
 
 ## Error Handling
 
-| Error Case | Handling Strategy | AR Ref |
-| ---------- | ----------------- | ------ |
+| Error Case | Handling Strategy | Ref |
+| ---------- | ----------------- | --- |
 | Data load fails | `ErrorState` + retry; no blank region | RD-08 |
 | Empty vs no-results confusion | Two distinct states with different copy/actions | RD-08 |
 | Duplicate submit | Disable while pending; test asserts one save call | RD-08 |

@@ -139,8 +139,8 @@ export function renderSourcesMarkdown(entries: SourceEntry[]): string {
 
 ## Error Handling
 
-| Error Case | Handling Strategy | AR Ref |
-| ---------- | ----------------- | ------ |
+| Error Case | Handling Strategy | Ref |
+| ---------- | ----------------- | --- |
 | Schema violation | Report `ajv` error path + message; exit 1 | RD-01 |
 | Duplicate `id` / `seedId` | Report both locations; exit 1 | RD-01 |
 | Dangling `SRC-###` in coverage | Report the row and unknown id; exit 1 | RD-02 |
@@ -149,6 +149,6 @@ export function renderSourcesMarkdown(entries: SourceEntry[]): string {
 
 ## Testing Requirements
 
-- Specification tests for `validate-sources` accept/reject cases and for coverage floors (`ST-1`..`ST-8`).
+- Specification tests for `validate-sources` accept/reject cases, coverage floors, and the findings/conflicts structure (`ST-1`..`ST-11`).
 - Implementation tests for table parsing edge cases (missing column, extra pipe, CRLF input).
 - No network access in any test.

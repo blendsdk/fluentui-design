@@ -15,7 +15,7 @@
 | 2 | Technical | Repository toolchain shape | single root package / npm workspaces / separate packages | Delegated (auto-design): single root private ESM package + `fixture/` app; one lockfile | ✅ Resolved |
 | 3 | Technical | Running TypeScript tooling and linting | `tsx` + ESLint / compile with `tsc` then run / Node native strip-types | Delegated (auto-design): `tsx` to run scripts; ESLint flat config + `typescript-eslint` | ✅ Resolved |
 | 4 | Technical | JSON Schema validation engine | `ajv` / hand-rolled validator / no validator | Delegated (auto-design): `ajv` + `ajv-formats` (draft 2020-12) | ✅ Resolved |
-| 5 | Data & state | Pinned facts source; recorded hash `fdf755c` does not exist in the sibling repo | re-pin to HEAD + derived allowlist / vendor 4.8 MB schema / live cross-repo read | Delegated (auto-design): re-pin to sibling `d595d79`; commit a small derived allowlist | ✅ Resolved |
+| 5 | Data & state | Pinned facts source; recorded hash `fdf755c` is the upstream Fluent UI commit embedded inside the schema, not a sibling-repo object | re-pin to HEAD + derived allowlist / vendor 4.8 MB schema / live cross-repo read | Delegated (auto-design): re-pin to sibling `d595d79`; commit a small derived allowlist | ✅ Resolved |
 | 6 | Integration | The exact `verify` command | full verify incl. browser / static-only / other | Delegated (auto-design): `verify` (full) + `verify:static` subset | ✅ Resolved |
 | 7 | Naming / Format | Marking and refreshing generated files | marker line + drift gate / no marker | Delegated (auto-design): one fixed generated marker; generator removes stale marker files | ✅ Resolved |
 | 8 | Data & state | The brief's 38-entry seed catalog is not in the repository | vendor brief / reconstruct from memory / descope seed IDs | Resolved: user supplied the brief path; vendored as a read-only planning input | ✅ Resolved |
@@ -93,8 +93,10 @@ Decision: pin to sibling HEAD d595d79 (sha256 373e64be…78df4aa6 of
   derived facts/verified-exports.json (export + subcomponent names + component metadata) produced by
   scripts/extract-facts.ts; validators check componentMapping against it; the example gate
   type-checks against the installed @fluentui/react-components 9.74.7
-Evidence: the previously recorded hash fdf755c is "Not a valid object name" in the sibling repo;
-  HEAD is d595d79; the full schema is 5,015,229 bytes (too large to vendor); AR #12 forbids duplication
+Evidence: the previously recorded hash fdf755c is the upstream `sources.fluentui.commit` embedded
+  inside the sibling schema, not a sibling-repo object (`git cat-file -t fdf755c` -> "Not a valid
+  object name"); the sibling HEAD is d595d79 and the schema file hash is 373e64be...; the full schema
+  is 5,015,229 bytes (too large to vendor); AR #12 forbids duplication
 Rejected alternatives: vendor the 4.8 MB schema (large, duplicates the sibling); read the sibling
   repo at verify time (breaks offline determinism and couples repositories)
 Strongest counterargument: the derived allowlist is a second artifact to keep in sync on re-pin

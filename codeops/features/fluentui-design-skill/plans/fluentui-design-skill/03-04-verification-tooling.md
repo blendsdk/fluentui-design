@@ -36,19 +36,38 @@ export interface VerifiedExports {
 | `scripts/validate-sources.ts` | RD-01 schema + integrity. |
 | `scripts/validate-rules.ts` | RD-04 schema + integrity + allowlist check. |
 | `scripts/lint-rules.ts` | Actionability lint (warnings; empty-instruction error). |
-| `scripts/check-references.ts` | Resolve all `SRC/RULE/PAT/FND/CNF` ids and internal Markdown links. |
-| `scripts/check-examples.ts` | Compile skill code blocks against the pinned package types; typecheck the fixture. Never execute. |
+| `scripts/check-references.ts` | Resolve all `SRC/RULE/PAT/FND/CNF` ids and internal Markdown links; `<skill>:…` cross-skill links are validated by known skill-name prefix and shape only (never for local existence). |
+| `scripts/check-examples.ts` | Compile skill code blocks against the pinned package types; typecheck the fixture (wired in Phase 5). Never execute. |
 | `scripts/scan-secrets.ts` | Reject credential patterns in tracked content. |
-| `scripts/check-drift.ts` | Run `generate.ts --check` and compare the mirror. |
 | `scripts/freshness.ts` | Write/verify `facts/freshness.json` (pinned commit + input hashes). |
+
+Drift detection has a single owner: `generate.ts --check` (there is no separate `check-drift.ts`).
+
+### Allowlist extraction (`extract-facts.ts`)
+
+The sibling schema is organized per package (`components[]`/`utilities[]`, each with `packageName`,
+`packageVersion`, `name`, `importPath`, `additionalExports`, `slots`, `relatedComponents`); it has no
+`@fluentui/react-components` export list. The extractor therefore:
+
+1. reads every `components[]`/`utilities[]` entry;
+2. records `exports` as the union of each entry's `name` and its `additionalExports[]`, sorted and
+   de-duplicated;
+3. records `subcomponents[<name>]` from that entry's `slots` and `relatedComponents`, sorted;
+4. records `sourcePackages` as the sorted `{ packageName, packageVersion }` pairs, so per-package
+   provenance stays visible even though the fixture installs the `9.74.7` meta-package.
+
+`check-facts` validates this shape; `validate-rules` checks `componentMapping.exports` against it.
 
 ### Generation algorithm (`generate.ts`)
 
 1. Read `sources.json`, `rules.json`, and the `PAT-###` frontmatter.
 2. Sort every entry by id; render Markdown with LF endings; prefix each generated file with
    `GENERATED_MARKER`.
-3. Before writing, find generated files under the managed roots that carry the marker and delete
-   stale ones (plan AR #7).
+3. Before writing, find generated files **within the managed generated-file allowlist**
+   (`sources/sources.md`, `rules/rules.md`, `skill/references/index.md`,
+   `skill/references/rules/index.md`, and the `.agents/skills/fluentui-design/` mirror) that carry the
+   marker and delete stale ones; a marked file outside that allowlist is reported, never deleted
+   (plan AR #7).
 4. Write generated Markdown, then mirror `skill/` → `.agents/skills/fluentui-design/` with a clean
    copy.
 5. In `--check` mode, perform all reads and renders in memory and report any difference; write nothing.
@@ -94,8 +113,8 @@ does not match the current inputs.
 
 ## Error Handling
 
-| Error Case | Handling Strategy | AR Ref |
-| ---------- | ----------------- | ------ |
+| Error Case | Handling Strategy | Ref |
+| ---------- | ----------------- | --- |
 | Committed generated file edited by hand | Drift gate reports the file and a diff summary; exit 1 | RD-07 |
 | Skill example imports a non-existent export | Example gate reports `api` failure + offending import; exit 1 | plan AR #5 |
 | Marker line accidentally removed from a generated file | Drift gate still detects content mismatch; exit 1 | RD-07 |
@@ -104,6 +123,6 @@ does not match the current inputs.
 
 ## Testing Requirements
 
-- Specification tests for each gate's pass/fail behavior and the determinism guarantee (`ST-22`..`ST-34`).
+- Specification tests for the generation, reference, and drift gates (`ST-25`..`ST-29`, delivered with the skill in Phase 3) and for the example, secret, and freshness gates plus determinism (`ST-30`..`ST-34`).
 - A test asserts no example side effect occurs during `check-examples`.
 - A test asserts `generate --check` produces byte-identical output on a second run.

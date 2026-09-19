@@ -3,7 +3,7 @@
 > **Document**: 99-execution-plan.md
 > **Parent**: [Index](00-index.md)
 > **Last Updated**: 2026-09-20 00:59
-> **Progress**: 0/73 tasks (0%)
+> **Progress**: 0/72 tasks (0%)
 > **CodeOps Artifact Schema**: 1
 
 ## Overview
@@ -25,13 +25,13 @@ green → impl tests → verify`).
 | 0 | Foundation & Toolchain | 5 |
 | 1 | Evidence Pipeline (RD-01..RD-03) | 12 |
 | 2 | Rules & Patterns (RD-04, RD-05) | 10 |
-| 3 | Skill Package (RD-06) | 8 |
-| 4 | Verification Tooling (RD-07) | 10 |
+| 3 | Skill Package & Package Gates (RD-06) | 9 |
+| 4 | Verification Tooling (RD-07) | 8 |
 | 5 | Fixture App (RD-08) | 11 |
 | 6 | Evaluation (RD-09) | 9 |
 | 7 | Maintenance, Docs & Close-out (RD-10) | 8 |
 
-**Total: 73 tasks across 8 phases** (no fabricated hour estimates — scope is bounded by the
+**Total: 72 tasks across 8 phases** (no fabricated hour estimates — scope is bounded by the
 task-size criteria in the plan quality checklist)
 
 > **⚠️ EXECUTION RULE — APPLIES TO EVERY AGENT EXECUTING THIS PLAN:**
@@ -57,26 +57,28 @@ task-size criteria in the plan quality checklist)
 **Reference**: [03-04](03-04-verification-tooling.md) §Scripts · plan AR #2, #3, #4, #6
 **Objective**: One root toolchain that typechecks, lints, tests, and hosts the catalog scripts.
 
-- [ ] 0.1.1 Create `package.json` (private ESM) with pinned devDependencies and scripts (`typecheck`, `lint`, `test`, `generate`, `generate:check`, `validate:all`, `lint:rules`, `check:facts`, `check:refs`, `check:examples`, `scan:secrets`, `freshness`, `verify:static`, `test:e2e`, `verify`); run install to produce `package-lock.json`
+- [ ] 0.1.1 Create `package.json` (private ESM) with pinned devDependencies and scripts (`typecheck`, `lint`, `test`, `extract-facts`, `validate:sources`, `validate:rules`, `validate:all`, `lint:rules`, `check:facts`, `generate`, `generate:check`, `check:refs`, `check:examples`, `scan:secrets`, `freshness`, `verify:static`, `test:e2e`, `verify`); run install to produce `package-lock.json`
 - [ ] 0.1.2 Add `tsconfig.json` (strict, NodeNext), `eslint.config.js` (typescript-eslint flat config), `vitest.config.ts`, `playwright.config.ts` (Chromium), and `.gitignore` entries (`node_modules/`, `dist/`, `playwright-report/`, `test-results/`)
 - [ ] 0.1.3 Create `scripts/lib/json.ts`, `scripts/lib/schema.ts`, `scripts/lib/markdown.ts`, `scripts/lib/report.ts` with documented exports
-- [ ] 0.1.4 [spec-author] Write a smoke spec test asserting `verify:static` runs and a deliberately failing check exits non-zero — `scripts/__tests__/toolchain.spec.test.ts` (plan AR #6)
+- [ ] 0.1.4 [spec-author] Write a smoke spec test for the gate runner/report helper: an injected failing check makes the runner return non-zero and a passing check returns zero; it MUST never spawn `npm` or `verify:static` (recursion risk) — `scripts/__tests__/toolchain.spec.test.ts` (plan AR #6)
 - [ ] 0.1.5 Update `AGENTS.md`: name `npm run verify`, record the pin (`d595d79`, package 9.74.7), and list generated directories
 
 **Deliverables**:
 - [ ] Root toolchain installs and `npm run typecheck` exits 0
-- [ ] `npm run verify:static` runs end to end (gates may be stubs that pass)
+- [ ] `npm run lint` and `npm run test` run (the only Phase 0 test is the report-helper smoke test)
 - [ ] All verification passing
 
-**Verify**: `npm run verify:static`
+**Verify**: `npm run typecheck && npm run lint && npm run test`
 
 ---
 
 ## Phase 1: Evidence Pipeline (RD-01..RD-03)
 
+> **Lenses**: `web-application`, `data-and-migration` (informational)
+
 ### Step 1.1: Specification Tests
 
-**Reference**: [03-01](03-01-evidence-pipeline.md) · [07](07-testing-strategy.md) ST-1..ST-11 · AR #5, #7, #11
+**Reference**: [03-01](03-01-evidence-pipeline.md) · [07](07-testing-strategy.md) ST-1..ST-11 · plan AR #5, #7, #11
 **Objective**: Encode expected validator behavior from the spec before writing validators.
 
 - [ ] 1.1.1 [spec-author] Write source-catalog spec tests — `scripts/__tests__/sources.spec.test.ts` (ST-1..ST-5)
@@ -91,7 +93,7 @@ task-size criteria in the plan quality checklist)
 
 ### Step 1.2: Implementation
 
-**Reference**: [03-01](03-01-evidence-pipeline.md) §Implementation Details · AR #5, #7
+**Reference**: [03-01](03-01-evidence-pipeline.md) §Implementation Details · plan AR #5, #7
 **Objective**: Implement the catalogs, validators, and analysis documents.
 
 - [ ] 1.2.1 Add `sources/sources.schema.json` and `scripts/lib/sources.ts` (`parseSources`, `renderSourcesMarkdown`)
@@ -106,7 +108,7 @@ task-size criteria in the plan quality checklist)
 - [ ] Coverage and analysis documents parse and satisfy their checks
 - [ ] All verification passing
 
-**Verify**: `npm run validate:all && npm run test -- scripts/__tests__/*.spec.test.ts`
+**Verify**: `npm run validate:sources && npm run test -- scripts/__tests__/*.spec.test.ts`
 
 ### Step 1.3: Implementation Tests & Hardening
 
@@ -125,9 +127,11 @@ task-size criteria in the plan quality checklist)
 
 ## Phase 2: Rules & Patterns (RD-04, RD-05)
 
+> **Lenses**: `web-application`, `data-and-migration` (informational)
+
 ### Step 2.1: Specification Tests
 
-**Reference**: [03-02](03-02-rules-and-patterns.md) · [07](07-testing-strategy.md) ST-12..ST-20 · AR #5, #11
+**Reference**: [03-02](03-02-rules-and-patterns.md) · [07](07-testing-strategy.md) ST-12..ST-20 · plan AR #5, #11
 **Objective**: Encode rule-validator and pattern-structure expectations first.
 
 - [ ] 2.1.1 [spec-author] Write rule spec tests — `scripts/__tests__/rules.spec.test.ts` (ST-12..ST-16)
@@ -141,7 +145,7 @@ task-size criteria in the plan quality checklist)
 
 ### Step 2.2: Implementation
 
-**Reference**: [03-02](03-02-rules-and-patterns.md) §Implementation Details · AR #5, #11
+**Reference**: [03-02](03-02-rules-and-patterns.md) §Implementation Details · plan AR #5, #11
 **Objective**: Build the allowlist, rule validators, and the rule/pattern content.
 
 - [ ] 2.2.1 Add `scripts/extract-facts.ts` and generate `facts/verified-exports.json` from the sibling schema at `d595d79`
@@ -169,14 +173,16 @@ task-size criteria in the plan quality checklist)
 
 ---
 
-## Phase 3: Skill Package (RD-06)
+## Phase 3: Skill Package & Package Gates (RD-06)
+
+> **Lenses**: `web-application`, `data-and-migration` (informational)
 
 ### Step 3.1: Specification Tests
 
-**Reference**: [03-03](03-03-skill-package.md) · [07](07-testing-strategy.md) ST-21..ST-24
-**Objective**: Encode package-structure and mirror expectations first.
+**Reference**: [03-03](03-03-skill-package.md) · [03-04](03-04-verification-tooling.md) · [07](07-testing-strategy.md) ST-21..ST-29
+**Objective**: Encode package-structure, generation, reference-gate, and drift expectations before implementation. The generator and the reference/drift gates ship with the skill they protect, so this phase can reach green on its own.
 
-- [ ] 3.1.1 [spec-author] Write skill-package spec tests — `scripts/__tests__/skill-package.spec.test.ts` (ST-21..ST-24)
+- [ ] 3.1.1 [spec-author] Write skill-package, generation, and reference/drift spec tests — `scripts/__tests__/skill-package.spec.test.ts` (ST-21..ST-29)
 - [ ] 3.1.2 Run the spec tests — verify they FAIL (red phase)
 
 **Deliverables**:
@@ -186,41 +192,44 @@ task-size criteria in the plan quality checklist)
 
 ### Step 3.2: Implementation
 
-**Reference**: [03-03](03-03-skill-package.md) §Implementation Details
-**Objective**: Author the entry point and references, and generate the routing index and mirror.
+**Reference**: [03-03](03-03-skill-package.md) §Implementation Details · [03-04](03-04-verification-tooling.md) §Generation algorithm · plan AR #7
+**Objective**: Author the entry point and references, and build the full generator, reference gate, and drift gate with them.
 
-- [ ] 3.2.1 Author `skill/SKILL.md` (frontmatter + nine sections + compatibility/re-verify note)
+- [ ] 3.2.1 Author `skill/SKILL.md` (frontmatter + nine sections + compatibility/re-verify note + sibling-skill co-install contract and absence fallback)
 - [ ] 3.2.2 Author `skill/references/foundation/*.md`, `skill/references/checklists/*.md`, `skill/references/maintenance/refresh-and-repin.md`
-- [ ] 3.2.3 Add `scripts/lib/skill.ts` renderers and wire `generate` to emit `skill/references/index.md`, `skill/references/rules/index.md`, and the `.agents/skills/fluentui-design/` mirror
-- [ ] 3.2.4 Run the spec tests — verify they PASS (green phase)
+- [ ] 3.2.3 Implement `scripts/lib/skill.ts` renderers and the full `scripts/generate.ts` (render `sources.md`, `rules.md`, `references/index.md`, `references/rules/index.md`; stale-marker removal from the generated-file allowlist; `.agents/skills/fluentui-design/` mirror; `--check`) — single implementation, no later rewrite
+- [ ] 3.2.4 Implement `scripts/check-references.ts` (all id kinds + internal links; `<skill>:…` cross-skill links validated by known skill-name prefix only)
+- [ ] 3.2.5 Run the spec tests — verify they PASS (green phase)
 
 **Deliverables**:
 - [ ] `SKILL.md` frontmatter valid; all nine sections present; ≤320 lines
-- [ ] Routing index resolves; mirror is byte-identical to `skill/`
+- [ ] Routing index resolves; mirror is byte-identical to `skill/`; `generate:check` detects drift and stale markers
 - [ ] All verification passing
 
-**Verify**: `npm run generate && npm run check:refs && npm run test -- scripts/__tests__/*.spec.test.ts`
+**Verify**: `npm run generate && npm run generate:check && npm run check:refs && npm run test -- scripts/__tests__/*.spec.test.ts`
 
 ### Step 3.3: Implementation Tests & Hardening
 
 - [ ] 3.3.1 Add a test asserting no `skill/**` file fetches remote code and the entry-point line budget — `scripts/__tests__/skill-package.impl.test.ts`
-- [ ] 3.3.2 Full verification
+- [ ] 3.3.2 Full verification (scoped: the static gates that exist after Phase 3)
 
 **Deliverables**:
 - [ ] All verification passing
 
-**Verify**: `npm run verify:static`
+**Verify**: `npm run typecheck && npm run lint && npm run test && npm run generate:check && npm run check:refs`
 
 ---
 
 ## Phase 4: Verification Tooling (RD-07)
 
+> **Lenses**: `web-application`, `data-and-migration` (informational)
+
 ### Step 4.1: Specification Tests
 
-**Reference**: [03-04](03-04-verification-tooling.md) · [07](07-testing-strategy.md) ST-25..ST-34 · AR #5, #6, #7
-**Objective**: Encode every gate's pass/fail behavior first.
+**Reference**: [03-04](03-04-verification-tooling.md) · [07](07-testing-strategy.md) ST-30..ST-34 · plan AR #5, #6, #7
+**Objective**: Encode the example, secret, and freshness gates first. (Generation, reference, and drift gates shipped in Phase 3.)
 
-- [ ] 4.1.1 [spec-author] Write tooling spec tests — `scripts/__tests__/tooling.spec.test.ts` (ST-25..ST-34)
+- [ ] 4.1.1 [spec-author] Write tooling spec tests — `scripts/__tests__/tooling.spec.test.ts` (ST-30..ST-34)
 - [ ] 4.1.2 Run the spec tests — verify they FAIL (red phase)
 
 **Deliverables**:
@@ -230,27 +239,24 @@ task-size criteria in the plan quality checklist)
 
 ### Step 4.2: Implementation
 
-**Reference**: [03-04](03-04-verification-tooling.md) §Scripts · AR #6, #7
-**Objective**: Complete the deterministic generator and all gates.
+**Reference**: [03-04](03-04-verification-tooling.md) §Scripts · plan AR #6, #7
+**Objective**: Build the remaining gates and make `verify:static` authoritative.
 
-- [ ] 4.2.1 Implement `scripts/generate.ts` (full render + stale-marker removal + mirror + `--check`)
-- [ ] 4.2.2 Implement `scripts/check-references.ts` (all id kinds + internal Markdown links)
-- [ ] 4.2.3 Implement `scripts/check-examples.ts` (extract, in-memory compile, classify, never execute)
-- [ ] 4.2.4 Implement `scripts/scan-secrets.ts` and `scripts/check-drift.ts`
-- [ ] 4.2.5 Implement `scripts/freshness.ts` and write `facts/freshness.json`; wire all scripts into `verify:static`/`verify`
-- [ ] 4.2.6 Run the spec tests — verify they PASS (green phase)
+- [ ] 4.2.1 Implement `scripts/check-examples.ts` (extract, in-memory compile, classify, never execute) over `skill/**` and rule examples; the fixture typecheck is wired in Phase 5
+- [ ] 4.2.2 Implement `scripts/scan-secrets.ts`
+- [ ] 4.2.3 Implement `scripts/freshness.ts` and write `facts/freshness.json`; wire the full static chain into `verify:static` and `verify`
+- [ ] 4.2.4 Run the spec tests — verify they PASS (green phase)
 
 **Deliverables**:
-- [ ] `generate` is byte-reproducible; the drift gate detects a hand-edited generated file
-- [ ] Example gate names a bad import; secret scan flags a fake key and ignores lock hashes
-- [ ] `npm run verify:static` exits 0
+- [ ] Example gate names a bad import and never executes code; secret scan flags a fake key and ignores lock hashes
+- [ ] `npm run verify:static` is authoritative and exits 0
 
 **Verify**: `npm run verify:static`
 
 ### Step 4.3: Implementation Tests & Hardening
 
 - [ ] 4.3.1 Write example-classification and secret near-miss tests — `scripts/__tests__/examples.impl.test.ts`, `scripts/__tests__/secrets.impl.test.ts`
-- [ ] 4.3.2 Full verification (`verify:static`; full `verify` runs once the fixture exists in Phase 5)
+- [ ] 4.3.2 Full verification (`verify:static` is authoritative from here; full `verify` runs once the fixture exists in Phase 5)
 
 **Deliverables**:
 - [ ] All verification passing
@@ -260,6 +266,8 @@ task-size criteria in the plan quality checklist)
 ---
 
 ## Phase 5: Fixture App (RD-08)
+
+> **Lenses**: `web-application`, `data-and-migration` (informational)
 
 ### Step 5.1: Specification Tests
 
@@ -308,9 +316,11 @@ task-size criteria in the plan quality checklist)
 
 ## Phase 6: Evaluation (RD-09)
 
+> **Lenses**: `web-application`, `data-and-migration` (informational)
+
 ### Step 6.1: Specification Tests
 
-**Reference**: [03-06](03-06-evaluation.md) · [07](07-testing-strategy.md) ST-45..ST-48 · AR #10
+**Reference**: [03-06](03-06-evaluation.md) · [07](07-testing-strategy.md) ST-45..ST-48 · plan AR #10
 **Objective**: Encode evaluation-structure expectations first.
 
 - [ ] 6.1.1 [spec-author] Write evaluation spec tests — `scripts/__tests__/evaluation.spec.test.ts` (ST-45..ST-48)
@@ -351,6 +361,8 @@ task-size criteria in the plan quality checklist)
 ---
 
 ## Phase 7: Maintenance, Docs & Close-out (RD-10)
+
+> **Lenses**: `web-application`, `data-and-migration` (informational)
 
 ### Step 7.1: Specification Tests
 
@@ -399,14 +411,15 @@ task-size criteria in the plan quality checklist)
 ```
 Phase 0 (foundation)
     ↓
-Phase 1 (evidence) ──→ Phase 2 (rules & patterns) ──→ Phase 3 (skill) ──→ Phase 4 (tooling)
-                              └───────────────────────────────────────────────┘
-                                                                  ↓
-                                                        Phase 5 (fixture)
-                                                                  ↓
-                                                        Phase 6 (evaluation)
-                                                                  ↓
-                                                        Phase 7 (docs & close-out)
+Phase 1 (evidence) ──→ Phase 2 (rules & patterns) ──→ Phase 3 (skill + generator/reference/drift gates)
+                                                          ↓
+                                              Phase 4 (example/secret/freshness gates)
+                                                          ↓
+                                                    Phase 5 (fixture)
+                                                          ↓
+                                                    Phase 6 (evaluation)
+                                                          ↓
+                                                    Phase 7 (docs & close-out)
 ```
 
 ---

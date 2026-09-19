@@ -44,6 +44,16 @@ packaging system.
 validators plus a generator. Independently challenged (`Justified`) and approved by the user. Plan
 AR #13 re-checked that this plan stays inside that surface.
 
+## Applicable Domain Lenses
+
+Discovery selected two lenses (recorded in `requirements/_draft/discovery-notes.md`); every plan
+phase carries them so review clusters match the work:
+
+| Lens | Why it applies |
+| ---- | -------------- |
+| `web-application` | The skill's subject is browser UI composition (surfaces, states, a11y, responsive behavior) and the fixture is a browser app. |
+| `data-and-migration` | Versioned catalogs, stable source/rule/pattern IDs that must survive FluentUI/OS refreshes, and a deliberate re-pin/rollback path. |
+
 ## Document Index
 
 | #   | Document | Description |

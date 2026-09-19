@@ -30,6 +30,11 @@ requirements, scope decisions, and acceptance criteria; this document is a delta
 - Model-provider evaluation run and skill-vs-baseline comparison — RD-09 marks these `untested`
   unless a provider is authorized (requirements AR #6, #20).
 
+### Applicable Domain Lenses
+
+`web-application` and `data-and-migration` (from discovery). Each execution phase in
+`99-execution-plan.md` declares them for review-cluster selection.
+
 ## Plan-local decisions
 
 These are decisions this plan makes that the RDs do not already fix. The RDs own requirements; only

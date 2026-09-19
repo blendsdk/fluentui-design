@@ -75,9 +75,16 @@ Plus a compatibility note (baseline `@fluentui/react-components` 9.74.7; pinned 
 
 ### Cross-linking the sibling skill
 
-The entry point and `references/index.md` name the sibling `fluentui` skill by its reference paths for
-exact component props/imports. No component API tables are copied into this package (RD-06 AC 4,
-AR #12).
+The entry point and `references/index.md` point to the sibling `fluentui` skill for exact component
+props and imports using an explicit cross-skill link convention — `<skill>:references/<path>`, for
+example `fluentui:references/components/button.md`. The reference gate
+([03-04](03-04-verification-tooling.md)) treats any `<skill>:…` link as external and validates only
+the known skill-name prefix and link shape; it does not require the target to exist in this
+repository. No component API tables are copied into this package (RD-06 AC 4, plan AR #12).
+
+The entry point states the co-install contract and the fallback: the sibling `fluentui` skill must be
+installed alongside this one; if it is unavailable, the agent says so and answers from the bundled
+rules and patterns rather than inventing props.
 
 ### Mirror step
 
@@ -86,8 +93,8 @@ AR #12).
 
 ## Error Handling
 
-| Error Case | Handling Strategy | AR Ref |
-| ---------- | ----------------- | ------ |
+| Error Case | Handling Strategy | Ref |
+| ---------- | ----------------- | --- |
 | Frontmatter `name` ≠ directory name | Reference/generation gate error; exit 1 | RD-06 |
 | `references/index.md` links to a missing file | Reference gate error naming the link; exit 1 | RD-07 |
 | Mirror differs from `skill/` | Drift gate error; exit 1 | RD-06 |
@@ -95,6 +102,6 @@ AR #12).
 
 ## Testing Requirements
 
-- Specification tests for frontmatter validity, the nine sections, and mirror equality (`ST-17`..`ST-21`).
+- Specification tests for frontmatter validity, the nine sections, mirror equality, generation determinism, reference resolution, and cross-skill link handling (`ST-21`..`ST-29`).
 - A test asserts the entry point is 200–300 lines (soft) and the routing index resolves every link.
 - A test asserts no file under `skill/` imports or fetches remote code.

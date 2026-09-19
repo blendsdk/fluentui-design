@@ -17,7 +17,7 @@
 - Test names state behavior: `should [expected behavior] when [condition]`.
 - E2E tests run against the fixture with Playwright (Chromium); `verify:static` covers the
   browser-free subset.
-- Coverage targets are plan AR #6/#12; adjust only through the Ambiguity Register, never silently.
+- Coverage targets are a plan decision recorded here (not derived from an AR entry); adjust only through the Ambiguity Register, never silently.
 
 ## 🚨 Specification Test Cases (MANDATORY — NON-NEGOTIABLE)
 
@@ -129,8 +129,9 @@
 | `scripts/__tests__/analysis.spec.test.ts` | ST-9..ST-11 | Findings/conflicts |
 | `scripts/__tests__/rules.spec.test.ts` | ST-12..ST-16 | Rules |
 | `scripts/__tests__/patterns.spec.test.ts` | ST-17..ST-20 | Patterns |
-| `scripts/__tests__/skill-package.spec.test.ts` | ST-21..ST-24 | Skill package |
-| `scripts/__tests__/tooling.spec.test.ts` | ST-25..ST-34 | Verification tooling |
+| `scripts/__tests__/skill-package.spec.test.ts` | ST-21..ST-29 | Skill package + generation/reference/drift gates |
+| `scripts/__tests__/tooling.spec.test.ts` | ST-30..ST-34 | Example/secret/freshness gates |
+| `scripts/__tests__/toolchain.spec.test.ts` | plan AR #6 (smoke) | Gate runner/report helper |
 | `scripts/__tests__/evaluation.spec.test.ts` | ST-45..ST-48 | Evaluation |
 | `scripts/__tests__/docs.spec.test.ts` | ST-49..ST-51 | Maintenance/docs |
 | `fixture/e2e/*.spec.ts` | ST-35..ST-44 | Fixture (Playwright) |
@@ -160,6 +161,7 @@
 | List workflow | Filter → select → contextual action → confirm | Action applies to the selected row; success shown |
 | Editor workflow | Open → invalid submit → fix → duplicate email → change → save | Errors and recovery behave as specified; one save |
 | Overlay focus | Open drawer/dialog → Escape | Closes; focus returns to trigger |
+| Accessibility (axe) | Run axe on list and editor at 1280×800 and 375×812, light and dark | Zero critical/serious violations (ST-44) |
 
 ## Test Data
 

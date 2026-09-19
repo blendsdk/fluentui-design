@@ -117,8 +117,8 @@ find guidance by decision instead of by component name.
 
 ## Error Handling
 
-| Error Case | Handling Strategy | AR Ref |
-| ---------- | ----------------- | ------ |
+| Error Case | Handling Strategy | Ref |
+| ---------- | ----------------- | --- |
 | Rule cites an unknown `SRC-###` | Validator error naming the rule and id; exit 1 | RD-04 |
 | `componentMapping` names an export not in the allowlist | Validator error; exit 1 | plan AR #5 |
 | Pattern frontmatter missing a required key | Reference gate error; exit 1 | RD-05 |
@@ -128,6 +128,6 @@ find guidance by decision instead of by component name.
 ## Testing Requirements
 
 - Specification tests for rule validation (duplicate id, dangling source, invalid enum, bad mapping)
-  and for the actionability lint (`ST-9`..`ST-16`).
+  and for the actionability lint (`ST-12`..`ST-16`).
 - Implementation tests for frontmatter parsing and decision-index generation.
 - A test asserts the shipped catalog contains ≥1 `application-owned` rule and no export outside the allowlist.

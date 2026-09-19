@@ -51,8 +51,8 @@ assets or the untested agent comparison.
 
 ## Error Handling
 
-| Error Case | Handling Strategy | AR Ref |
-| ---------- | ----------------- | ------ |
+| Error Case | Handling Strategy | Ref |
+| ---------- | ----------------- | --- |
 | A source disappears or blocks access | Record as `blocked`/`obsolete`; mark dependent rules; note in the completion report | RD-10 |
 | A fact changes under a new package version | Re-pin, update affected rules, append history; never rewrite ids | RD-10 |
 | A deliverable cannot be produced | Mark `blocked` with the cause; do not claim it complete | RD-10 |
