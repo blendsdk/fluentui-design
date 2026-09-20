@@ -380,6 +380,8 @@ task-size criteria in the plan quality checklist)
 
 ---
 
+> **Post-phase review (correctness)**: RV-901 (🟠) — EVAL-007 was marked `pass` while the cited spec asserted only open and return focus, not focus entry, trapping, or inertness. RV-902 (🟠) — several recorded viewports did not match the specs. User ruling: reword EVAL-007 and mark it `partial`; fix all six findings. Fixed RV-901 (honest evidence + `partial`), RV-902 (real viewports `1280x800` / `375x812`), RV-903 (inert-drawer defect attributed to manual interaction), RV-904 (citations gathered from every task field and result evidence), RV-905 (`evaluation/README.md` added and evaluation documents included in the reference gate), RV-906 (`partial` definition). Single re-review on the fix diff: no major findings; RV-1001 (partial glossary), RV-1002 (EVAL-011 viewports), RV-1003 (gate-level citation test) fixed. Phase 6 reviewed and closed.
+
 ## Phase 7: Maintenance, Docs & Close-out (RD-10)
 
 > **Lenses**: `web-application`, `data-and-migration` (informational)
