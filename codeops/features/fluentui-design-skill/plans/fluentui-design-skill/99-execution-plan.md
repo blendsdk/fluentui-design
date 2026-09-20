@@ -332,6 +332,8 @@ task-size criteria in the plan quality checklist)
 
 ---
 
+> **Post-phase review (correctness)**: RV-701 (🟠) — saving from a non-ready state never advanced the status, so creating the first record from the empty state did not render it. User ruling: fix all five findings. Fixed RV-701 (store moves to `ready` after a successful save), RV-702 (empty-state action disabled for a read-only viewer), RV-703 (accept the documented `?state=no-results` token and leave it via clear filters), RV-704 (probe inertness assertion plus corrected wording), RV-705 (surface tsconfig parse errors; drop the unwired script). Single re-review confirmed all five and found one new minor, RV-801: the unconditional status reset let clear filters dismiss the error/loading states. Guarded the reset and added a regression test. Phase 5 reviewed and closed.
+
 ## Phase 6: Evaluation (RD-09)
 
 > **Lenses**: `web-application`, `data-and-migration` (informational)
