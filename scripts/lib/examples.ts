@@ -1,4 +1,4 @@
-import { basename, extname, join } from "node:path";
+import { extname, join } from "node:path";
 import ts from "typescript";
 
 /** A code snippet that must resolve against the pinned Fluent UI package. */
@@ -7,6 +7,11 @@ export interface ExampleSnippet {
   source: string;
   /** The snippet body, including its imports. */
   code: string;
+  /**
+   * The fenced-code language, such as `tsx`. When omitted, the language is
+   * inferred from the file extension in {@link source}, falling back to `tsx`.
+   */
+  language?: string;
 }
 
 /** A problem found while type-checking an example. */
@@ -110,6 +115,36 @@ function scriptKindFor(fileName: string): ts.ScriptKind {
   return ts.ScriptKind.TS;
 }
 
+/** Report whether `value` is one of the compilable example languages. */
+function isExampleLanguage(value: string | undefined): boolean {
+  return value !== undefined && (EXAMPLE_LANGUAGES as readonly string[]).includes(value);
+}
+
+/**
+ * Decide the virtual file extension for a snippet.
+ *
+ * The language wins when present. Otherwise the label is stripped of a trailing
+ * `:<line>` or `#<field>` suffix and its extension is used when recognised; the
+ * default `tsx` keeps a label like `rules.json#RULE-001` compilable.
+ */
+function resolveExtension(snippet: ExampleSnippet): string {
+  if (isExampleLanguage(snippet.language)) {
+    return `.${snippet.language}`;
+  }
+  const label = snippet.source.replace(/(:\d+)?(#.*)?$/, "");
+  const extension = extname(label).toLowerCase();
+  if (extension === ".ts" || extension === ".tsx" || extension === ".js" || extension === ".jsx") {
+    return extension;
+  }
+  return ".tsx";
+}
+
+/** Turn a human-readable source label into a path-safe stem. */
+function slugify(source: string): string {
+  const slug = source.replace(/[^A-Za-z0-9._-]+/g, "-").replace(/^-+|-+$/g, "");
+  return slug.length > 0 ? slug : "snippet";
+}
+
 /**
  * Type-check snippets against the installed `@fluentui/react-components` types.
  *
@@ -143,9 +178,8 @@ export function checkExampleSnippets(
   const byPath = new Map<string, ExampleSnippet>();
 
   snippets.forEach((snippet, index) => {
-    const extension = extname(snippet.source) || ".tsx";
-    const stem = basename(snippet.source, extname(snippet.source)) || `snippet-${index}`;
-    const path = join(virtualDirectory, `${index}-${stem}${extension}`);
+    const extension = resolveExtension(snippet);
+    const path = join(virtualDirectory, `${index}-${slugify(snippet.source)}${extension}`);
     virtual.set(path, snippet.code);
     byPath.set(path, snippet);
   });
@@ -160,6 +194,7 @@ export function checkExampleSnippets(
     skipLibCheck: true,
     esModuleInterop: true,
     allowJs: true,
+    checkJs: true,
     types: [],
   };
 

@@ -80,6 +80,27 @@ describe("example checking", () => {
     expect(failures.some((failure) => failure.kind === "api")).toBe(true);
   });
 
+  it("should report a missing export in a javascript snippet", () => {
+    const failures = checkExampleSnippets([
+      {
+        source: "rules/rules.json#RULE-002.antiPattern",
+        language: "js",
+        code: 'import { Bogus } from "@fluentui/react-components";\nexport const value = Bogus;\n',
+      },
+    ]);
+    expect(failures.some((failure) => failure.kind === "api")).toBe(true);
+  });
+
+  it("should infer the language from a path:line label", () => {
+    const failures = checkExampleSnippets([
+      {
+        source: "skill/references/foundation/example.tsx:7",
+        code: 'import { Bogus } from "@fluentui/react-components";\nexport const value = Bogus;\n',
+      },
+    ]);
+    expect(failures.some((failure) => failure.kind === "api")).toBe(true);
+  });
+
   it("should return nothing for an empty snippet list", () => {
     expect(checkExampleSnippets([])).toEqual([]);
   });

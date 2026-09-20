@@ -13,13 +13,25 @@ describe("example gate (RD-07)", () => {
   it("should name an import the package does not export", () => {
     const failures = checkExampleSnippets([
       {
-        source: "example.tsx",
+        source: "skill/SKILL.md:42",
+        language: "tsx",
         code: 'import { Bogus } from "@fluentui/react-components";\nexport const value = Bogus;\n',
       },
     ]);
     const api = failures.filter((failure) => failure.kind === "api");
     expect(api.length).toBeGreaterThan(0);
     expect(api.map((failure) => failure.message).join("\n")).toMatch(/Bogus/);
+  });
+
+  it("should check a snippet labelled with a rule field", () => {
+    const failures = checkExampleSnippets([
+      {
+        source: "rules/rules.json#RULE-001.positiveExample",
+        language: "ts",
+        code: 'import { Bogus } from "@fluentui/react-components";\nexport const value = Bogus;\n',
+      },
+    ]);
+    expect(failures.some((failure) => failure.kind === "api")).toBe(true);
   });
 
   it("should not execute example code", () => {

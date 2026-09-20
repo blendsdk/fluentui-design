@@ -28,7 +28,7 @@ function collectSnippets(): ExampleSnippet[] {
       continue;
     }
     for (const block of extractFencedCodeBlocks(markdown)) {
-      snippets.push({ source: `${path}:${block.line}`, code: block.code });
+      snippets.push({ source: `${path}:${block.line}`, code: block.code, language: block.language });
     }
   }
 
@@ -45,7 +45,11 @@ function collectSnippets(): ExampleSnippet[] {
           continue;
         }
         for (const block of extractFencedCodeBlocks(value)) {
-          snippets.push({ source: `${RULES_JSON_PATH}#${id}.${field}`, code: block.code });
+          snippets.push({
+            source: `${RULES_JSON_PATH}#${id}.${field}`,
+            code: block.code,
+            language: block.language,
+          });
         }
       }
     }
