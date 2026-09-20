@@ -1,6 +1,7 @@
 import { existsSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import { parseConflicts, parseFindings } from "./lib/analysis.js";
+import { EVALUATION_DIR } from "./lib/evaluation.js";
 import { loadPatternDocumentsSync } from "./lib/patterns.js";
 import { runChecks } from "./lib/report.js";
 import { checkReferences, createRealFileSystem, SKILL_DIR, validateSkillFile } from "./lib/skill.js";
@@ -80,7 +81,9 @@ async function main(): Promise<number> {
       name: "references",
       run: (): CheckOutcome => {
         const errors: string[] = [];
-        const files = fs.listFiles(SKILL_DIR).filter((path) => path.endsWith(".md"));
+        const files = [...fs.listFiles(SKILL_DIR), ...fs.listFiles(EVALUATION_DIR)].filter((path) =>
+          path.endsWith(".md"),
+        );
         for (const path of files) {
           const markdown = fs.readFile(path);
           if (markdown !== undefined) {

@@ -18,11 +18,11 @@ import type { CheckOutcome, GateCheck } from "./lib/report.js";
  * Reproduce the evaluation's deterministic evidence.
  *
  * The script reads the committed task and result documents and verifies three
- * facts that do not need a model: every cited rule exists in the rules catalog,
- * every pattern the tasks name exists, and every task result either cites an
- * artifact that exists or is marked `untested` with a reason. It records what it
- * checked and exits non-zero when a claim cannot be traced to a committed
- * artifact. It never invokes a model or executes application code.
+ * facts that do not need a model: every rule and pattern the tasks or results
+ * name exists in the catalog, and every task result either cites an artifact
+ * that exists or is marked `untested` with a reason. It records what it checked
+ * and exits non-zero when a claim cannot be traced to a committed artifact. It
+ * never invokes a model or executes application code.
  *
  * @returns A process exit code: `0` when every check passes, otherwise `1`.
  */
@@ -32,10 +32,10 @@ async function main(): Promise<number> {
   const knownRules = loadKnownRuleIds();
   const knownPatterns = loadKnownPatternIds();
 
-  const ruleCitations = extractRuleIds(tasks.map((task) => task.fields["rules"] ?? "").join("\n"));
-  const patternCitations = extractPatternIds(
-    tasks.flatMap((task) => Object.values(task.fields)).join("\n"),
-  );
+  const taskText = tasks.flatMap((task) => Object.values(task.fields)).join("\n");
+  const resultText = results.map((result) => result.evidence).join("\n");
+  const ruleCitations = extractRuleIds(`${taskText}\n${resultText}`);
+  const patternCitations = extractPatternIds(`${taskText}\n${resultText}`);
 
   const checks: GateCheck[] = [
     {

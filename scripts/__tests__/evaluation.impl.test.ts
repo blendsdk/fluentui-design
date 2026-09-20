@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 import {
   checkEvaluationCoverage,
+  extractPatternIds,
+  extractRuleIds,
   parseEvaluationResults,
   parseEvaluationTasks,
   parseRubricDimensions,
@@ -22,6 +24,19 @@ function task(overrides: Partial<EvaluationTask> = {}): EvaluationTask {
 function result(overrides: Partial<EvaluationResult> = {}): EvaluationResult {
   return { taskId: "EVAL-001", title: "Example", result: "pass", evidence: "", ...overrides };
 }
+
+describe("citation extraction", () => {
+  it("should find unique rule ids anywhere in a block of text", () => {
+    expect(extractRuleIds("Pair RULE-010 with RULE-010, then RULE-011.")).toEqual([
+      "RULE-010",
+      "RULE-011",
+    ]);
+  });
+
+  it("should find unique pattern ids anywhere in a block of text", () => {
+    expect(extractPatternIds("See PAT-002 and PAT-005.")).toEqual(["PAT-002", "PAT-005"]);
+  });
+});
 
 describe("evaluation task parsing", () => {
   it("should tolerate CRLF line endings", () => {
