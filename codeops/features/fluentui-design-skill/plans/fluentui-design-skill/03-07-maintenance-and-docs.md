@@ -33,8 +33,9 @@ completion report. Stable ids are never renumbered; superseded guidance is appen
 
 ### ID stability
 
-`SRC-###`, `RULE-###`, and `PAT-###` are permanent. A superseded item keeps its id and gains a
-`supersedes`/replacement link; ids are never reused or renumbered (RD-10 AC 5).
+`SRC-###`, `RULE-###`, and `PAT-###` are permanent. A superseded item keeps its id, the successor
+lists that id in the successor's `supersedes` array, and the superseded item's text gains a
+"Superseded by" sentence for the forward pointer; ids are never reused or renumbered (RD-10 AC 5).
 
 ### AGENTS.md update
 

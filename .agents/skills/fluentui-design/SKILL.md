@@ -38,7 +38,7 @@ Before proposing a design, inspect the project instead of assuming:
 
 - The installed `@fluentui/react-components` version, and whether it matches
   the baseline in [Compatibility](#compatibility).
-- The React version. v9 peers on React 16.14 through 18.
+- The React version. v9 peers on React `>=16.14.0` and `<20.0.0`.
 - Where `FluentProvider` is mounted and which theme it applies.
 - Existing page shells, layout patterns, and naming the app already uses.
 - Whether the sibling `fluentui` skill is available for exact API facts.
