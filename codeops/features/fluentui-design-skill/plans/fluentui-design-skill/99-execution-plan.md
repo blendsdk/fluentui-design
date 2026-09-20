@@ -2,8 +2,8 @@
 
 > **Document**: 99-execution-plan.md
 > **Parent**: [Index](00-index.md)
-> **Last Updated**: 2026-09-20 09:26
-> **Progress**: 55/72 tasks (76%)
+> **Last Updated**: 2026-09-20 10:00
+> **Progress**: 64/72 tasks (89%)
 > **CodeOps Artifact Schema**: 1
 
 ## Overview
@@ -343,8 +343,8 @@ task-size criteria in the plan quality checklist)
 **Reference**: [03-06](03-06-evaluation.md) · [07](07-testing-strategy.md) ST-45..ST-48 · plan AR #10
 **Objective**: Encode evaluation-structure expectations first.
 
-- [ ] 6.1.1 [spec-author] Write evaluation spec tests — `scripts/__tests__/evaluation.spec.test.ts` (ST-45..ST-48)
-- [ ] 6.1.2 Run the spec tests — verify they FAIL (red phase)
+- [x] 6.1.1 [spec-author] Write evaluation spec tests — `scripts/__tests__/evaluation.spec.test.ts` (ST-45..ST-48) ✅ (completed: 2026-09-20 09:57)
+- [x] 6.1.2 Run the spec tests — verify they FAIL (red phase) ✅ (completed: 2026-09-20 09:57; fails on missing `lib/evaluation`)
 
 **Deliverables**:
 - Spec tests exist and fail for the right reason
@@ -356,11 +356,11 @@ task-size criteria in the plan quality checklist)
 **Reference**: [03-06](03-06-evaluation.md) §Implementation Details · AR #10
 **Objective**: Author the tasks, rubric, reproduction script, and results.
 
-- [ ] 6.2.1 Author `evaluation/tasks.md` (≥12 tasks, all named scenarios)
-- [ ] 6.2.2 Author `evaluation/rubric.md` (7 dimensions, 0–4 anchors)
-- [ ] 6.2.3 Implement `scripts/evaluate.ts` (deterministic evidence; never invokes a model)
-- [ ] 6.2.4 Author `evaluation/results.md` from the recorded evidence; mark the comparison `untested`
-- [ ] 6.2.5 Run the spec tests — verify they PASS (green phase)
+- [x] 6.2.1 Author `evaluation/tasks.md` (≥12 tasks, all named scenarios) ✅ (completed: 2026-09-20 10:00)
+- [x] 6.2.2 Author `evaluation/rubric.md` (7 dimensions, 0–4 anchors) ✅ (completed: 2026-09-20 10:00)
+- [x] 6.2.3 Implement `scripts/evaluate.ts` (deterministic evidence; never invokes a model) ✅ (completed: 2026-09-20 10:00; wired as `check:evaluation` in `verify:static`)
+- [x] 6.2.4 Author `evaluation/results.md` from the recorded evidence; mark the comparison `untested` ✅ (completed: 2026-09-20 10:00)
+- [x] 6.2.5 Run the spec tests — verify they PASS (green phase) ✅ (completed: 2026-09-20 10:00)
 
 **Deliverables**:
 - Every task cites an artifact or is `untested`; no conformance claim
@@ -370,8 +370,8 @@ task-size criteria in the plan quality checklist)
 
 ### Step 6.3: Implementation Tests & Hardening
 
-- [ ] 6.3.1 Confirm no fabricated scores: grep results for claims exceeding evidence; fix wording
-- [ ] 6.3.2 Full verification
+- [x] 6.3.1 Confirm no fabricated scores: grep results for claims exceeding evidence; fix wording ✅ (completed: 2026-09-20 10:00; added `scripts/__tests__/evaluation.impl.test.ts` for parser and coverage edge cases; results state deterministic evidence only)
+- [x] 6.3.2 Full verification ✅ (completed: 2026-09-20 10:00; typecheck, lint, 16 test files / 119 tests, static gates, 27 Playwright tests)
 
 **Deliverables**:
 - All verification passing
