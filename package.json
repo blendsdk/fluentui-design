@@ -23,8 +23,12 @@
     "check:examples": "tsx scripts/check-examples.ts",
     "scan:secrets": "tsx scripts/scan-secrets.ts",
     "freshness": "tsx scripts/freshness.ts",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "typecheck:fixture": "tsc -p fixture/tsconfig.json",
     "verify:static": "npm run typecheck && npm run lint && npm run test && npm run validate:all && npm run lint:rules && npm run check:facts && npm run generate:check && npm run check:refs && npm run check:examples && npm run scan:secrets && npm run freshness -- --check",
-    "test:e2e": "playwright test",
+    "test:e2e": "npm run build && playwright test",
     "verify": "npm run verify:static && npm run test:e2e"
   },
   "dependencies": {

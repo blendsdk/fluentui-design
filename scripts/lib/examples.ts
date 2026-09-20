@@ -1,4 +1,4 @@
-import { extname, join } from "node:path";
+import { dirname, extname, join } from "node:path";
 import ts from "typescript";
 
 /** A code snippet that must resolve against the pinned Fluent UI package. */
@@ -245,4 +245,56 @@ export function checkExampleSnippets(
   }
 
   return failures;
+}
+
+/** A blocking type error found in a whole project. */
+export interface ProjectDiagnostic {
+  /** File the error belongs to. */
+  file: string;
+  /** One-based line of the error. */
+  line: number;
+  /** The compiler message. */
+  message: string;
+}
+
+/**
+ * Type-check a TypeScript project from its tsconfig.
+ *
+ * The project is compiled in memory and never executed, so importing this
+ * function cannot trigger a module side effect. This is what proves the
+ * fixture's type-checking gate is inert at runtime.
+ *
+ * @param tsconfigPath - Path to the project's `tsconfig.json`.
+ * @returns Every error-severity diagnostic, with its file and line.
+ */
+export function checkProject(tsconfigPath: string): ProjectDiagnostic[] {
+  const configFile = ts.readConfigFile(tsconfigPath, (path) => ts.sys.readFile(path));
+  if (configFile.error !== undefined) {
+    return [
+      {
+        file: tsconfigPath,
+        line: 1,
+        message: ts.flattenDiagnosticMessageText(configFile.error.messageText, " "),
+      },
+    ];
+  }
+
+  const parsed = ts.parseJsonConfigFileContent(configFile.config, ts.sys, dirname(tsconfigPath));
+  const program = ts.createProgram({ rootNames: parsed.fileNames, options: parsed.options });
+
+  return ts
+    .getPreEmitDiagnostics(program)
+    .filter((diagnostic) => diagnostic.category === ts.DiagnosticCategory.Error)
+    .map((diagnostic) => {
+      const file = diagnostic.file?.fileName ?? tsconfigPath;
+      const line =
+        diagnostic.file !== undefined && diagnostic.start !== undefined
+          ? diagnostic.file.getLineAndCharacterOfPosition(diagnostic.start).line + 1
+          : 1;
+      return {
+        file,
+        line,
+        message: ts.flattenDiagnosticMessageText(diagnostic.messageText, " "),
+      };
+    });
 }

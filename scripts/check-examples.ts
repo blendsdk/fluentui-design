@@ -1,4 +1,4 @@
-import { checkExampleSnippets, extractFencedCodeBlocks } from "./lib/examples.js";
+import { checkExampleSnippets, checkProject, extractFencedCodeBlocks } from "./lib/examples.js";
 import type { ExampleFailure, ExampleSnippet } from "./lib/examples.js";
 import { isJsonObject, readJsonFileSync } from "./lib/json.js";
 import { runChecks } from "./lib/report.js";
@@ -8,6 +8,9 @@ import type { CheckOutcome, GateCheck } from "./lib/report.js";
 
 /** Rule fields that may carry a code sample. */
 const EXAMPLE_FIELDS = ["positiveExample", "antiPattern"] as const;
+
+/** The fixture project type-checked to prove its Fluent imports resolve. */
+const FIXTURE_TSCONFIG = "fixture/tsconfig.json";
 
 /**
  * Collect compilable snippets from the skill's Markdown and the rules catalog.
@@ -86,6 +89,20 @@ async function main(): Promise<number> {
         return general.length === 0
           ? { name: "examples", ok: true }
           : { name: "examples", ok: true, detail: `${general.length} general note(s)` };
+      },
+    },
+    {
+      name: "fixture typecheck",
+      run: (): CheckOutcome => {
+        const diagnostics = checkProject(FIXTURE_TSCONFIG);
+        if (diagnostics.length === 0) {
+          return { name: "fixture typecheck", ok: true };
+        }
+        const detail = diagnostics
+          .slice(0, 10)
+          .map((diagnostic) => `${diagnostic.file}:${diagnostic.line} — ${diagnostic.message}`)
+          .join("; ");
+        return { name: "fixture typecheck", ok: false, detail };
       },
     },
   ];

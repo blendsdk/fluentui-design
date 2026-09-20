@@ -2,8 +2,8 @@
 
 > **Document**: 99-execution-plan.md
 > **Parent**: [Index](00-index.md)
-> **Last Updated**: 2026-09-20 02:30
-> **Progress**: 44/72 tasks (61%)
+> **Last Updated**: 2026-09-20 09:26
+> **Progress**: 55/72 tasks (76%)
 > **CodeOps Artifact Schema**: 1
 
 ## Overview
@@ -292,10 +292,10 @@ task-size criteria in the plan quality checklist)
 **Reference**: [03-05](03-05-fixture-app.md) · [07](07-testing-strategy.md) ST-35..ST-44
 **Objective**: Write the Playwright + axe specs before the app exists.
 
-- [ ] 5.1.1 [spec-author] Write list/filter/selection/action specs — `fixture/e2e/list.spec.ts` (ST-35..ST-37)
-- [ ] 5.1.2 [spec-author] Write editor specs incl. errors, pending, dirty — `fixture/e2e/editor.spec.ts` (ST-38..ST-41)
-- [ ] 5.1.3 [spec-author] Write overlay focus and a11y specs — `fixture/e2e/overlay-focus.spec.ts`, `fixture/e2e/a11y.spec.ts` (ST-42..ST-44)
-- [ ] 5.1.4 Run the E2E specs — verify they FAIL (red phase)
+- [x] 5.1.1 [spec-author] Write list/filter/selection/action specs — `fixture/e2e/list.spec.ts` (ST-35..ST-37)
+- [x] 5.1.2 [spec-author] Write editor specs incl. errors, pending, dirty — `fixture/e2e/editor.spec.ts` (ST-38..ST-41)
+- [x] 5.1.3 [spec-author] Write overlay focus and a11y specs — `fixture/e2e/overlay-focus.spec.ts`, `fixture/e2e/a11y.spec.ts` (ST-42..ST-44)
+- [x] 5.1.4 Run the E2E specs — verify they FAIL (red phase)
 
 **Deliverables**:
 - E2E specs exist and fail because the app/pages are absent
@@ -307,11 +307,11 @@ task-size criteria in the plan quality checklist)
 **Reference**: [03-05](03-05-fixture-app.md) §Implementation Details · AR #9
 **Objective**: Build the app and make the flows green.
 
-- [ ] 5.2.1 Add `fixture/index.html`, `fixture/src/main.tsx`, `fixture/src/App.tsx`, `fixture/src/theme.ts`, and query-param state/theme/dir handling
-- [ ] 5.2.2 Add `fixture/src/data/customers.ts` and `fixture/src/state/useCustomers.ts` (async simulation, `canEdit`, duplicate-email path)
-- [ ] 5.2.3 Add `AppShell`, `CustomersToolbar`, `CustomerGrid`, `states.tsx`
-- [ ] 5.2.4 Add `CustomerEditor`, `CustomerDrawer`, `ConfirmDialog` with focus handling and unsaved-changes logic
-- [ ] 5.2.5 Wire the fixture typecheck into `check-examples`; run the E2E specs — verify they PASS (green phase)
+- [x] 5.2.1 Add `fixture/index.html`, `fixture/src/main.tsx`, `fixture/src/App.tsx`, `fixture/src/theme.ts`, and query-param state/theme/dir handling
+- [x] 5.2.2 Add `fixture/src/data/customers.ts` and `fixture/src/state/useCustomers.ts` (async simulation, `canEdit`, duplicate-email path)
+- [x] 5.2.3 Add `AppShell`, `CustomersToolbar`, `CustomerGrid`, `states.tsx`
+- [x] 5.2.4 Add `CustomerEditor`, `CustomerDrawer`, `ConfirmDialog` with focus handling and unsaved-changes logic
+- [x] 5.2.5 Wire the fixture typecheck into `check-examples`; run the E2E specs — verify they PASS (green phase)
 
 **Deliverables**:
 - All states reachable; zero console errors in tested flows
@@ -322,8 +322,8 @@ task-size criteria in the plan quality checklist)
 
 ### Step 5.3: Implementation Tests & Hardening
 
-- [ ] 5.3.1 Add a test asserting the editor payload is never rendered as unsanitized HTML and no `dangerouslySetInnerHTML` exists — `fixture/e2e/editor.spec.ts` (extend)
-- [ ] 5.3.2 Full verification
+- [x] 5.3.1 Add a test asserting the editor payload is never rendered as unsanitized HTML and no `dangerouslySetInnerHTML` exists — `fixture/e2e/editor.spec.ts` (extend)
+- [x] 5.3.2 Full verification
 
 **Deliverables**:
 - All verification passing
