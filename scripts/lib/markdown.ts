@@ -77,6 +77,42 @@ export function ensureTrailingNewline(text: string): string {
   return text.endsWith("\n") ? text : `${text}\n`;
 }
 
+/**
+ * Split a Markdown body into `##` sections keyed by their heading text.
+ *
+ * Only level-two headings start a section; text before the first one is ignored.
+ * Later headings with the same text overwrite earlier ones, which keeps the
+ * function total for malformed input.
+ *
+ * @param body - Markdown text to split.
+ * @returns A mapping of heading text to the trimmed content beneath it.
+ */
+export function extractHeadingSections(body: string): Record<string, string> {
+  const sections: Record<string, string> = {};
+  let current: string | undefined;
+  let buffer: string[] = [];
+
+  const flush = (): void => {
+    if (current !== undefined) {
+      sections[current] = buffer.join("\n").trim();
+    }
+  };
+
+  for (const line of body.split(/\r?\n/)) {
+    if (line.startsWith("## ")) {
+      flush();
+      current = line.slice(3).trim();
+      buffer = [];
+      continue;
+    }
+    if (current !== undefined) {
+      buffer.push(line);
+    }
+  }
+  flush();
+  return sections;
+}
+
 /** A parsed Markdown table: the header cells and the data rows. */
 export interface ParsedTable {
   headers: string[];

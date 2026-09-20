@@ -1,5 +1,6 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { parseFrontmatter } from "./frontmatter.js";
+import { extractHeadingSections } from "./markdown.js";
 
 /**
  * The seventeen cross-cutting decisions every pattern set must resolve.
@@ -89,33 +90,6 @@ const REQUIRED_FRONTMATTER_KEYS = [
   "derived",
 ] as const;
 
-/** Split a body into `##` sections keyed by their heading text. */
-function extractSections(body: string): Record<string, string> {
-  const sections: Record<string, string> = {};
-  let current: string | undefined;
-  let buffer: string[] = [];
-
-  const flush = (): void => {
-    if (current !== undefined) {
-      sections[current] = buffer.join("\n").trim();
-    }
-  };
-
-  for (const line of body.split(/\r?\n/)) {
-    if (line.startsWith("## ")) {
-      flush();
-      current = line.slice(3).trim();
-      buffer = [];
-      continue;
-    }
-    if (current !== undefined) {
-      buffer.push(line);
-    }
-  }
-  flush();
-  return sections;
-}
-
 /** Read a frontmatter value as a string, defaulting to an empty string. */
 function asString(value: string | string[] | undefined): string {
   return typeof value === "string" ? value : "";
@@ -152,7 +126,7 @@ export function parsePatternDocument(path: string, markdown: string): PatternDoc
       derived: asList(frontmatter["derived"]),
     },
     body,
-    sections: extractSections(body),
+    sections: extractHeadingSections(body),
   };
 }
 

@@ -2,7 +2,7 @@
 
 > **Document**: 99-execution-plan.md
 > **Parent**: [Index](00-index.md)
-> **Last Updated**: 2026-09-20 01:58
+> **Last Updated**: 2026-09-20 02:20
 > **Progress**: 27/72 tasks (37%)
 > **CodeOps Artifact Schema**: 1
 
@@ -196,8 +196,8 @@ task-size criteria in the plan quality checklist)
 **Reference**: [03-03](03-03-skill-package.md) · [03-04](03-04-verification-tooling.md) · [07](07-testing-strategy.md) ST-21..ST-29
 **Objective**: Encode package-structure, generation, reference-gate, and drift expectations before implementation. The generator and the reference/drift gates ship with the skill they protect, so this phase can reach green on its own.
 
-- [ ] 3.1.1 [spec-author] Write skill-package, generation, and reference/drift spec tests — `scripts/__tests__/skill-package.spec.test.ts` (ST-21..ST-29)
-- [ ] 3.1.2 Run the spec tests — verify they FAIL (red phase)
+- [x] 3.1.1 [spec-author] Write skill-package, generation, and reference/drift spec tests — `scripts/__tests__/skill-package.spec.test.ts` (ST-21..ST-29)
+- [x] 3.1.2 Run the spec tests — verify they FAIL (red phase)
 
 **Deliverables**:
 - Spec tests exist and fail for the right reason
@@ -209,11 +209,11 @@ task-size criteria in the plan quality checklist)
 **Reference**: [03-03](03-03-skill-package.md) §Implementation Details · [03-04](03-04-verification-tooling.md) §Generation algorithm · plan AR #7
 **Objective**: Author the entry point and references, and build the full generator, reference gate, and drift gate with them.
 
-- [ ] 3.2.1 Author `skill/SKILL.md` (frontmatter + nine sections + compatibility/re-verify note + sibling-skill co-install contract and absence fallback)
-- [ ] 3.2.2 Author `skill/references/foundation/*.md`, `skill/references/checklists/*.md`, `skill/references/maintenance/refresh-and-repin.md`
-- [ ] 3.2.3 Implement `scripts/lib/skill.ts` renderers and the full `scripts/generate.ts` (render `sources.md`, `rules.md`, `references/index.md`, `references/rules/index.md`; stale-marker removal from the generated-file allowlist; `.agents/skills/fluentui-design/` mirror; `--check`) — single implementation, no later rewrite
-- [ ] 3.2.4 Implement `scripts/check-references.ts` (all id kinds + internal links; `<skill>:…` cross-skill links validated by known skill-name prefix only)
-- [ ] 3.2.5 Run the spec tests — verify they PASS (green phase)
+- [x] 3.2.1 Author `skill/SKILL.md` (frontmatter + nine sections + compatibility/re-verify note + sibling-skill co-install contract and absence fallback)
+- [x] 3.2.2 Author `skill/references/foundation/*.md`, `skill/references/checklists/*.md`, `skill/references/maintenance/refresh-and-repin.md`
+- [x] 3.2.3 Implement `scripts/lib/skill.ts` renderers and the full `scripts/generate.ts` (render `sources.md`, `rules.md`, `references/index.md`, `references/rules/index.md`; stale-marker removal from the generated-file allowlist; `.agents/skills/fluentui-design/` mirror; `--check`) — single implementation, no later rewrite
+- [x] 3.2.4 Implement `scripts/check-references.ts` (all id kinds + internal links; `<skill>:…` cross-skill links validated by known skill-name prefix only)
+- [x] 3.2.5 Run the spec tests — verify they PASS (green phase)
 
 **Deliverables**:
 - `SKILL.md` frontmatter valid; all nine sections present; ≤320 lines
@@ -224,8 +224,8 @@ task-size criteria in the plan quality checklist)
 
 ### Step 3.3: Implementation Tests & Hardening
 
-- [ ] 3.3.1 Add a test asserting no `skill/**` file fetches remote code and the entry-point line budget — `scripts/__tests__/skill-package.impl.test.ts`
-- [ ] 3.3.2 Full verification (scoped: the static gates that exist after Phase 3)
+- [x] 3.3.1 Add a test asserting no `skill/**` file fetches remote code and the entry-point line budget — `scripts/__tests__/skill-package.impl.test.ts`
+- [x] 3.3.2 Full verification (scoped: the static gates that exist after Phase 3)
 
 **Deliverables**:
 - All verification passing
