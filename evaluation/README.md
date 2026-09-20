@@ -1,7 +1,7 @@
 # Evaluation
 
 > **Document**: README.md
-> **Parent**: [Plan index](../codeops/features/fluentui-design-skill/plans/fluentui-design-skill/00-index.md)
+> **Parent**: [Plan index](../codeops/_archive/fluentui-design-skill/plans/fluentui-design-skill/00-index.md)
 > **Implements**: RD-09
 
 This directory measures the skill's usefulness without a model provider. It holds three documents

@@ -1,10 +1,10 @@
 # Roadmap: fluentui-design-skill
 
 > **Feature-Set**: fluentui-design-skill
-> **Status**: In Progress
+> **Status**: Archived
 > **Created**: 2026-09-20
-> **Last Updated**: 2026-09-20 10:00
-> **Progress**: 9 / 10 (90%)
+> **Last Updated**: 2026-09-20 12:30
+> **Progress**: 10 / 10 (100%)
 > **CodeOps Artifact Schema**: 1
 
 ## Legend
