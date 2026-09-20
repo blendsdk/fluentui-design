@@ -234,6 +234,7 @@ function CustomersPage(props: {
     setSearch("");
     setStatusFilter("all");
     setOwnerFilter("all");
+    store.resetStatus();
   };
 
   const editSelected = () => {
@@ -297,7 +298,7 @@ function CustomersPage(props: {
 
       {viewState === "loading" && <LoadingState />}
       {viewState === "error" && <ErrorState onRetry={store.retry} />}
-      {viewState === "empty" && <EmptyState onCreate={beginNew} />}
+      {viewState === "empty" && <EmptyState onCreate={beginNew} canEdit={canEdit} />}
       {viewState === "noResults" && <NoResults onClear={clearFilters} />}
       {viewState === "ready" && (
         <>

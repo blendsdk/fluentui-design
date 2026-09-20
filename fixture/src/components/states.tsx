@@ -55,13 +55,13 @@ export function LoadingState() {
 }
 
 /** Shown when the collection has no records at all. */
-export function EmptyState({ onCreate }: { onCreate: () => void }) {
+export function EmptyState({ onCreate, canEdit }: { onCreate: () => void; canEdit: boolean }) {
   const styles = useStyles();
   return (
     <div className={styles.state}>
       <Subtitle1>No customers yet</Subtitle1>
       <Text>Add the first customer to get started.</Text>
-      <Button appearance="primary" onClick={onCreate}>
+      <Button appearance="primary" onClick={onCreate} disabled={!canEdit}>
         Add customer
       </Button>
     </div>

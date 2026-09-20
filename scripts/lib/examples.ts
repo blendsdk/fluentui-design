@@ -257,6 +257,20 @@ export interface ProjectDiagnostic {
   message: string;
 }
 
+/** Convert a TypeScript diagnostic into a file/line report. */
+function toProjectDiagnostic(diagnostic: ts.Diagnostic, fallbackFile: string): ProjectDiagnostic {
+  const file = diagnostic.file?.fileName ?? fallbackFile;
+  const line =
+    diagnostic.file !== undefined && diagnostic.start !== undefined
+      ? diagnostic.file.getLineAndCharacterOfPosition(diagnostic.start).line + 1
+      : 1;
+  return {
+    file,
+    line,
+    message: ts.flattenDiagnosticMessageText(diagnostic.messageText, " "),
+  };
+}
+
 /**
  * Type-check a TypeScript project from its tsconfig.
  *
@@ -265,36 +279,25 @@ export interface ProjectDiagnostic {
  * fixture's type-checking gate is inert at runtime.
  *
  * @param tsconfigPath - Path to the project's `tsconfig.json`.
- * @returns Every error-severity diagnostic, with its file and line.
+ * @returns Every error-severity diagnostic, including tsconfig parse errors.
  */
 export function checkProject(tsconfigPath: string): ProjectDiagnostic[] {
   const configFile = ts.readConfigFile(tsconfigPath, (path) => ts.sys.readFile(path));
   if (configFile.error !== undefined) {
-    return [
-      {
-        file: tsconfigPath,
-        line: 1,
-        message: ts.flattenDiagnosticMessageText(configFile.error.messageText, " "),
-      },
-    ];
+    return [toProjectDiagnostic(configFile.error, tsconfigPath)];
   }
 
   const parsed = ts.parseJsonConfigFileContent(configFile.config, ts.sys, dirname(tsconfigPath));
-  const program = ts.createProgram({ rootNames: parsed.fileNames, options: parsed.options });
+  const parseErrors = parsed.errors
+    .filter((diagnostic) => diagnostic.category === ts.DiagnosticCategory.Error)
+    .map((diagnostic) => toProjectDiagnostic(diagnostic, tsconfigPath));
+  if (parseErrors.length > 0) {
+    return parseErrors;
+  }
 
+  const program = ts.createProgram({ rootNames: parsed.fileNames, options: parsed.options });
   return ts
     .getPreEmitDiagnostics(program)
     .filter((diagnostic) => diagnostic.category === ts.DiagnosticCategory.Error)
-    .map((diagnostic) => {
-      const file = diagnostic.file?.fileName ?? tsconfigPath;
-      const line =
-        diagnostic.file !== undefined && diagnostic.start !== undefined
-          ? diagnostic.file.getLineAndCharacterOfPosition(diagnostic.start).line + 1
-          : 1;
-      return {
-        file,
-        line,
-        message: ts.flattenDiagnosticMessageText(diagnostic.messageText, " "),
-      };
-    });
+    .map((diagnostic) => toProjectDiagnostic(diagnostic, tsconfigPath));
 }

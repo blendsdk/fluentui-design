@@ -69,6 +69,8 @@ export interface CustomersStore {
   save: (draft: CustomerDraft, currentId?: string) => Promise<SaveResult>;
   /** Recover from the failure state by reloading the seeded data. */
   retry: () => void;
+  /** Leave a non-ready status (empty, no-results, or error) once data is shown. */
+  resetStatus: () => void;
 }
 
 /**
@@ -119,6 +121,7 @@ export function useCustomers(initialStatus: DataStatus, canEdit = true): Custome
           },
         ];
       });
+      setStatus("ready");
       return { ok: true };
     },
     [customers],
@@ -129,5 +132,9 @@ export function useCustomers(initialStatus: DataStatus, canEdit = true): Custome
     setStatus("ready");
   }, []);
 
-  return { status, customers, canEdit, save, retry };
+  const resetStatus = useCallback(() => {
+    setStatus("ready");
+  }, []);
+
+  return { status, customers, canEdit, save, retry, resetStatus };
 }

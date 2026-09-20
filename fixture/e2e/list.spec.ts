@@ -71,4 +71,34 @@ test.describe("customer list", () => {
 
     await expect(page.getByText("Showing 24 of 24 customers")).toBeVisible();
   });
+
+  test("should show the saved record after creating from the empty state", async ({ page }) => {
+    await page.goto(url({ state: "empty" }));
+
+    await page.getByRole("button", { name: "Add customer" }).click();
+    await page.getByRole("textbox", { name: "Name" }).fill("First Customer");
+    await page.getByRole("textbox", { name: "Email" }).fill("first.customer@example.com");
+    await page.getByRole("button", { name: "Save" }).click();
+
+    await expect(page.getByText("Showing 1 of 1 customers")).toBeVisible();
+    await expect(page.getByRole("gridcell", { name: "First Customer", exact: true })).toBeVisible();
+  });
+
+  test("should disable the empty-state action for a read-only viewer", async ({ page }) => {
+    await page.goto("/?state=empty&readonly=1");
+
+    await expect(page.getByRole("button", { name: "Add customer" })).toBeDisabled();
+  });
+
+  test("should open the documented no-results state and leave it by clearing filters", async ({
+    page,
+  }) => {
+    await page.goto("/?state=no-results");
+
+    await expect(page.getByText("No customers match your filters")).toBeVisible();
+
+    await page.getByRole("button", { name: "Clear all filters" }).click();
+
+    await expect(page.getByText("Showing 24 of 24 customers")).toBeVisible();
+  });
 });

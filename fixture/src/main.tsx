@@ -18,6 +18,14 @@ function isDataStatus(value: string | null): value is DataStatus {
   return DATA_STATUSES.some((status) => status === value);
 }
 
+/** Map the documented query tokens to the internal status names. */
+function toDataStatus(value: string | null): DataStatus {
+  if (value === "no-results") {
+    return "noResults";
+  }
+  return isDataStatus(value) ? value : "ready";
+}
+
 /** Read the requested theme, defaulting to light. */
 function toTheme(value: string | null): ThemeName {
   return value === "dark" ? "dark" : "light";
@@ -44,7 +52,7 @@ if (rootElement === null) {
 createRoot(rootElement).render(
   <StrictMode>
     <App
-      initialState={isDataStatus(stateParam) ? stateParam : "ready"}
+      initialState={toDataStatus(stateParam)}
       themeName={toTheme(params.get("theme"))}
       direction={toDirection(params.get("dir"))}
       openEditor={toOpenEditor(params.get("open"))}

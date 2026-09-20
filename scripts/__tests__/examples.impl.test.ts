@@ -1,5 +1,28 @@
 import { describe, expect, it } from "vitest";
-import { checkExampleSnippets, classifyExampleDiagnostic, extractFencedCodeBlocks } from "../lib/examples.js";
+import {
+  checkExampleSnippets,
+  classifyExampleDiagnostic,
+  extractFencedCodeBlocks,
+} from "../lib/examples.js";
+
+describe("project type-checking", () => {
+  it("should type-check a fixture module without executing its side effect", () => {
+    const marker = "__fluentuiExampleExecuted";
+    const scope = globalThis as Record<string, unknown>;
+    delete scope[marker];
+
+    const failures = checkExampleSnippets([
+      {
+        source: "skill/SKILL.md:1",
+        language: "tsx",
+        code: 'import { recordSaveCall } from "../fixture/src/test-support/sideEffect";\nexport const run = recordSaveCall;\n',
+      },
+    ]);
+
+    expect(failures.filter((failure) => failure.kind === "api")).toEqual([]);
+    expect(scope[marker]).toBeUndefined();
+  });
+});
 
 describe("diagnostic classification", () => {
   it("should classify a missing export as an api failure", () => {
