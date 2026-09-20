@@ -235,7 +235,7 @@ export function renderDecisionIndex(
       document.frontmatter.decisions.join(", ") || "—",
     ]);
   const patterns = renderTable(["Pattern", "Title", "Decisions"], patternRows);
-  return `${generatedMarker(SKILL_REFERENCE_INDEX_PATH)}
+  return `${generatedMarker(`${PATTERNS_DIR} + ${RULES_JSON_PATH}`)}
 
 # Reference Index
 
@@ -271,7 +271,7 @@ export function renderRulesIndex(rules: readonly RuleEntry[]): string {
     return `## ${area}\n\n${renderTable(["Rule", "Strength", "Instruction"], rows)}`;
   }).filter((section): section is string => section !== undefined);
 
-  return `${generatedMarker(SKILL_RULES_INDEX_PATH)}
+  return `${generatedMarker(RULES_JSON_PATH)}
 
 # Rule Index
 
@@ -360,7 +360,10 @@ function listFilesSync(dir: string): string[] {
       return;
     }
     for (const entry of entries) {
-      const child = `${current}/${entry.name}`;
+      if (entry.isDirectory() && (entry.name === "node_modules" || entry.name === ".git")) {
+        continue;
+      }
+      const child = current === "." ? entry.name : `${current}/${entry.name}`;
       if (entry.isDirectory()) {
         walk(child);
       } else if (entry.isFile()) {
@@ -449,8 +452,8 @@ export function isManagedGeneratedPath(path: string): boolean {
   );
 }
 
-/** The directories the stale scan reads, which contain managed generated files. */
-const STALE_SCAN_DIRS = ["sources", "rules", "skill/references", SKILL_MIRROR_DIR];
+/** The root the stale and out-of-set marker scan walks, excluding dependencies. */
+const STALE_SCAN_ROOT = ".";
 
 /**
  * Compare the filesystem against freshly generated output.
@@ -470,21 +473,25 @@ export function checkGeneration(fs: SkillFileSystem): GenerationProblems {
   const stale: string[] = [];
   const unmanagedMarked: string[] = [];
   const seen = new Set<string>();
-  for (const dir of STALE_SCAN_DIRS) {
-    for (const path of fs.listFiles(dir)) {
-      if (seen.has(path) || expectedByPath.has(path)) {
-        continue;
-      }
-      seen.add(path);
-      const content = fs.readFile(path);
-      if (content === undefined || !isGeneratedContent(content)) {
-        continue;
-      }
-      if (isManagedGeneratedPath(path)) {
-        stale.push(path);
-      } else {
-        unmanagedMarked.push(path);
-      }
+  for (const path of fs.listFiles(STALE_SCAN_ROOT)) {
+    if (seen.has(path) || expectedByPath.has(path)) {
+      continue;
+    }
+    seen.add(path);
+    // The mirror is a clean copy: a file under it that is not expected output is
+    // stale, whether or not it carries the marker.
+    if (path === SKILL_MIRROR_DIR || path.startsWith(`${SKILL_MIRROR_DIR}/`)) {
+      stale.push(path);
+      continue;
+    }
+    const content = fs.readFile(path);
+    if (content === undefined || !isGeneratedContent(content)) {
+      continue;
+    }
+    if (isManagedGeneratedPath(path)) {
+      stale.push(path);
+    } else {
+      unmanagedMarked.push(path);
     }
   }
 

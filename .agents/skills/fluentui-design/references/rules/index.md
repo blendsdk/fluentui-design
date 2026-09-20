@@ -1,4 +1,4 @@
-<!-- GENERATED FILE — DO NOT EDIT; source: skill/references/rules/index.md -->
+<!-- GENERATED FILE — DO NOT EDIT; source: rules/rules.json -->
 
 # Rule Index
 

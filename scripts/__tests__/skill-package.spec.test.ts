@@ -7,6 +7,7 @@ import {
   createRealFileSystem,
   expectedArtifacts,
   parseSkillEntry,
+  REQUIRED_SKILL_SECTIONS,
   SKILL_ENTRY_PATH,
   SKILL_MIRROR_DIR,
   SKILL_NAME,
@@ -32,7 +33,7 @@ function overlayFs(
     listFiles: (dir: string): string[] => {
       const listed = new Set(base.listFiles(dir));
       for (const path of Object.keys(all)) {
-        if (path === dir || path.startsWith(`${dir}/`)) {
+        if (dir === "." || path === dir || path.startsWith(`${dir}/`)) {
           listed.add(path);
         }
       }
@@ -52,8 +53,23 @@ function entryWithoutSection(section: string): SkillEntry {
 describe("skill package entry point", () => {
   it("should name the skill after its containing directory", () => {
     const entry = parseSkillEntry(entryText(), SKILL_ENTRY_PATH);
+    expect(entry.frontmatter.name).toBe("fluentui-design");
     expect(entry.frontmatter.name).toBe(SKILL_NAME);
     expect(entry.frontmatter.name).toBe(SKILL_MIRROR_DIR.split("/").at(-1));
+  });
+
+  it("should require exactly the nine template sections", () => {
+    expect([...REQUIRED_SKILL_SECTIONS]).toEqual([
+      "Triggers and non-triggers",
+      "Reconnaissance",
+      "Task classification",
+      "Design-before-code checklist",
+      "Surface decision workflow",
+      "Implementation constraints",
+      "Accessibility and visual review",
+      "Tradeoff explanation",
+      "Evidence fallback",
+    ]);
   });
 
   it("should require an evidence fallback section", () => {
@@ -63,12 +79,27 @@ describe("skill package entry point", () => {
 });
 
 describe("reference gate", () => {
-  it("should reject a routing link to a file that does not exist", () => {
+  it("should resolve a routing link relative to its document", () => {
+    const seen: string[] = [];
     const errors = checkReferences("skill/references/index.md", "[Gone](patterns/missing.md)", {
       knownIds: new Set<string>(),
-      fileExists: () => false,
+      fileExists: (path) => {
+        seen.push(path);
+        return false;
+      },
     });
+    expect(seen).toEqual(["skill/references/patterns/missing.md"]);
     expect(errors.join("\n")).toMatch(/missing\.md/);
+  });
+
+  it("should accept a routing link that resolves to an existing file", () => {
+    const target = "skill/references/patterns/PAT-001-application-shell.md";
+    const errors = checkReferences(
+      "skill/references/index.md",
+      "[Shell](patterns/PAT-001-application-shell.md)",
+      { knownIds: new Set(["PAT-001"]), fileExists: (path) => path === target },
+    );
+    expect(errors).toEqual([]);
   });
 
   it("should reject a reference that is not a known id", () => {
@@ -80,10 +111,15 @@ describe("reference gate", () => {
   });
 
   it("should reject a markdown link whose target is missing", () => {
+    const seen: string[] = [];
     const errors = checkReferences("skill/SKILL.md", "[Button](references/button.md)", {
       knownIds: new Set<string>(),
-      fileExists: () => false,
+      fileExists: (path) => {
+        seen.push(path);
+        return false;
+      },
     });
+    expect(seen).toEqual(["skill/references/button.md"]);
     expect(errors.join("\n")).toMatch(/references\/button\.md/);
   });
 
