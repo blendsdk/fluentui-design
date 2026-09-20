@@ -15,7 +15,7 @@ import type { CheckOutcome, GateCheck } from "./lib/report.js";
  * Regenerate the derived Markdown and the installable mirror.
  *
  * Without `--check` the generator writes every managed file and deletes stale
- * generated files. With `--check` it writes nothing and exits non-zero when the
+ * managed files. With `--check` it writes nothing and exits non-zero when the
  * committed output differs from freshly rendered output.
  *
  * @returns A process exit code: `0` when generation succeeds, otherwise `1`.

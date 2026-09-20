@@ -234,6 +234,8 @@ task-size criteria in the plan quality checklist)
 
 ---
 
+> **Post-phase review (correctness)**: RV-301 (🟠) — a deleted authored file left an unmarked copy in the installable mirror and drift still passed. User ruling: fix all findings now. Fixed RV-301 (mirror files absent from generated output are stale), RV-302 (link resolution asserted against the document-relative path, plus a positive case), RV-303 (name, nine sections, and line budget pinned to literals), RV-304 (marked files outside the managed set reported across the repository), RV-305 (index markers name their real inputs). Single re-review on the fix diff: all resolved; one doc-only minor RV-401 (stale-field and generator wording) fixed. Phase 3 reviewed and closed.
+
 ## Phase 4: Verification Tooling (RD-07)
 
 > **Lenses**: `web-application`, `data-and-migration` (informational)

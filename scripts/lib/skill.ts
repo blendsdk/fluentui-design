@@ -428,7 +428,7 @@ export function expectedArtifacts(): GeneratedArtifact[] {
 export interface GenerationProblems {
   /** Generated files whose committed content differs from freshly rendered output. */
   drifted: string[];
-  /** Generated files inside the managed set that are no longer produced. */
+  /** Managed paths absent from generated output: stale generated files or extra mirror files. */
   stale: string[];
   /** Marked files outside the managed set; reported but never deleted. */
   unmanagedMarked: string[];
