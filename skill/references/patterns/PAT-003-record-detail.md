@@ -1,7 +1,7 @@
 ---
 id: PAT-003
 title: Record detail page
-decisions: [progressive-disclosure, permission-state]
+decisions: [permission-state]
 rules: [RULE-003, RULE-029]
 components: [Card, CardHeader, CardFooter, TabList, Tab, Text, Title1, Subtitle1, Divider, Badge, MessageBar, MessageBarBody, Button, Link]
 derived: [application-owned PageHeader composition, application-owned related-records loader]

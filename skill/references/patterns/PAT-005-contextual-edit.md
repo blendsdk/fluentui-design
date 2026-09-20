@@ -67,7 +67,8 @@ RULE-008, RULE-009, RULE-029
 ## Derived decisions
 
 The drawer-versus-dialog choice and the dirty-state guard are application decisions. Persistence and
-fetching are application responsibilities.
+fetching are application responsibilities. Server-side validation is mandatory; client-side
+validation is advisory only.
 
 ## Tests
 

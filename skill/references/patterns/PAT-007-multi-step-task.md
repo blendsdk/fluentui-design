@@ -1,7 +1,7 @@
 ---
 id: PAT-007
 title: Multi-step task with review and preserved state
-decisions: [save-model, submit-feedback, edit-surface]
+decisions: [save-model, submit-feedback]
 rules: [RULE-029, RULE-030]
 components: [Button, Field, Input, Textarea, Dialog, DialogTrigger, DialogSurface, DialogBody, DialogTitle, DialogContent, DialogActions, MessageBar, MessageBarBody, Spinner, Divider]
 derived: [application-owned step machine, application-owned draft persistence]
@@ -70,7 +70,8 @@ RULE-029, RULE-030
 ## Derived decisions
 
 The step machine, the choice to validate per step, and the decision to persist a draft are
-application decisions. Persistence and authorization are application responsibilities.
+application decisions. Persistence and authorization are application responsibilities. Server-side
+validation is mandatory; client-side validation is advisory only.
 
 ## Tests
 

@@ -152,6 +152,7 @@ export function checkCoverage(
 ): string[] {
   const errors: string[] = [];
   const sourceById = new Map(sources.map((source) => [source.id, source]));
+  const ruleIds = new Set(rules.map((rule) => rule.id));
   const referencedRules = new Set<string>();
 
   for (const row of rows) {
@@ -180,6 +181,9 @@ export function checkCoverage(
       }
     }
     for (const id of row.extractedRules) {
+      if (ruleIds.size > 0 && !ruleIds.has(id)) {
+        errors.push(`coverage row "${row.topic}" cites unknown rule ${id}`);
+      }
       referencedRules.add(id);
     }
   }

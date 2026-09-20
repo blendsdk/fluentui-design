@@ -51,7 +51,9 @@ or on the server is explicit in application state, not inferred by the grid.
 
 Below the project's narrow breakpoint, low-priority columns are hidden behind a detail view and
 filters collapse into a single control that opens a panel. The grid keeps vertical scrolling; it
-never requires two-dimensional scrolling to read a value.
+never requires two-dimensional scrolling to read a value. Virtualize the grid only after measuring a
+performance need, because virtualization keeps only the visible rows in the DOM and can break
+in-page search and predictable focus movement.
 
 ## Accessibility
 
@@ -63,7 +65,9 @@ select-all control states whether it selects the current page or all matching re
 
 Loading shows Skeletons in the grid region. No data, no search matches, and a failed load each show a
 distinct message; the failed state offers a retry action. A server-paged sort re-queries instead of
-sorting only the loaded page. A selection that spans pages keeps its ids when the page changes.
+sorting only the loaded page. A selection that spans pages keeps its ids when the page changes. When
+virtualization is enabled, keep a stable row key, expose the row's position and total count to
+assistive technology, and ensure focus is not lost when the visible window moves.
 
 ## Rules applied
 

@@ -69,7 +69,8 @@ RULE-013, RULE-014
 ## Derived decisions
 
 Whether a setting applies immediately or on save, and how advanced sections are grouped, are
-application decisions. Persistence is an application responsibility.
+application decisions. Persistence is an application responsibility. Server-side validation is
+mandatory; client-side validation is advisory only.
 
 ## Tests
 

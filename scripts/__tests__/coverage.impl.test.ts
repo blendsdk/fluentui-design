@@ -35,4 +35,22 @@ describe("coverage implementation edges", () => {
     );
     expect(errors.join("\n")).toMatch(/invalid status/i);
   });
+
+  it("should report a coverage row that cites a rule absent from the catalog", () => {
+    const errors = checkCoverage(
+      [row({ extractedRules: ["RULE-999"] })],
+      [{ id: "SRC-001", status: "analyzed" }],
+      [{ id: "RULE-001" }],
+    );
+    expect(errors.join("\n")).toMatch(/RULE-999/);
+  });
+
+  it("should leave rule references unchecked until a rules catalog exists", () => {
+    const errors = checkCoverage(
+      [row({ extractedRules: ["RULE-999"] })],
+      [{ id: "SRC-001", status: "analyzed" }],
+      [],
+    );
+    expect(errors.join("\n")).not.toMatch(/RULE-999/);
+  });
 });
