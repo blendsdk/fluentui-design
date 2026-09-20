@@ -12,7 +12,7 @@ fixture check exists, the built application demonstrates the behavior.
 | Result | Meaning |
 | --- | --- |
 | pass | A committed automated check exercises the expected decision and passes. |
-| partial | The governing rules and patterns exist and the reference gate resolves them, and any automated check exercises only part of the expected decision. |
+| partial | The governing rules and patterns exist and the reference gate resolves them, and either no automated check exercises the answer or an automated check exercises only part of the expected decision. |
 | fail | A cited rule, pattern, or artifact is missing, or a check fails. |
 | untested | No deterministic check applies. A reason is given instead of an artifact. |
 
@@ -119,7 +119,7 @@ run; none was performed, so the rubric is recorded unpopulated.
 | result | partial |
 | evidence | `fixture/e2e/a11y.spec.ts` scans the list in the light and dark themes; rules RULE-017, RULE-018, and RULE-019 resolve in `rules/rules.json`. Forced-colors mode is not automated. |
 | check | automated and reference gate |
-| viewport | 1280x800 |
+| viewport | 1280x800 and 375x812 |
 
 ### EVAL-012 — Reject an unsupported rule or a nonexistent component
 

@@ -2,10 +2,9 @@ import { existsSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import {
   checkEvaluationCoverage,
+  collectEvaluationCitations,
   EVALUATION_RESULTS_PATH,
   EVALUATION_TASKS_PATH,
-  extractPatternIds,
-  extractRuleIds,
   loadKnownPatternIds,
   loadKnownRuleIds,
   parseEvaluationResults,
@@ -32,10 +31,9 @@ async function main(): Promise<number> {
   const knownRules = loadKnownRuleIds();
   const knownPatterns = loadKnownPatternIds();
 
-  const taskText = tasks.flatMap((task) => Object.values(task.fields)).join("\n");
-  const resultText = results.map((result) => result.evidence).join("\n");
-  const ruleCitations = extractRuleIds(`${taskText}\n${resultText}`);
-  const patternCitations = extractPatternIds(`${taskText}\n${resultText}`);
+  const citations = collectEvaluationCitations(tasks, results);
+  const ruleCitations = citations.rules;
+  const patternCitations = citations.patterns;
 
   const checks: GateCheck[] = [
     {

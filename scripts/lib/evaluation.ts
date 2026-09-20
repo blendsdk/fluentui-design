@@ -223,6 +223,36 @@ function uniqueMatches(text: string, pattern: RegExp): string[] {
   return [...seen];
 }
 
+/** Catalog ids cited by the evaluation documents. */
+export interface EvaluationCitations {
+  /** Every `RULE-###` id mentioned in a task field or a result's evidence. */
+  rules: string[];
+  /** Every `PAT-###` id mentioned in a task field or a result's evidence. */
+  patterns: string[];
+}
+
+/**
+ * Collect every catalog id the evaluation documents cite.
+ *
+ * Ids are read from every task field, not just the `rules` field, and from each
+ * result's evidence. A reproduction script can then check the whole set against
+ * the catalogs, so an id mentioned only in prose is still verified.
+ *
+ * @param tasks - Tasks parsed from the task catalog.
+ * @param results - Results parsed from the results document.
+ * @returns The unique rule and pattern ids in first-seen order.
+ */
+export function collectEvaluationCitations(
+  tasks: readonly EvaluationTask[],
+  results: readonly EvaluationResult[],
+): EvaluationCitations {
+  const text = [
+    ...tasks.flatMap((task) => Object.values(task.fields)),
+    ...results.map((result) => result.evidence),
+  ].join("\n");
+  return { rules: extractRuleIds(text), patterns: extractPatternIds(text) };
+}
+
 /** Return the backticked tokens that look like repository paths. */
 function extractArtifactPaths(text: string): string[] {
   const paths: string[] = [];

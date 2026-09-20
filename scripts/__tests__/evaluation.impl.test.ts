@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   checkEvaluationCoverage,
+  collectEvaluationCitations,
   extractPatternIds,
   extractRuleIds,
   parseEvaluationResults,
@@ -35,6 +36,29 @@ describe("citation extraction", () => {
 
   it("should find unique pattern ids anywhere in a block of text", () => {
     expect(extractPatternIds("See PAT-002 and PAT-005.")).toEqual(["PAT-002", "PAT-005"]);
+  });
+
+  it("should collect a rule cited only in a non-rules task field", () => {
+    const tasks = [
+      task({
+        fields: {
+          scenario: "customer-list-and-editor",
+          rules: "RULE-010",
+          expectedDecisionProperties: "prefer RULE-999",
+        },
+      }),
+    ];
+    const citations = collectEvaluationCitations(tasks, []);
+    expect(citations.rules).toContain("RULE-999");
+  });
+
+  it("should collect ids cited in result evidence", () => {
+    const citations = collectEvaluationCitations(
+      [],
+      [result({ evidence: "`rules/rules.json` resolves RULE-010 and PAT-005" })],
+    );
+    expect(citations.rules).toEqual(["RULE-010"]);
+    expect(citations.patterns).toEqual(["PAT-005"]);
   });
 });
 
