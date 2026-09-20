@@ -281,6 +281,8 @@ task-size criteria in the plan quality checklist)
 
 ---
 
+> **Post-phase review (correctness)**: RV-501 (🔴) — the example gate checked nothing, because the virtual file extension came from a human label (`skill/SKILL.md:42`, `rules.json#RULE-001.positiveExample`) that TypeScript rejected, and those diagnostics were dropped. User ruling: fix all three now. Fixed RV-501 (carry the fenced language and derive the extension/script kind, with a label fallback), RV-502 (enable `checkJs` so `js`/`jsx` examples are type-checked), RV-503 (spec and impl coverage over the real label shapes). Verified end-to-end: a fenced bad import under `skill/` now makes `check:examples` exit 1 and name the symbol. Single re-review on the fix diff: no findings. Phase 4 reviewed and closed.
+
 ## Phase 5: Fixture App (RD-08)
 
 > **Lenses**: `web-application`, `data-and-migration` (informational)
