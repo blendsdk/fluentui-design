@@ -2,7 +2,7 @@
 
 > **Document**: 99-execution-plan.md
 > **Parent**: [Index](00-index.md)
-> **Last Updated**: 2026-09-20 12:00
+> **Last Updated**: 2026-09-20 12:30
 > **Progress**: 72/72 tasks (100%)
 > **CodeOps Artifact Schema**: 1
 
@@ -425,6 +425,8 @@ task-size criteria in the plan quality checklist)
 - All phases complete; no warnings/errors; no dead code
 
 **Verify**: `npm run verify`
+
+> **Post-phase review (correctness)**: RV-1201 (🟠) — the docs inverted the `supersedes` direction. RV-1202 (🟠) — the generated-title oracle was vacuous. RV-1203 (🟠) — compiler-backed unit tests exceeded Vitest's default 5 s timeout under load. RV-1204..RV-1206 (🟡). User ruling: fix the docs to the schema direction, cross-check generated titles against the catalogs, raise the timeout and cap workers, and fix all three minors. Fixed RV-1201 (successor owns `supersedes`; retired rule gains a "Superseded by" sentence), RV-1202 (catalog cross-check plus rule-index coverage), RV-1203 (`testTimeout: 30000`, `maxWorkers: 2`), RV-1204..RV-1206. Single re-review on the fix diff found RV-1301 (🟠, the React peer prose contradicted the corrected table) and RV-1302 (🟡, residual wording in this plan); both fixed per ruling. Phase 7 reviewed and closed. All phases complete.
 
 ---
 
