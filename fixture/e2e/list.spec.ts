@@ -90,6 +90,14 @@ test.describe("customer list", () => {
     await expect(page.getByRole("button", { name: "Add customer" })).toBeDisabled();
   });
 
+  test("should keep the failure state when filters are cleared", async ({ page }) => {
+    await page.goto(url({ state: "error" }));
+
+    await page.getByRole("button", { name: "Clear filters" }).click();
+
+    await expect(page.getByText("We couldn't load customers.")).toBeVisible();
+  });
+
   test("should open the documented no-results state and leave it by clearing filters", async ({
     page,
   }) => {

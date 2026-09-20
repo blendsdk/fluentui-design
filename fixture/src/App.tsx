@@ -234,7 +234,9 @@ function CustomersPage(props: {
     setSearch("");
     setStatusFilter("all");
     setOwnerFilter("all");
-    store.resetStatus();
+    if (store.status === "noResults") {
+      store.resetStatus();
+    }
   };
 
   const editSelected = () => {
