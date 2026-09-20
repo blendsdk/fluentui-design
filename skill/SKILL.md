@@ -168,7 +168,7 @@ To refresh the bundled facts, follow
 | Item | Baseline |
 | --- | --- |
 | `@fluentui/react-components` | 9.74.7 |
-| React peer range | 16.14 through 18 |
+| React peer range | `>=16.14.0 <20.0.0` |
 | Pinned API-fact commit | `d595d79` |
 
 Rules and patterns are written against this baseline. A different installed

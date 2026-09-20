@@ -2,8 +2,8 @@
 
 > **Document**: 99-execution-plan.md
 > **Parent**: [Index](00-index.md)
-> **Last Updated**: 2026-09-20 10:00
-> **Progress**: 64/72 tasks (89%)
+> **Last Updated**: 2026-09-20 12:00
+> **Progress**: 72/72 tasks (100%)
 > **CodeOps Artifact Schema**: 1
 
 ## Overview
@@ -391,8 +391,8 @@ task-size criteria in the plan quality checklist)
 **Reference**: [03-07](03-07-maintenance-and-docs.md) · [07](07-testing-strategy.md) ST-49..ST-51
 **Objective**: Encode documentation expectations first.
 
-- [ ] 7.1.1 [spec-author] Write docs spec tests — `scripts/__tests__/docs.spec.test.ts` (ST-49..ST-51)
-- [ ] 7.1.2 Run the spec tests — verify they FAIL (red phase)
+- [x] 7.1.1 [spec-author] Write docs spec tests — `scripts/__tests__/docs.spec.test.ts` (ST-49..ST-51)
+- [x] 7.1.2 Run the spec tests — verify they FAIL (red phase)
 
 **Deliverables**:
 - Spec tests exist and fail for the right reason
@@ -404,10 +404,10 @@ task-size criteria in the plan quality checklist)
 **Reference**: [03-07](03-07-maintenance-and-docs.md) §Implementation Details
 **Objective**: Write the README, maintenance guide, changelog, and completion report.
 
-- [ ] 7.2.1 Author `README.md` (scope, usage, baseline `d595d79` + 9.74.7, limitations, sibling division of labor)
-- [ ] 7.2.2 Author `MAINTENANCE.md` (refresh + re-pin procedure) and `CHANGELOG.md` with the replaced-guidance history section
-- [ ] 7.2.3 Author `COMPLETION-REPORT.md` (completed / blocked / untested + highest-impact gaps)
-- [ ] 7.2.4 Run the spec tests — verify they PASS (green phase)
+- [x] 7.2.1 Author `README.md` (scope, usage, baseline `d595d79` + 9.74.7, limitations, sibling division of labor)
+- [x] 7.2.2 Author `MAINTENANCE.md` (refresh + re-pin procedure) and `CHANGELOG.md` with the replaced-guidance history section
+- [x] 7.2.3 Author `COMPLETION-REPORT.md` (completed / blocked / untested + highest-impact gaps)
+- [x] 7.2.4 Run the spec tests — verify they PASS (green phase)
 
 **Deliverables**:
 - Docs contain all required parts; ids stable; gaps named
@@ -417,8 +417,8 @@ task-size criteria in the plan quality checklist)
 
 ### Step 7.3: Final Verification & Completion
 
-- [ ] 7.3.1 Finalize `AGENTS.md` (verify command, pin, generated directories) and confirm no hand-edited generated file remains
-- [ ] 7.3.2 Full verification and present the completion summary
+- [x] 7.3.1 Finalize `AGENTS.md` (verify command, pin, generated directories) and confirm no hand-edited generated file remains
+- [x] 7.3.2 Full verification and present the completion summary
 
 **Deliverables**:
 - `npm run verify` exits 0 on a clean tree

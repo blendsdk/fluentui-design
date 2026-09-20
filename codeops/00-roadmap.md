@@ -13,7 +13,7 @@
 
 | Feature | Roadmap | Stage Summary | Progress | Status | Last Updated |
 |---------|---------|---------------|----------|--------|--------------|
-| fluentui-design-skill | [→](features/fluentui-design-skill/00-roadmap.md) | 10 RDs · executing (64/72 tasks; RD-01..RD-09 done, RD-10 pending) | 9/10 RDs | 🔄 | 2026-09-20 |
+| fluentui-design-skill | [→](features/fluentui-design-skill/00-roadmap.md) | 10 RDs · complete (72/72 tasks) | 10/10 RDs | ✅ | 2026-09-20 |
 
 ## Archived
 

@@ -24,4 +24,4 @@
 | RD-07 | Verification Tooling | [→](requirements/RD-07-verification-tooling.md) | [→](plans/fluentui-design-skill/00-index.md) | Done | ✅ | 2026-09-20 | depends on RD-01, RD-04, RD-06 |
 | RD-08 | Runnable Fixture App | [→](requirements/RD-08-fixture-app.md) | [→](plans/fluentui-design-skill/00-index.md) | Done | ✅ | 2026-09-20 | depends on RD-01, RD-05 |
 | RD-09 | Evaluation: Tasks, Rubric & Results | [→](requirements/RD-09-evaluation.md) | [→](plans/fluentui-design-skill/00-index.md) | Done | ✅ | 2026-09-20 | depends on RD-06, RD-07, RD-08 |
-| RD-10 | Maintenance, Docs & Completion | [→](requirements/RD-10-maintenance-docs.md) | [→](plans/fluentui-design-skill/00-index.md) | Plan Preflighted | 🔬 | 2026-09-20 | depends on RD-01..RD-09 |
+| RD-10 | Maintenance, Docs & Completion | [→](requirements/RD-10-maintenance-docs.md) | [→](plans/fluentui-design-skill/00-index.md) | Done | ✅ | 2026-09-20 | depends on RD-01..RD-09 |
