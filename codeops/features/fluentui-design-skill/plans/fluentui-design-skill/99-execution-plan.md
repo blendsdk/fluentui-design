@@ -185,6 +185,8 @@ task-size criteria in the plan quality checklist)
 
 ---
 
+> **Post-phase review (correctness)**: RV-101 (🟠) — the list pattern declared a `virtualization` decision without discussing it. User ruling: fix all findings now. Fixed RV-101 (virtualization tradeoffs), RV-102 (unbacked decision keys), RV-103 (mandatory server-side validation in form patterns), RV-104 (unrelated WCAG locators), RV-105 (coverage rejects unknown rule ids), RV-106 (pattern spec oracle made independent of implementation constants). Single re-review on the fix diff: all resolved; one doc-only minor RV-201 (checkCoverage JSDoc) fixed. Phase 2 reviewed and closed.
+
 ## Phase 3: Skill Package & Package Gates (RD-06)
 
 > **Lenses**: `web-application`, `data-and-migration` (informational)

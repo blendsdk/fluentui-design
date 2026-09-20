@@ -137,8 +137,10 @@ export function parseCoverage(markdown: string): CoverageDocument {
  *
  * Rules: a `Supported` row must cite at least one `analyzed` source and at least
  * one rule; a `Gap` row must carry a gap note; every row's status must be exactly
- * `Supported` or `Gap`; every cited source must exist; and every known rule must
- * be mapped by at least one row.
+ * `Supported` or `Gap`; every cited source must exist; every cited rule must exist
+ * in the known rule set (this check is skipped while the rules catalog is empty so
+ * the evidence pipeline can be validated before the catalog is authored); and every
+ * known rule must be mapped by at least one row.
  *
  * @param rows - Parsed coverage rows (topic and pattern rows together).
  * @param sources - Known sources (id and status).
