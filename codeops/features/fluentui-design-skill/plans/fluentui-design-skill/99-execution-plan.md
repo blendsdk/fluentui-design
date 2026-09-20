@@ -2,8 +2,8 @@
 
 > **Document**: 99-execution-plan.md
 > **Parent**: [Index](00-index.md)
-> **Last Updated**: 2026-09-20 02:20
-> **Progress**: 27/72 tasks (37%)
+> **Last Updated**: 2026-09-20 02:30
+> **Progress**: 44/72 tasks (61%)
 > **CodeOps Artifact Schema**: 1
 
 ## Overview
@@ -245,8 +245,8 @@ task-size criteria in the plan quality checklist)
 **Reference**: [03-04](03-04-verification-tooling.md) · [07](07-testing-strategy.md) ST-30..ST-34 · plan AR #5, #6, #7
 **Objective**: Encode the example, secret, and freshness gates first. (Generation, reference, and drift gates shipped in Phase 3.)
 
-- [ ] 4.1.1 [spec-author] Write tooling spec tests — `scripts/__tests__/tooling.spec.test.ts` (ST-30..ST-34)
-- [ ] 4.1.2 Run the spec tests — verify they FAIL (red phase)
+- [x] 4.1.1 [spec-author] Write tooling spec tests — `scripts/__tests__/tooling.spec.test.ts` (ST-30..ST-34) ✅ (verified: 2026-09-20 02:27)
+- [x] 4.1.2 Run the spec tests — verify they FAIL (red phase) ✅ (verified: 2026-09-20 02:27)
 
 **Deliverables**:
 - Spec tests exist and fail for the right reason
@@ -258,10 +258,10 @@ task-size criteria in the plan quality checklist)
 **Reference**: [03-04](03-04-verification-tooling.md) §Scripts · plan AR #6, #7
 **Objective**: Build the remaining gates and make `verify:static` authoritative.
 
-- [ ] 4.2.1 Implement `scripts/check-examples.ts` (extract, in-memory compile, classify, never execute) over `skill/**` and rule examples; the fixture typecheck is wired in Phase 5
-- [ ] 4.2.2 Implement `scripts/scan-secrets.ts`
-- [ ] 4.2.3 Implement `scripts/freshness.ts` and write `facts/freshness.json`; wire the full static chain into `verify:static` and `verify`
-- [ ] 4.2.4 Run the spec tests — verify they PASS (green phase)
+- [x] 4.2.1 Implement `scripts/check-examples.ts` (extract, in-memory compile, classify, never execute) over `skill/**` and rule examples; the fixture typecheck is wired in Phase 5 ✅ (verified: 2026-09-20 02:29)
+- [x] 4.2.2 Implement `scripts/scan-secrets.ts` ✅ (verified: 2026-09-20 02:29)
+- [x] 4.2.3 Implement `scripts/freshness.ts` and write `facts/freshness.json`; wire the full static chain into `verify:static` and `verify` ✅ (verified: 2026-09-20 02:29)
+- [x] 4.2.4 Run the spec tests — verify they PASS (green phase) ✅ (verified: 2026-09-20 02:29)
 
 **Deliverables**:
 - Example gate names a bad import and never executes code; secret scan flags a fake key and ignores lock hashes
@@ -271,8 +271,8 @@ task-size criteria in the plan quality checklist)
 
 ### Step 4.3: Implementation Tests & Hardening
 
-- [ ] 4.3.1 Write example-classification and secret near-miss tests — `scripts/__tests__/examples.impl.test.ts`, `scripts/__tests__/secrets.impl.test.ts`
-- [ ] 4.3.2 Full verification (`verify:static` is authoritative from here; full `verify` runs once the fixture exists in Phase 5)
+- [x] 4.3.1 Write example-classification and secret near-miss tests — `scripts/__tests__/examples.impl.test.ts`, `scripts/__tests__/secrets.impl.test.ts` ✅ (verified: 2026-09-20 02:30)
+- [x] 4.3.2 Full verification (`verify:static` is authoritative from here; full `verify` runs once the fixture exists in Phase 5) ✅ (verified: 2026-09-20 02:30)
 
 **Deliverables**:
 - All verification passing

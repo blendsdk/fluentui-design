@@ -1,0 +1,213 @@
+import { basename, extname, join } from "node:path";
+import ts from "typescript";
+
+/** A code snippet that must resolve against the pinned Fluent UI package. */
+export interface ExampleSnippet {
+  /** Human-readable origin, such as `skill/SKILL.md:42`. */
+  source: string;
+  /** The snippet body, including its imports. */
+  code: string;
+}
+
+/** A problem found while type-checking an example. */
+export interface ExampleFailure {
+  /** Origin of the snippet, matching {@link ExampleSnippet.source}. */
+  source: string;
+  /** One-based line inside the snippet. */
+  line: number;
+  /** `api` failures block; `general` failures are notes only. */
+  kind: "api" | "general";
+  /** The compiler message. */
+  message: string;
+}
+
+/** A fenced code block found in a Markdown document. */
+export interface FencedBlock {
+  /** The info string after the opening fence, such as `tsx`. */
+  language: string;
+  /** The block body, joined with LF and ending in a newline. */
+  code: string;
+  /** One-based line of the first code line within the containing document. */
+  line: number;
+}
+
+/** Languages whose fenced blocks are treated as compilable examples. */
+export const EXAMPLE_LANGUAGES = ["ts", "tsx", "js", "jsx"] as const;
+
+/**
+ * Compiler diagnostic codes that mean the example named something the pinned
+ * package does not provide.
+ *
+ * These are the failures the gate blocks on: a missing module, a missing export,
+ * a missing member, or a missing default export. Any other diagnostic is a
+ * `general` note, because skill snippets are fragments that may intentionally
+ * leave surrounding identifiers undefined.
+ */
+const API_DIAGNOSTIC_CODES = new Set([2305, 2307, 2339, 2614, 2724]);
+
+/**
+ * Classify a TypeScript diagnostic code for the example gate.
+ *
+ * @param code - The numeric diagnostic code from a `ts.Diagnostic`.
+ * @returns `api` when the code indicates a missing package symbol, else `general`.
+ */
+export function classifyExampleDiagnostic(code: number): "api" | "general" {
+  return API_DIAGNOSTIC_CODES.has(code) ? "api" : "general";
+}
+
+/**
+ * Extract fenced code blocks in the example languages from Markdown.
+ *
+ * Only fences whose info string is exactly one of {@link EXAMPLE_LANGUAGES}
+ * are returned, so prose and shell samples never reach the compiler.
+ *
+ * @param markdown - Document text to scan.
+ * @returns The compilable blocks, in document order.
+ */
+export function extractFencedCodeBlocks(markdown: string): FencedBlock[] {
+  const allowed = new Set<string>(EXAMPLE_LANGUAGES);
+  const lines = markdown.split(/\r?\n/);
+  const blocks: FencedBlock[] = [];
+  let language: string | undefined;
+  let startLine = 0;
+  let buffer: string[] = [];
+
+  for (let index = 0; index < lines.length; index += 1) {
+    const line = lines[index] ?? "";
+    if (language === undefined) {
+      const match = /^```([A-Za-z]*)\s*$/.exec(line.trim());
+      const info = match?.[1] ?? "";
+      if (match !== null && allowed.has(info)) {
+        language = info;
+        startLine = index + 2;
+        buffer = [];
+      }
+      continue;
+    }
+    if (line.trim() === "```") {
+      blocks.push({ language, code: `${buffer.join("\n")}\n`, line: startLine });
+      language = undefined;
+      continue;
+    }
+    buffer.push(line);
+  }
+
+  return blocks;
+}
+
+/** Pick the TypeScript script kind for a virtual file name. */
+function scriptKindFor(fileName: string): ts.ScriptKind {
+  const extension = extname(fileName).toLowerCase();
+  if (extension === ".tsx") {
+    return ts.ScriptKind.TSX;
+  }
+  if (extension === ".jsx") {
+    return ts.ScriptKind.JSX;
+  }
+  if (extension === ".js" || extension === ".mjs" || extension === ".cjs") {
+    return ts.ScriptKind.JS;
+  }
+  return ts.ScriptKind.TS;
+}
+
+/**
+ * Type-check snippets against the installed `@fluentui/react-components` types.
+ *
+ * The snippets are held in memory and compiled with an in-memory compiler host;
+ * they are never written to disk and never executed. Diagnostics raised inside a
+ * snippet are returned, classified as `api` or `general`. Diagnostics from
+ * library or configuration files are ignored.
+ *
+ * @param snippets - Snippets to check.
+ * @param workingDirectory - Directory the virtual files are anchored to, so
+ * module resolution can walk up to the repository's `node_modules`.
+ * @returns Every diagnostic raised inside a snippet.
+ *
+ * @example
+ * ```ts
+ * const failures = checkExampleSnippets([
+ *   { source: "example.tsx", code: 'import { Button } from "@fluentui/react-components";' },
+ * ]);
+ * ```
+ */
+export function checkExampleSnippets(
+  snippets: readonly ExampleSnippet[],
+  workingDirectory: string = process.cwd(),
+): ExampleFailure[] {
+  if (snippets.length === 0) {
+    return [];
+  }
+
+  const virtualDirectory = join(workingDirectory, ".examples");
+  const virtual = new Map<string, string>();
+  const byPath = new Map<string, ExampleSnippet>();
+
+  snippets.forEach((snippet, index) => {
+    const extension = extname(snippet.source) || ".tsx";
+    const stem = basename(snippet.source, extname(snippet.source)) || `snippet-${index}`;
+    const path = join(virtualDirectory, `${index}-${stem}${extension}`);
+    virtual.set(path, snippet.code);
+    byPath.set(path, snippet);
+  });
+
+  const compilerOptions: ts.CompilerOptions = {
+    target: ts.ScriptTarget.ES2022,
+    module: ts.ModuleKind.ESNext,
+    moduleResolution: ts.ModuleResolutionKind.Bundler,
+    jsx: ts.JsxEmit.ReactJSX,
+    strict: true,
+    noEmit: true,
+    skipLibCheck: true,
+    esModuleInterop: true,
+    allowJs: true,
+    types: [],
+  };
+
+  const host = ts.createCompilerHost(compilerOptions);
+  const defaultGetSourceFile = host.getSourceFile.bind(host);
+  const defaultFileExists = host.fileExists.bind(host);
+  const defaultReadFile = host.readFile.bind(host);
+
+  host.getSourceFile = (
+    fileName: string,
+    languageVersionOrOptions: ts.ScriptTarget | ts.CreateSourceFileOptions,
+    onError?: (message: string) => void,
+    shouldCreateNewSourceFile?: boolean,
+  ): ts.SourceFile | undefined => {
+    const text = virtual.get(fileName);
+    if (text !== undefined) {
+      return ts.createSourceFile(
+        fileName,
+        text,
+        languageVersionOrOptions,
+        true,
+        scriptKindFor(fileName),
+      );
+    }
+    return defaultGetSourceFile(fileName, languageVersionOrOptions, onError, shouldCreateNewSourceFile);
+  };
+  host.fileExists = (fileName: string): boolean => virtual.has(fileName) || defaultFileExists(fileName);
+  host.readFile = (fileName: string): string | undefined =>
+    virtual.get(fileName) ?? defaultReadFile(fileName);
+
+  const program = ts.createProgram([...virtual.keys()], compilerOptions, host);
+  const failures: ExampleFailure[] = [];
+
+  for (const diagnostic of ts.getPreEmitDiagnostics(program)) {
+    const fileName = diagnostic.file?.fileName;
+    const start = diagnostic.start;
+    const snippet = fileName === undefined ? undefined : byPath.get(fileName);
+    if (diagnostic.file === undefined || start === undefined || snippet === undefined) {
+      continue;
+    }
+    const position = diagnostic.file.getLineAndCharacterOfPosition(start);
+    failures.push({
+      source: snippet.source,
+      line: position.line + 1,
+      kind: classifyExampleDiagnostic(diagnostic.code),
+      message: ts.flattenDiagnosticMessageText(diagnostic.messageText, " "),
+    });
+  }
+
+  return failures;
+}

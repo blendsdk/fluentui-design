@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "pinned": {
+    "sourceCommit": "d595d79",
+    "packageVersion": "9.74.7"
+  },
+  "inputs": {
+    "rules/rules.json": "sha256:ba979229c2e2d6872e3d7f6a55afeddadf49168c7df25fd512771d69ff01e08f",
+    "skill/references/patterns/PAT-001-application-shell.md": "sha256:b2efd6968a990bffec0d35e236331c0c1a3fa393662c40f911d9b756ce347360",
+    "skill/references/patterns/PAT-002-list-page.md": "sha256:9f6900d2e12d2f9752213edd561faaf7489a51cac7c5afa7a8e4042cb193833a",
+    "skill/references/patterns/PAT-003-record-detail.md": "sha256:026ad552fe03163963474d2c2a2e9abd3af2f4439cc117f321a23dc8af94c11b",
+    "skill/references/patterns/PAT-004-form-page.md": "sha256:f177a703409bd8ae4fb6190ba1763f15df2d137f97f9ea4463569765a77d4f12",
+    "skill/references/patterns/PAT-005-contextual-edit.md": "sha256:5a7f8877e51f81530573f42174653790826f39467be896f542cb6ea108ca4985",
+    "skill/references/patterns/PAT-006-settings-page.md": "sha256:46f55067c7eb56daff229a9cdc8ff4f92c9fcc054efc10190134427c2d1c087c",
+    "skill/references/patterns/PAT-007-multi-step-task.md": "sha256:2ed9ecc546c7a94feb465e774335aed43bb5eaf61672f124a639cb5b26994c6b",
+    "skill/references/patterns/PAT-008-dashboard.md": "sha256:da9143bef2f2a2481d04e79cf6b4c654d0ca9b16749082a99afc29d1d42283f4",
+    "sources/sources.json": "sha256:caaac3fb6fcd975bd75d86333dbbc7b6bf85b7fb91f0334dca73db3eeb80bb9c"
+  }
+}
