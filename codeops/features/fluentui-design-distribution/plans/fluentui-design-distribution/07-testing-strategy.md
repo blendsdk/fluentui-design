@@ -68,7 +68,7 @@
 | ST-24 | Read `release.yml` validate job | rejects `latest` when the ref is not `main` | RD-01 AC13; AR #6 |
 | ST-25 | Read `release.yml` permissions | `id-token: write` appears only within the release job | RD-01 AC13; AR #14 |
 | ST-26 | Read `README.md` | contains an `## Install` section naming `npx -y fluentui-design skill install` | RD-01 Must Have (docs) |
-| ST-27 | Run `npm pack --dry-run` | output lists only paths under `dist/`, `skills/fluentui-design/`, `README.md`, `LICENSE`, `CHANGELOG.md`; none under `fixture/`, `sources/`, `rules/`, or `evaluation/` | RD-01 AC11; AR #20 |
+| ST-27 | Run `npm pack --dry-run` | output lists only paths under `dist/`, `skills/fluentui-design/`, `README.md`, `LICENSE`, and `CHANGELOG.md`, plus the npm-mandatory `package.json`; none under `fixture/`, `sources/`, `rules/`, or `evaluation/` | RD-01 AC11; AR #20 |
 
 > **⚠️ AUTHORING RULE:** expectations come from RD-01. If an expectation cannot be determined from
 > the spec, it is an ambiguity for the register, not a guess.

@@ -103,8 +103,8 @@ describe("release workflow validation guard", () => {
     const validate = section(workflow, "validate:", "release:");
 
     expect(validate).toMatch(/if:/);
-    expect(validate).toContain("latest");
-    expect(validate).toContain("main");
+    expect(validate).toContain("inputs.dist_tag == 'latest'");
+    expect(validate).toMatch(/github\.ref\s*!=\s*'refs\/heads\/main'/);
     expect(validate).toContain("exit 1");
   });
 });

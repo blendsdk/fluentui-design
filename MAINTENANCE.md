@@ -130,7 +130,8 @@ the publish from the commit history, so the workflow never guesses at a version 
      published from `main`; the workflow's validate job rejects the combination on any other branch.
 2. The release job checks out the full history and tags, runs the static gate, then runs
    `node scripts/release.mjs release --type … --tag … --ci --git-push`. That command bumps the
-   version, appends a changelog section, commits and tags it, pushes, and publishes to npm.
+   version, appends a changelog section, commits and tags it, publishes to npm, and then pushes —
+   so a failed publish leaves the release commit and tag local and unpushed.
 3. The appended changelog section records the pinned baseline — the Fluent UI React version and the
    API-fact commit — read from [`facts/freshness.json`](facts/freshness.json), so every release
    names the guidance it shipped.

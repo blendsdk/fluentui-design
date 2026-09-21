@@ -2,7 +2,7 @@
 
 > **Document**: 99-execution-plan.md
 > **Parent**: [Index](00-index.md)
-> **Last Updated**: 2026-09-21 13:20
+> **Last Updated**: 2026-09-21 13:24
 > **Progress**: 34/36 tasks (94%)
 > **CodeOps Artifact Schema**: 1
 
@@ -233,6 +233,16 @@ Security audit raised no 🔴/🟠 findings. Re-review is the single allowed pas
 
 Security audit raised no 🔴/🟠 findings. Observation O-1 (exit-code doc mismatch) reconciled by
 correcting the `03-02` error table to exit 2. Re-review is the single allowed pass.
+
+### Phase 3 (quality profile: strict; base lenses + security audit)
+
+| Batch | Findings | Ruling | Outcome |
+| ----- | -------- | ------ | ------- |
+| Initial review | RV-3301, RV-3302, RV-3303, RV-3304 (🟡) | Fix | Fixed and verified |
+| Initial review | SA-3301 (🟡, pin privileged-job actions to commit SHAs) | Report-only | Recorded; major-tag pinning matches the repository convention and no verified SHA was used to avoid guessing |
+| Initial review | SA-3302 (🟡, unpinned global npm) | Fix | Pinned to `npm@11` |
+
+No 🔴/🟠 findings; no re-review was required.
 
 ---
 
