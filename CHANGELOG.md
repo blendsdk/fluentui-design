@@ -8,6 +8,30 @@ Each release records three things: the skill version, the baseline
 `@fluentui/react-components` package version, and the pinned `fluentui-mcp` facts commit. See
 [MAINTENANCE.md](MAINTENANCE.md) for the re-pin procedure.
 
+## [0.2.0] - 2026-09-21
+
+### Baseline
+
+| Item | Value |
+| --- | --- |
+| `@fluentui/react-components` | 9.74.7 |
+| `fluentui-mcp` facts commit | d595d79 |
+
+### Fixes
+
+- datagrid: correct the finding kinds and rule provenance
+
+### Documentation
+
+- plan: correct the datagrid coverage progress count
+- plan: add the datagrid coverage requirements and plan
+
+### Features
+
+- datagrid: enrich the list pattern and regenerate the skill
+- datagrid: add API-grounded grid rules and refresh coverage
+- datagrid: add the DataGrid evidence source and findings
+
 ## [0.1.2] - 2026-09-21
 
 ### Baseline
