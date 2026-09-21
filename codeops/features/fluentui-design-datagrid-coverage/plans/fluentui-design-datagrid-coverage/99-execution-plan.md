@@ -117,6 +117,21 @@ no code, dependency, pattern-count, or decision-index change.
 
 ---
 
+## Review Evidence
+
+Single review of the feature diff (content change; base lenses + factual grounding against the
+`sibling` API skill). No 🔴/🟠 findings.
+
+| Batch | Findings | Ruling | Outcome |
+| ----- | -------- | ------ | ------- |
+| Review | RV-5301 `FND-016` mislabeled as an implementation fact though it is an extension recommendation | Fix | Reclassified to `derived-recommendation` |
+| Review | RV-5302 `RULE-035` bundled a `must` with a derived "measure first" recommendation | Fix | Instruction is now only the memoize/stable-key `must`; the measure-first advice moved to the rationale |
+| Review | RV-5303 `RULE-036` derived from `FND-014`, which does not cover selection naming | Fix | Added `FND-018` and pointed `RULE-036` at it |
+| Review | RV-5304 the PAT-002 pattern row omitted `RULE-033` | Fix | Added `RULE-033` and named header nesting in the topic evidence |
+| Review | RV-5305 `RULE-036` cited WCAG without a criterion locator | Fix | Added `SC 4.1.2 Name, Role, Value` |
+
+---
+
 ## Success Criteria
 
 1. All phases completed

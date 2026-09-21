@@ -5,7 +5,7 @@
     "packageVersion": "9.74.7"
   },
   "inputs": {
-    "rules/rules.json": "sha256:1849f3a8b1e9734c2be60f99468c267f232d2d1b15de7010f5e3a4de14d6206a",
+    "rules/rules.json": "sha256:103060b9ff3bc488fccae26e9e51fb0e0d059b74fb2b66563df0c1df48b98880",
     "skill/references/patterns/PAT-001-application-shell.md": "sha256:b2efd6968a990bffec0d35e236331c0c1a3fa393662c40f911d9b756ce347360",
     "skill/references/patterns/PAT-002-list-page.md": "sha256:855f84c11446277b3dbd889d36a38abbe1b49f7094cc9b4f7b5f5127f479389b",
     "skill/references/patterns/PAT-003-record-detail.md": "sha256:026ad552fe03163963474d2c2a2e9abd3af2f4439cc117f321a23dc8af94c11b",

@@ -160,7 +160,7 @@
 | sources | SRC-046 (locator: packages/react-components/react-table/stories/src/DataGrid, FocusableElementsInCells and CompositeNavigation) and SRC-037 (APG grid pattern) |
 | versionScope | Fluent UI React v9 |
 | confidence | High — documented component behavior |
-| informsRules | RULE-032, RULE-033, RULE-036 |
+| informsRules | RULE-032, RULE-033 |
 
 ### FND-015 — Column resizing is a preview capability with overflow consequences
 
@@ -174,13 +174,13 @@
 | confidence | Med — the capability is explicitly documented as preview |
 | informsRules | RULE-034 |
 
-### FND-016 — Virtualization is an extension that requires a stable renderer
+### FND-016 — Virtualization uses an extension and needs a stable renderer
 
 | Field | Value |
 | --- | --- |
 | id | FND-016 |
-| statement | DataGrid does not virtualize on its own; virtualization comes from a community extension that builds components from the row renderer, so the renderer must be memoized with a stable row key, and virtualization is adopted only after measuring a performance need. |
-| kind | versioned-implementation-fact |
+| statement | DataGrid does not virtualize on its own and the documented virtualization approach uses a community extension; keep the row renderer memoized with a stable row key when virtualizing, and adopt virtualization only after measuring a performance need. |
+| kind | derived-recommendation |
 | sources | SRC-046 (locator: packages/react-components/react-table/stories/src/DataGrid, Virtualization) and SRC-027 (repo-path: packages/react-components/react-table) |
 | versionScope | Fluent UI React v9 |
 | confidence | Med — extension guidance, not a core-API guarantee |
@@ -197,6 +197,18 @@
 | versionScope | Fluent UI React v9 |
 | confidence | Med — documented known issue; behavior may change in a later release |
 | informsRules | RULE-031 |
+
+### FND-018 — Selection controls need accessible names
+
+| Field | Value |
+| --- | --- |
+| id | FND-018 |
+| statement | A grid selection control has no visible label, so its accessible name must come from an `aria-label` on the selection cell; the header select-all control must name the selection scope and each row control must name the row. |
+| kind | versioned-implementation-fact |
+| sources | SRC-046 (locator: packages/react-components/react-table/stories/src/DataGrid, Selection) and SRC-035 (WCAG 2.2 SC 4.1.2 Name, Role, Value) |
+| versionScope | Fluent UI React v9 |
+| confidence | High — the label is the only accessible name for a checkbox in a cell |
+| informsRules | RULE-036 |
 
 ## Risky Simplifications Register
 
