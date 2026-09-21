@@ -246,6 +246,14 @@ correcting the `03-02` error table to exit 2. Re-review is the single allowed pa
 
 No 🔴/🟠 findings; no re-review was required.
 
+### Post-completion
+
+| Item | Outcome |
+| ---- | ------- |
+| CI run on the pushed repository | `verify:static` passed; Playwright failed with `Timed out waiting 120000ms from config.webServer` on all three runs |
+| Root cause | The fixture preview server bound to `localhost`, which the runner did not expose on `127.0.0.1` |
+| Fix | Bind the preview server explicitly to `127.0.0.1` in `playwright.config.ts`; local `test:e2e` passes (27) |
+
 ---
 
 ## Dependencies
