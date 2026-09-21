@@ -2,8 +2,8 @@
 
 > **Document**: 99-execution-plan.md
 > **Parent**: [Index](00-index.md)
-> **Last Updated**: 2026-09-22 00:01
-> **Progress**: 4/18 tasks (22%)
+> **Last Updated**: 2026-09-22 00:03
+> **Progress**: 8/18 tasks (44%)
 > **CodeOps Artifact Schema**: 1
 
 ## Overview
@@ -42,14 +42,14 @@ no code, dependency, pattern-count, or decision-index change.
 
 ## Phase 2: Rules and Coverage
 
-> **Phase baseline tree**: _(recorded by the exec-plan skill)_
+> **Phase baseline tree**: d4018889f30a97a582731af217719739188f546b
 > **Expected modification set**: `rules/rules.json`, `research/coverage.md`, this plan document.
 > **Scope mode**: strict
 
-- [ ] 2.1.1 Add `RULE-031`..`RULE-036` to `rules/rules.json`
-- [ ] 2.1.2 Refresh `RULE-010`..`RULE-012` metadata only (`unresolved`, `confidence`, `evidenceSourceIds`, `locators`, `derivedFromFindings`), leaving instruction and rationale text untouched
-- [ ] 2.1.3 Update the grid coverage topic and the DataGrid/Table pattern row
-- [ ] 2.1.4 Run `npm run validate:all` and `npm run lint:rules` and confirm they pass
+- [x] 2.1.1 Add `RULE-031`..`RULE-036` to `rules/rules.json` ✅ (completed: 2026-09-22 00:03)
+- [x] 2.1.2 Refresh `RULE-010`..`RULE-012` metadata only (`unresolved`, `confidence`, `evidenceSourceIds`, `locators`, `derivedFromFindings`), leaving instruction and rationale text untouched ✅ (completed: 2026-09-22 00:03)
+- [x] 2.1.3 Update the grid coverage topic and the DataGrid/Table pattern row ✅ (completed: 2026-09-22 00:03)
+- [x] 2.1.4 Run `npm run validate:all` and `npm run lint:rules` and confirm they pass ✅ (completed: 2026-09-22 00:03)
 
 **Deliverables**:
 - Six additive rules under `data-grid`
