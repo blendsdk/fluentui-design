@@ -8,6 +8,24 @@ Each release records three things: the skill version, the baseline
 `@fluentui/react-components` package version, and the pinned `fluentui-mcp` facts commit. See
 [MAINTENANCE.md](MAINTENANCE.md) for the re-pin procedure.
 
+## [0.1.1] - 2026-09-21
+
+### Baseline
+
+| Item | Value |
+| --- | --- |
+| `@fluentui/react-components` | 9.74.7 |
+| `fluentui-mcp` facts commit | d595d79 |
+
+### Fixes
+
+- packaging: assert a semver version instead of a fixed one
+- test: bind the Playwright preview server to IPv4
+
+### CI
+
+- release: reindex the release workflow
+
 ## [0.1.0] - 2026-09-20
 
 ### Baseline
