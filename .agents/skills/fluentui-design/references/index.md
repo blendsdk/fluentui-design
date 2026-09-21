@@ -11,9 +11,9 @@ For exact component props and imports, use the sibling `fluentui` skill
 | Decision | Patterns | Rules |
 | --- | --- | --- |
 | `command-scope` | PAT-001 | RULE-001, RULE-002, RULE-003 |
-| `data-processing-location` | PAT-002 | RULE-010, RULE-011, RULE-012, RULE-016 |
-| `data-resilience` | PAT-002, PAT-008 | RULE-003, RULE-010, RULE-011, RULE-012, RULE-015, RULE-016 |
-| `data-surface` | PAT-002 | RULE-010, RULE-011, RULE-012, RULE-016 |
+| `data-processing-location` | PAT-002 | RULE-010, RULE-011, RULE-012, RULE-016, RULE-031, RULE-032, RULE-033, RULE-034, RULE-035, RULE-036 |
+| `data-resilience` | PAT-002, PAT-008 | RULE-003, RULE-010, RULE-011, RULE-012, RULE-015, RULE-016, RULE-031, RULE-032, RULE-033, RULE-034, RULE-035, RULE-036 |
+| `data-surface` | PAT-002 | RULE-010, RULE-011, RULE-012, RULE-016, RULE-031, RULE-032, RULE-033, RULE-034, RULE-035, RULE-036 |
 | `edit-surface` | PAT-005 | RULE-008, RULE-009, RULE-029 |
 | `feedback-channel` | PAT-008 | RULE-003, RULE-015, RULE-016 |
 | `field-annotation` | PAT-004 | RULE-005, RULE-006, RULE-007, RULE-029, RULE-030 |
@@ -22,11 +22,11 @@ For exact component props and imports, use the sibling `fluentui` skill
 | `navigation-model` | PAT-001, PAT-006 | RULE-001, RULE-002, RULE-003, RULE-013, RULE-014 |
 | `permission-state` | PAT-003, PAT-008 | RULE-003, RULE-015, RULE-016, RULE-029 |
 | `progressive-disclosure` | PAT-006 | RULE-013, RULE-014 |
-| `row-activation` | PAT-002 | RULE-010, RULE-011, RULE-012, RULE-016 |
+| `row-activation` | PAT-002 | RULE-010, RULE-011, RULE-012, RULE-016, RULE-031, RULE-032, RULE-033, RULE-034, RULE-035, RULE-036 |
 | `save-model` | PAT-007 | RULE-029, RULE-030 |
-| `selection-scope` | PAT-002 | RULE-010, RULE-011, RULE-012, RULE-016 |
+| `selection-scope` | PAT-002 | RULE-010, RULE-011, RULE-012, RULE-016, RULE-031, RULE-032, RULE-033, RULE-034, RULE-035, RULE-036 |
 | `submit-feedback` | PAT-004, PAT-007 | RULE-005, RULE-006, RULE-007, RULE-029, RULE-030 |
-| `virtualization` | PAT-002 | RULE-010, RULE-011, RULE-012, RULE-016 |
+| `virtualization` | PAT-002 | RULE-010, RULE-011, RULE-012, RULE-016, RULE-031, RULE-032, RULE-033, RULE-034, RULE-035, RULE-036 |
 
 ## Application patterns
 

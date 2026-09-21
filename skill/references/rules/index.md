@@ -50,6 +50,12 @@ when it applies, and where its evidence comes from. Full provenance lives in
 | RULE-010 | should | Use DataGrid when the layout must be controlled by column definitions and keyboard grid behavior is required, and use Table when a native table structure is the goal. |
 | RULE-011 | should | Decide explicitly whether each collection operation runs on loaded rows or on the server, and pass the resulting state into the grid so the component does not imply a data source it does not have. |
 | RULE-012 | must | Make the selection scope explicit to the user, and when a bulk action can apply to all matching results rather than only the loaded page, offer that choice deliberately. |
+| RULE-031 | must | Provide a compare function in every column definition whose header is meant to sort; a column without compare stays unsortable even when the grid enables sorting. |
+| RULE-032 | must | Set focusMode group on a cell with several focusable elements so Enter enters the cell and Escape returns to it, and set focusMode none on a cell with exactly one focusable element so that control receives focus directly. |
+| RULE-033 | must | Keep a sortable header cell free of nested focusable controls; move header actions into a context menu or into the body cells instead. |
+| RULE-034 | should | Use resizableColumns only inside a container that allows horizontal overflow, provide the column sizing options, and keep keyboard resizing available; do not let resizing push the page into two-dimensional scrolling. |
+| RULE-035 | must | Keep the row render function stable with useCallback and a stable row key before enabling virtualization, and virtualize only after measuring a performance need. |
+| RULE-036 | must | Provide an aria-label through the selection cell for both the header select-all control and each row control, naming the action and, for the header, the selection scope. |
 
 ## overlays
 

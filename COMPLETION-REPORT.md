@@ -49,10 +49,7 @@ Ordered by how much they limit the skill's current usefulness.
    (`SRC-045`) remain a discovered expansion target, and `SRC-002` covers only the public
    getting-started page. Visual-composition rules therefore rest on published guidance and the
    component library rather than on the source design files.
-3. **The dedicated v9 DataGrid usage page was not analyzed.** Grid rules lean on the accessibility
-   practices guide (APG) and the pinned package source (`SRC-027`). Analyzing that page would
-   strengthen `RULE-010`..`RULE-012`.
-4. **Automated accessibility coverage is partial.** The fixture is scanned with axe and its findings
+3. **Automated accessibility coverage is partial.** The fixture is scanned with axe and its findings
    were fixed, but this is not a conformance claim and forced-colors mode is not automated.
 
 ## Verification at close

@@ -2,8 +2,8 @@
 id: PAT-002
 title: Searchable and filterable list page
 decisions: [data-surface, data-processing-location, selection-scope, row-activation, data-resilience, virtualization]
-rules: [RULE-010, RULE-011, RULE-012, RULE-016]
-components: [DataGrid, DataGridBody, DataGridRow, DataGridCell, DataGridHeader, DataGridHeaderCell, DataGridSelectionCell, createTableColumn, Table, TableHeader, TableRow, TableCell, TableBody, TableCellLayout, Input, Button, MenuButton, Menu, MenuTrigger, MenuPopover, MenuList, MenuItem, Spinner, Skeleton, SkeletonItem, MessageBar, MessageBarBody, Checkbox, Field]
+rules: [RULE-010, RULE-011, RULE-012, RULE-016, RULE-031, RULE-032, RULE-033, RULE-034, RULE-035, RULE-036]
+components: [DataGrid, DataGridBody, DataGridRow, DataGridCell, DataGridHeader, DataGridHeaderCell, DataGridSelectionCell, createTableColumn, TableResizeHandle, Table, TableHeader, TableRow, TableCell, TableBody, TableCellLayout, Input, Button, MenuButton, Menu, MenuTrigger, MenuPopover, MenuList, MenuItem, Spinner, Skeleton, SkeletonItem, MessageBar, MessageBarBody, Checkbox, Field]
 derived: [application-owned FilterBar composition, application-owned query and pagination state]
 ---
 
@@ -51,27 +51,38 @@ or on the server is explicit in application state, not inferred by the grid.
 
 Below the project's narrow breakpoint, low-priority columns are hidden behind a detail view and
 filters collapse into a single control that opens a panel. The grid keeps vertical scrolling; it
-never requires two-dimensional scrolling to read a value. Virtualize the grid only after measuring a
-performance need, because virtualization keeps only the visible rows in the DOM and can break
-in-page search and predictable focus movement.
+never requires two-dimensional scrolling to read a value. When columns can be resized, keep the grid
+inside a region that scrolls horizontally so resizing never pushes the page itself into horizontal
+scrolling, and prefer hiding low-priority columns over relying on resize at narrow widths.
+Virtualize the grid only after measuring a performance need, because virtualization keeps only the
+visible rows in the DOM and can break in-page search and predictable focus movement; when it is
+used, keep the row renderer stable and the row key constant so the rendered window does not churn.
 
 ## Accessibility
 
-The grid uses one tab stop with arrow-key navigation inside it. Sort state is announced, selection
-changes are announced, and an async result update is announced through a polite status region. The
-select-all control states whether it selects the current page or all matching results.
+The grid uses one tab stop with arrow-key navigation inside it. A cell that contains controls
+declares its own focus mode: `group` when it holds several focusable elements so Enter enters the
+cell and Escape returns to it, and `none` when it holds exactly one so that control is reached
+directly. A sortable header cell stays a single sort button and must not contain nested focusable
+controls. Sort state, selection changes, and async result updates are announced through a polite
+status region, and every selection control carries an accessible name: the header control states
+its selection scope and each row control names the row. The select-all control states whether it
+selects the current page or all matching results.
 
 ## Edge cases
 
 Loading shows Skeletons in the grid region. No data, no search matches, and a failed load each show a
-distinct message; the failed state offers a retry action. A server-paged sort re-queries instead of
-sorting only the loaded page. A selection that spans pages keeps its ids when the page changes. When
-virtualization is enabled, keep a stable row key, expose the row's position and total count to
-assistive technology, and ensure focus is not lost when the visible window moves.
+distinct message; the failed state offers a retry action. A column with no `compare` function stays
+unsortable even when sorting is enabled, so a header that looks sortable can silently do nothing.
+Because the library does not reliably announce a sort change, add a polite status message when the
+result order changes. A server-paged sort re-queries instead of sorting only the loaded page. A
+selection that spans pages keeps its ids when the page changes. When virtualization is enabled, keep
+a stable row key, expose the row's position and total count to assistive technology, and ensure
+focus is not lost when the visible window moves.
 
 ## Rules applied
 
-RULE-010, RULE-011, RULE-012, RULE-016
+RULE-010, RULE-011, RULE-012, RULE-016, RULE-031, RULE-032, RULE-033, RULE-034, RULE-035, RULE-036
 
 ## Derived decisions
 

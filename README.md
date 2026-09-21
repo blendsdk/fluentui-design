@@ -115,8 +115,6 @@ re-verify the rules it uses.
   (`SRC-045`) are recorded as a discovered expansion target; `SRC-002` covers only the public
   getting-started page. Rules therefore lean on published guidance and the component library, not on
   Figma files.
-- **The dedicated v9 DataGrid usage page was not analyzed.** Grid rules lean on the accessibility
-  practices guide (APG) and the pinned package source (`SRC-027`).
 - **Automated accessibility output is findings, not conformance.** The fixture is scanned with axe
   and the results are reported as defects that were fixed; the project makes no WCAG conformance
   claim.

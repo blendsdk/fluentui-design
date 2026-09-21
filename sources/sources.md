@@ -49,3 +49,4 @@
 | SRC-043 | — | Engineering topics (expansion target) | Microsoft | discovered | implementation | https://storybooks.fluentui.dev/react/ |
 | SRC-044 | — | Accessibility pattern coverage (expansion target) | W3C | discovered | accessibility-guidance | https://www.w3.org/WAI/ARIA/apg/patterns/ |
 | SRC-045 | — | Visual assets (expansion target) | Microsoft | discovered | design-asset | https://fluent2.microsoft.design/get-started/design |
+| SRC-046 | — | DataGrid usage and API (v9 docs and package source) | Microsoft | analyzed | component-usage | https://github.com/microsoft/fluentui/tree/master/packages/react-components/react-table |

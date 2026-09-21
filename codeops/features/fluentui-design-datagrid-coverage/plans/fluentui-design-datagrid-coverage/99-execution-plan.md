@@ -2,8 +2,8 @@
 
 > **Document**: 99-execution-plan.md
 > **Parent**: [Index](00-index.md)
-> **Last Updated**: 2026-09-22 00:03
-> **Progress**: 8/18 tasks (44%)
+> **Last Updated**: 2026-09-22 00:06
+> **Progress**: 16/18 tasks (89%)
 > **CodeOps Artifact Schema**: 1
 
 ## Overview
@@ -62,14 +62,15 @@ no code, dependency, pattern-count, or decision-index change.
 
 ## Phase 3: Pattern and Documentation
 
-> **Phase baseline tree**: _(recorded by the exec-plan skill)_
+> **Phase baseline tree**: a3bb8cd0967c44df66b7101d5e1478f21916a3ed
 > **Expected modification set**: `skill/references/patterns/PAT-002-list-page.md`, `README.md`,
-> `COMPLETION-REPORT.md`, this plan document.
+> `COMPLETION-REPORT.md`, generated Markdown and the `.agents` mirror, this plan document.
 > **Scope mode**: strict
+> **Ordering correction**: `npm run generate` ran during this phase so `docs.spec` could compare the generated rule index against the catalog; Phase 4 re-ran it (idempotent).
 
-- [ ] 3.1.1 Enrich `PAT-002-list-page.md` (frontmatter `rules`/`components` and the Responsive behavior, Accessibility, Edge cases, and Rules applied sections)
-- [ ] 3.1.2 Retire the DataGrid limitation in `README.md` and resolve gap #3 in `COMPLETION-REPORT.md`
-- [ ] 3.1.3 Run `npm run test` and confirm the pattern and documentation specs pass
+- [x] 3.1.1 Enrich `PAT-002-list-page.md` (frontmatter `rules`/`components` and the Responsive behavior, Accessibility, Edge cases, and Rules applied sections) ✅ (completed: 2026-09-22 00:06)
+- [x] 3.1.2 Retire the DataGrid limitation in `README.md` and resolve gap #3 in `COMPLETION-REPORT.md` ✅ (completed: 2026-09-22 00:06)
+- [x] 3.1.3 Run `npm run test` and confirm the pattern and documentation specs pass ✅ (completed: 2026-09-22 00:06)
 
 **Deliverables**:
 - Pattern enriched and gate-valid
@@ -81,14 +82,14 @@ no code, dependency, pattern-count, or decision-index change.
 
 ## Phase 4: Regenerate and Verify
 
-> **Phase baseline tree**: _(recorded by the exec-plan skill)_
+> **Phase baseline tree**: a3bb8cd0967c44df66b7101d5e1478f21916a3ed
 > **Expected modification set**: generated Markdown, the `.agents` mirror, `facts/freshness.json`, this plan document.
 > **Scope mode**: strict
 
-- [ ] 4.1.1 Run `npm run generate`
-- [ ] 4.1.2 Run `npm run freshness`
-- [ ] 4.1.3 Run `npm run generate:check` and `npm run freshness -- --check` and confirm both pass
-- [ ] 4.1.4 Run `npm run verify` and confirm it passes
+- [x] 4.1.1 Run `npm run generate` ✅ (completed: 2026-09-22 00:06)
+- [x] 4.1.2 Run `npm run freshness` ✅ (completed: 2026-09-22 00:06)
+- [x] 4.1.3 Run `npm run generate:check` and `npm run freshness -- --check` and confirm both pass ✅ (completed: 2026-09-22 00:06)
+- [x] 4.1.4 Run `npm run verify` and confirm it passes ✅ (completed: 2026-09-22 00:06)
 
 **Deliverables**:
 - Generated files and mirror current
