@@ -2,8 +2,8 @@
 
 > **Document**: 99-execution-plan.md
 > **Parent**: [Index](00-index.md)
-> **Last Updated**: 2026-09-21 11:32
-> **Progress**: 0/36 tasks (0%)
+> **Last Updated**: 2026-09-21 11:58
+> **Progress**: 3/36 tasks (8%)
 > **CodeOps Artifact Schema**: 1
 
 ## Overview
@@ -44,7 +44,12 @@ workflows, documentation, and the public repository. The skill content is untouc
 
 ## Phase 1: Packaging Foundation
 
-> **Phase baseline tree**: _(recorded by the exec-plan skill)_
+> **Phase baseline tree**: ae81b309274d20641496b7860c89fdb4a4b2cf80
+> **Expected modification set**: `package.json`, `package-lock.json`, `LICENSE`, `.gitignore`,
+> `tsconfig.json`, `tsconfig.build.json`, `src/bin.ts`, `src/skill/install-skill.ts`,
+> `scripts/assemble.ts`, `scripts/lib/skill.ts`, `scripts/__tests__/{packaging,install-skill}.spec.test.ts`,
+> `scripts/__tests__/{install-skill,assemble}.impl.test.ts`, this plan document.
+> **Scope mode**: strict
 > **Lenses**: quality profile active (strict) — informational; activation stays profile-driven.
 
 ### Step 1.1: Specification Tests (red phase)
@@ -52,9 +57,9 @@ workflows, documentation, and the public repository. The skill content is untouc
 **Reference**: [03-01](03-01-packaged-cli-and-installer.md) §Manifest/§Installer · [07](07-testing-strategy.md) ST-1..ST-16 · AR #2,#3,#4,#7,#15,#18
 **Objective**: Encode the manifest and installer contracts as failing tests before any implementation.
 
-- [ ] 1.1.1 [spec-author] Write `scripts/__tests__/packaging.spec.test.ts` for ST-1..ST-8
-- [ ] 1.1.2 [spec-author] Write `scripts/__tests__/install-skill.spec.test.ts` for ST-9..ST-16
-- [ ] 1.1.3 Run the two spec files and confirm the red phase — they fail because the manifest fields, `src/`, and `tsconfig.build.json` do not exist yet
+- [x] 1.1.1 [spec-author] Write `scripts/__tests__/packaging.spec.test.ts` for ST-1..ST-8 ✅ (completed: 2026-09-21 11:58)
+- [x] 1.1.2 [spec-author] Write `scripts/__tests__/install-skill.spec.test.ts` for ST-9..ST-16 ✅ (completed: 2026-09-21 11:58)
+- [x] 1.1.3 Run the two spec files and confirm the red phase — they fail because the manifest fields, `src/`, and `tsconfig.build.json` do not exist yet ✅ (completed: 2026-09-21 11:58)
 
 ### Step 1.2: Implementation
 

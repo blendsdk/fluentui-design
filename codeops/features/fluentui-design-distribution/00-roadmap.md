@@ -15,4 +15,4 @@
 
 | ID | Title | RD | Plan | Stage | Status | Last Updated | Depends-on / Blocker |
 |----|-------|----|------|-------|--------|--------------|----------------------|
-| RD-01 | npm Distribution, Installation & Release | [→](requirements/RD-01-distribution-installation.md) | [→](plans/fluentui-design-distribution/00-index.md) | Plan Created | 📋 | 2026-09-21 | — |
+| RD-01 | npm Distribution, Installation & Release | [→](requirements/RD-01-distribution-installation.md) | [→](plans/fluentui-design-distribution/00-index.md) | Executing | 🔄 | 2026-09-21 | — |
