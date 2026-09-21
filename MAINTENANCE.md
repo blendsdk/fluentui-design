@@ -118,6 +118,35 @@ History is appended, never rewritten.
 - A rewritten sentence is a new version of the rule, not a silent edit: note it so a reader can see
   why the guidance changed.
 
+## 7. Releasing the package
+
+A release is one reviewed action. The release tool derives the version, the changelog, the tag, and
+the publish from the commit history, so the workflow never guesses at a version number.
+
+1. Open **Actions → Release → Run workflow** and choose:
+   - **version_type** — `auto` (default), `patch`, `minor`, or `major`. `auto` reads the conventional
+     commit messages written since the last tag and applies the strongest change it finds.
+   - **dist_tag** — `latest` (default), `next`, or `beta`. The `latest` dist-tag may only be
+     published from `main`; the workflow's validate job rejects the combination on any other branch.
+2. The release job checks out the full history and tags, runs the static gate, then runs
+   `node scripts/release.mjs release --type … --tag … --ci --git-push`. That command bumps the
+   version, appends a changelog section, commits and tags it, pushes, and publishes to npm.
+3. The appended changelog section records the pinned baseline — the Fluent UI React version and the
+   API-fact commit — read from [`facts/freshness.json`](facts/freshness.json), so every release
+   names the guidance it shipped.
+4. Publishing uses npm **trusted publishing** (OIDC) through the workflow's `id-token: write`
+   permission. No long-lived npm token is stored in the repository.
+
+### First publish
+
+Trusted publishing is configured on npm, so the package must exist before the publisher can be
+attached to it:
+
+1. Publish the current version once from a maintainer machine with `npm publish`.
+2. On npmjs.com, open the package's **Settings → Trusted Publisher**, choose GitHub Actions, and
+   point it at this repository and the `release.yml` workflow.
+3. Remove any temporary automation token, then dispatch the workflow for every later release.
+
 ## Related documentation
 
 - [README.md](README.md) — scope, usage, and baseline.

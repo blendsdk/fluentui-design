@@ -1,0 +1,66 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_type:
+        description: Version bump to apply
+        type: choice
+        options: [auto, patch, minor, major]
+        default: auto
+      dist_tag:
+        description: npm dist-tag to publish under
+        type: choice
+        options: [latest, next, beta]
+        default: latest
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate the release request
+    runs-on: ubuntu-latest
+    steps:
+      - name: Reject a latest release outside main
+        if: inputs.dist_tag == 'latest' && github.ref != 'refs/heads/main'
+        run: |
+          echo "error: dist_tag 'latest' may only be published from main"
+          exit 1
+
+  release:
+    name: Build and publish
+    needs: validate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - name: Check out the repository with full history and tags
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Set up Node.js 24 with the npm registry
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+
+      - name: Install a current npm for trusted publishing
+        run: npm install -g npm@latest
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run the static verification gate
+        run: npm run verify:static
+
+      - name: Configure the git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Bump, tag, and publish
+        run: node scripts/release.mjs release --type "${{ inputs.version_type }}" --tag "${{ inputs.dist_tag }}" --ci --git-push

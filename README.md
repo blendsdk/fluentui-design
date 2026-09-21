@@ -31,6 +31,32 @@ sibling `fluentui-mcp` repository.
 The two skills are meant to be co-installed. `fluentui-design` links to `fluentui` for API facts
 instead of copying them, so API drift cannot silently desynchronize the two.
 
+## Install
+
+Install the skill into the agent clients detected on your machine with one command:
+
+```
+npx -y fluentui-design skill install
+```
+
+The installer copies the bundled skill into each detected client's skill directory. Use the options
+below to change what it targets:
+
+| Option | Purpose |
+| --- | --- |
+| `--all` | Install into every detected client instead of asking. |
+| `--target <dir>` | Install into a specific skill directory; repeat the flag for more than one. |
+| `--project` | Prefer the current project's skill directory over the global one. |
+| `--link` | Symlink the bundled skill instead of copying it. |
+| `--dry-run` | Report what would change without writing anything. |
+
+Inspect or remove an installation with the `status` and `uninstall` subcommands:
+
+```
+npx -y fluentui-design skill status
+npx -y fluentui-design skill uninstall --target <dir>
+```
+
 ## Usage
 
 The skill is authored under [`skill/`](skill/SKILL.md) and mirrored byte-for-byte to

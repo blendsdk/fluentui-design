@@ -2,8 +2,8 @@
 
 > **Document**: 99-execution-plan.md
 > **Parent**: [Index](00-index.md)
-> **Last Updated**: 2026-09-21 13:09
-> **Progress**: 25/36 tasks (69%)
+> **Last Updated**: 2026-09-21 13:20
+> **Progress**: 34/36 tasks (94%)
 > **CodeOps Artifact Schema**: 1
 
 ## Overview
@@ -147,34 +147,38 @@ workflows, documentation, and the public repository. The skill content is untouc
 
 ## Phase 3: CI, Release Workflow, and Documentation
 
-> **Phase baseline tree**: _(recorded by the exec-plan skill)_
+> **Phase baseline tree**: df3f1a71c72da18b6c270d0096ad04447a4efc8a
+> **Expected modification set**: `.github/workflows/ci.yml`, `.github/workflows/release.yml`,
+> `README.md`, `MAINTENANCE.md`, `scripts/__tests__/workflows.spec.test.ts`,
+> `scripts/workflows.d.mts` (only if needed for typed tests), this plan document.
+> **Scope mode**: strict
 
 ### Step 3.1: Specification Tests (red phase)
 
 **Reference**: [03-03](03-03-release-ci-and-repository.md) §Implementation Details · [07](07-testing-strategy.md) ST-22..ST-26 · AR #6,#8,#11,#14
 **Objective**: Encode the workflow and documentation contracts as failing tests.
 
-- [ ] 3.1.1 [spec-author] Write `scripts/__tests__/workflows.spec.test.ts` for ST-22..ST-26
-- [ ] 3.1.2 Confirm the red phase — the file fails because `.github/workflows/` and the README Install section do not exist
+- [x] 3.1.1 [spec-author] Write `scripts/__tests__/workflows.spec.test.ts` for ST-22..ST-26 ✅ (completed: 2026-09-21 13:20)
+- [x] 3.1.2 Confirm the red phase — the file fails because `.github/workflows/` and the README Install section do not exist ✅ (completed: 2026-09-21 13:20)
 
 ### Step 3.2: Implementation
 
 **Reference**: [03-03](03-03-release-ci-and-repository.md) §Implementation Details
 **Objective**: Add the workflows and user/maintainer documentation.
 
-- [ ] 3.2.1 Add the CI workflow — `.github/workflows/ci.yml`
-- [ ] 3.2.2 Add the guarded release workflow — `.github/workflows/release.yml`
-- [ ] 3.2.3 Add the Install section — `README.md`
-- [ ] 3.2.4 Add the release procedure — `MAINTENANCE.md`
+- [x] 3.2.1 Add the CI workflow — `.github/workflows/ci.yml` ✅ (completed: 2026-09-21 13:20)
+- [x] 3.2.2 Add the guarded release workflow — `.github/workflows/release.yml` ✅ (completed: 2026-09-21 13:20)
+- [x] 3.2.3 Add the Install section — `README.md` ✅ (completed: 2026-09-21 13:20)
+- [x] 3.2.4 Add the release procedure — `MAINTENANCE.md` ✅ (completed: 2026-09-21 13:20)
 
 ### Step 3.3: Green Phase and Verification
 
 **Reference**: [07](07-testing-strategy.md) ST-22..ST-27
 **Objective**: Confirm green and verify the publish payload.
 
-- [ ] 3.3.1 Run the workflow spec tests and confirm the green phase
-- [ ] 3.3.2 Run `npm pack --dry-run` and confirm the payload matches ST-27
-- [ ] 3.3.3 Run `npm run verify` and confirm it passes
+- [x] 3.3.1 Run the workflow spec tests and confirm the green phase ✅ (completed: 2026-09-21 13:20)
+- [x] 3.3.2 Run `npm pack --dry-run` and confirm the payload matches ST-27 ✅ (completed: 2026-09-21 13:20)
+- [x] 3.3.3 Run `npm run verify` and confirm it passes ✅ (completed: 2026-09-21 13:20)
 
 **Deliverables**:
 - CI and release workflows present and asserted
