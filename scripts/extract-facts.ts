@@ -33,21 +33,24 @@ function readSchemaVersion(schemaPath: string): string {
 }
 
 /**
- * Return the exact version the repository pins for the package.
+ * Return the exact version the repository declares for the package.
  *
  * Requiring the installed version to equal the declared pin makes the allowlist
- * a truthful record of the version the repository says it uses.
+ * a truthful record of the version the repository says it uses. The library may
+ * be declared as a runtime or a development dependency.
  */
 async function readPinnedVersion(): Promise<string> {
   const manifest = JSON.parse(await readFile("package.json", "utf8")) as unknown;
   if (!isJsonObject(manifest)) {
     throw new Error("package.json must contain a JSON object");
   }
-  const dependencies = manifest["dependencies"];
-  if (!isJsonObject(dependencies) || typeof dependencies[PACKAGE_NAME] !== "string") {
-    throw new Error(`package.json does not pin ${PACKAGE_NAME}`);
+  for (const section of ["dependencies", "devDependencies"]) {
+    const group = manifest[section];
+    if (isJsonObject(group) && typeof group[PACKAGE_NAME] === "string") {
+      return group[PACKAGE_NAME];
+    }
   }
-  return dependencies[PACKAGE_NAME];
+  throw new Error(`package.json does not pin ${PACKAGE_NAME}`);
 }
 
 /** Read the installed package version from its manifest. */

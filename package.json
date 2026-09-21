@@ -1,11 +1,40 @@
 {
   "name": "fluentui-design",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.1.0",
   "type": "module",
   "description": "Evidence-backed Agent Skill for composing web applications with Fluent UI React v9",
+  "license": "MIT",
+  "keywords": [
+    "fluentui",
+    "react",
+    "agent-skill",
+    "design-system",
+    "accessibility"
+  ],
+  "homepage": "https://github.com/blendsdk/fluentui-design#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blendsdk/fluentui-design.git"
+  },
+  "bugs": {
+    "url": "https://github.com/blendsdk/fluentui-design/issues"
+  },
   "engines": {
     "node": ">=22"
+  },
+  "bin": {
+    "fluentui-design": "dist/bin.js"
+  },
+  "files": [
+    "dist/",
+    "skills/fluentui-design/",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
@@ -24,6 +53,11 @@
     "check:examples": "tsx scripts/check-examples.ts",
     "scan:secrets": "tsx scripts/scan-secrets.ts",
     "freshness": "tsx scripts/freshness.ts",
+    "build:cli": "tsc -p tsconfig.build.json",
+    "assemble": "tsx scripts/assemble.ts",
+    "clean": "node -e \"const fs=require('node:fs'); fs.rmSync('dist',{recursive:true,force:true}); fs.rmSync('skills',{recursive:true,force:true})\"",
+    "prepack": "npm run clean && npm run build:cli && npm run assemble",
+    "prepublishOnly": "npm run verify:static",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
@@ -31,14 +65,11 @@
     "test:e2e": "npm run build && playwright test",
     "verify": "npm run verify:static && npm run test:e2e"
   },
-  "dependencies": {
-    "@fluentui/react-components": "9.74.7",
-    "@fluentui/react-icons": "^2.0.341",
-    "react": "18.3.1",
-    "react-dom": "18.3.1"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",
+    "@fluentui/react-components": "9.74.7",
+    "@fluentui/react-icons": "^2.0.341",
     "@playwright/test": "^1.63.0",
     "@types/node": "^22.20.4",
     "@types/react": "18.3.31",
@@ -47,6 +78,8 @@
     "ajv": "^8.20.0",
     "ajv-formats": "^3.0.1",
     "eslint": "^10.11.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
     "tsx": "^4.23.13",
     "typescript": "5.9.3",
     "typescript-eslint": "^8.70.0",

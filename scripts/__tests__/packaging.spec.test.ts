@@ -105,9 +105,12 @@ describe("package distribution contract", () => {
   it("should emit to dist and include src", () => {
     expect(existsSync("tsconfig.build.json")).toBe(true);
     const config = readJsonObject("tsconfig.build.json");
-    expect(config.outDir).toBe("dist");
+    if (!isRecord(config.compilerOptions)) {
+      throw new Error("tsconfig.build.json#compilerOptions must be an object");
+    }
+    expect(config.compilerOptions.outDir).toBe("dist");
     expect(coversSourceDirectory(config.include)).toBe(true);
-    expect(config.noEmit).not.toBe(true);
+    expect(config.compilerOptions.noEmit).not.toBe(true);
   });
 
   it("should contain the MIT License text", () => {

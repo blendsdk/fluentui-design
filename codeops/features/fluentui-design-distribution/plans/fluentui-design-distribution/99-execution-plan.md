@@ -2,8 +2,8 @@
 
 > **Document**: 99-execution-plan.md
 > **Parent**: [Index](00-index.md)
-> **Last Updated**: 2026-09-21 11:58
-> **Progress**: 3/36 tasks (8%)
+> **Last Updated**: 2026-09-21 12:04
+> **Progress**: 16/36 tasks (44%)
 > **CodeOps Artifact Schema**: 1
 
 ## Overview
@@ -47,8 +47,12 @@ workflows, documentation, and the public repository. The skill content is untouc
 > **Phase baseline tree**: ae81b309274d20641496b7860c89fdb4a4b2cf80
 > **Expected modification set**: `package.json`, `package-lock.json`, `LICENSE`, `.gitignore`,
 > `tsconfig.json`, `tsconfig.build.json`, `src/bin.ts`, `src/skill/install-skill.ts`,
-> `scripts/assemble.ts`, `scripts/lib/skill.ts`, `scripts/__tests__/{packaging,install-skill}.spec.test.ts`,
+> `scripts/assemble.ts`, `scripts/lib/skill.ts`, `scripts/check-facts.ts`, `scripts/extract-facts.ts`,
+> `scripts/__tests__/{packaging,install-skill}.spec.test.ts`,
 > `scripts/__tests__/{install-skill,assemble}.impl.test.ts`, this plan document.
+> Mechanical corrections: `check-facts.ts`/`extract-facts.ts` now read the declared UI-library
+> version from either dependency section (the planned move to `devDependencies`); the ST-6 spec
+> test reads `compilerOptions.outDir` rather than a non-existent top-level key.
 > **Scope mode**: strict
 > **Lenses**: quality profile active (strict) — informational; activation stays profile-driven.
 
@@ -66,25 +70,25 @@ workflows, documentation, and the public repository. The skill content is untouc
 **Reference**: [03-01](03-01-packaged-cli-and-installer.md) §Implementation Details
 **Objective**: Make the package publishable and implement the installer and assemble step.
 
-- [ ] 1.2.1 Update `package.json`: remove `private`; set `version` `0.1.0`, `license` `MIT`, `engines.node` `>=22`; add `bin`, `files`, `publishConfig`, `repository`/`bugs`/`homepage`, keywords; move `react`/`react-dom`/`@fluentui/react-components`/`@fluentui/react-icons` to `devDependencies`; add `build:cli`, `assemble`, `check:version`, `clean`, `prepack`, `prepublishOnly` scripts — `package.json`
-- [ ] 1.2.2 Add the MIT license — `LICENSE`
-- [ ] 1.2.3 Add ignore entries — `.gitignore` (`/dist/`, `/skills/`)
-- [ ] 1.2.4 Add the build config and include `src` in the checking config — `tsconfig.build.json`, `tsconfig.json`
-- [ ] 1.2.5 Implement the CLI dispatcher — `src/bin.ts`
-- [ ] 1.2.6 Implement the installer with renamed constants — `src/skill/install-skill.ts`
-- [ ] 1.2.7 Implement the assemble step — `scripts/assemble.ts`
-- [ ] 1.2.8 Skip `dist/` and `skills/` in the drift walk — `scripts/lib/skill.ts`
+- [x] 1.2.1 Update `package.json`: remove `private`; set `version` `0.1.0`, `license` `MIT`, `engines.node` `>=22`; add `bin`, `files`, `publishConfig`, `repository`/`bugs`/`homepage`, keywords; move `react`/`react-dom`/`@fluentui/react-components`/`@fluentui/react-icons` to `devDependencies`; add `build:cli`, `assemble`, `check:version`, `clean`, `prepack`, `prepublishOnly` scripts — `package.json` ✅ (completed: 2026-09-21 12:04)
+- [x] 1.2.2 Add the MIT license — `LICENSE` ✅ (completed: 2026-09-21 12:04)
+- [x] 1.2.3 Add ignore entries — `.gitignore` (`/dist/`, `/skills/`) ✅ (completed: 2026-09-21 12:04)
+- [x] 1.2.4 Add the build config and include `src` in the checking config — `tsconfig.build.json`, `tsconfig.json` ✅ (completed: 2026-09-21 12:04)
+- [x] 1.2.5 Implement the CLI dispatcher — `src/bin.ts` ✅ (completed: 2026-09-21 12:04)
+- [x] 1.2.6 Implement the installer with renamed constants — `src/skill/install-skill.ts` ✅ (completed: 2026-09-21 12:04)
+- [x] 1.2.7 Implement the assemble step — `scripts/assemble.ts` ✅ (completed: 2026-09-21 12:04)
+- [x] 1.2.8 Skip `dist/` and `skills/` in the drift walk — `scripts/lib/skill.ts` ✅ (completed: 2026-09-21 12:04)
 
 ### Step 1.3: Green Phase and Implementation Tests
 
 **Reference**: [07](07-testing-strategy.md) §Implementation Tests · AR #17,#18
 **Objective**: Confirm the spec tests pass, cover internals, and verify the build smoke path.
 
-- [ ] 1.3.1 Run the packaging and installer spec tests and confirm the green phase
-- [ ] 1.3.2 Add implementation tests for backup restore, leftover cleanup, symlink, and malformed marker — `scripts/__tests__/install-skill.impl.test.ts`
-- [ ] 1.3.3 Add implementation tests for assemble file count and the missing-`SKILL.md` failure — `scripts/__tests__/assemble.impl.test.ts`
-- [ ] 1.3.4 Build and smoke-test the binary: `npm run build:cli`, `npm run assemble`, then `node dist/bin.js --help` and a `--dry-run` install
-- [ ] 1.3.5 Run `npm run verify` and confirm it passes
+- [x] 1.3.1 Run the packaging and installer spec tests and confirm the green phase ✅ (completed: 2026-09-21 12:04)
+- [x] 1.3.2 Add implementation tests for backup restore, leftover cleanup, symlink, and malformed marker — `scripts/__tests__/install-skill.impl.test.ts` ✅ (completed: 2026-09-21 12:04)
+- [x] 1.3.3 Add implementation tests for assemble file count and the missing-`SKILL.md` failure — `scripts/__tests__/assemble.impl.test.ts` ✅ (completed: 2026-09-21 12:04)
+- [x] 1.3.4 Build and smoke-test the binary: `npm run build:cli`, `npm run assemble`, then `node dist/bin.js --help` and a `--dry-run` install ✅ (completed: 2026-09-21 12:04)
+- [x] 1.3.5 Run `npm run verify` and confirm it passes ✅ (completed: 2026-09-21 12:04)
 
 **Deliverables**:
 - Manifest is publishable and dependency-free at runtime

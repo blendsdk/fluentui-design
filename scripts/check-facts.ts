@@ -5,9 +5,29 @@ import { runChecks } from "./lib/report.js";
 import type { CheckOutcome, GateCheck } from "./lib/report.js";
 
 /**
+ * Read the declared version of a package from either dependency section.
+ *
+ * A library may be pinned as a runtime dependency or a development dependency,
+ * so both sections are searched before reporting the package as absent.
+ *
+ * @param manifest - Parsed `package.json` object.
+ * @param packageName - Package to look up.
+ * @returns The declared version range, or `undefined` when absent.
+ */
+function declaredVersion(manifest: Record<string, unknown>, packageName: string): unknown {
+  for (const section of ["dependencies", "devDependencies"]) {
+    const group = manifest[section];
+    if (isJsonObject(group) && group[packageName] !== undefined) {
+      return group[packageName];
+    }
+  }
+  return undefined;
+}
+
+/**
  * Confirm the committed allowlist still matches the installed package.
  *
- * The check re-reads the pinned dependency version from `package.json` and
+ * The check re-reads the declared dependency version from `package.json` and
  * re-enumerates the installed package's runtime exports, then compares both
  * with the committed allowlist. This catches a dependency bump that was not
  * followed by `npm run extract-facts`.
@@ -19,12 +39,12 @@ async function findDrift(): Promise<string[]> {
   const fact = loadVerifiedExportsSync();
 
   const manifest = JSON.parse(await readFile("package.json", "utf8")) as unknown;
-  if (!isJsonObject(manifest) || !isJsonObject(manifest["dependencies"])) {
-    return ["package.json has no dependencies object"];
+  if (!isJsonObject(manifest)) {
+    return ["package.json must contain a JSON object"];
   }
-  const pinned = manifest["dependencies"][fact.package];
-  if (pinned !== fact.version) {
-    errors.push(`allowlist pins ${fact.package}@${fact.version} but package.json declares ${String(pinned)}`);
+  const declared = declaredVersion(manifest, fact.package);
+  if (declared !== fact.version) {
+    errors.push(`allowlist pins ${fact.package}@${fact.version} but package.json declares ${String(declared)}`);
   }
 
   const module = await import(fact.package);
