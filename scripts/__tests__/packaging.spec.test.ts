@@ -57,7 +57,7 @@ describe("package distribution contract", () => {
     const manifest = readManifest();
     expect(manifest.private).toBeUndefined();
     expect(manifest.name).toBe("fluentui-design");
-    expect(manifest.version).toBe("0.1.0");
+    expect(manifest.version).toMatch(/^\d+\.\d+\.\d+$/);
     expect(manifest.license).toBe("MIT");
     if (!isRecord(manifest.engines)) {
       throw new Error("package.json#engines must be an object");

@@ -27,7 +27,7 @@
 
 | # | Input / Scenario | Expected Output / Behavior | Source |
 |---|------------------|----------------------------|--------|
-| ST-1 | Read `package.json` | `private` absent; `name` `fluentui-design`; `version` `0.1.0`; `license` `MIT`; `engines.node` `>=22` | RD-01 AC1; AR #5,#10,#16 |
+| ST-1 | Read `package.json` | `private` absent; `name` `fluentui-design`; `version` is plain semver (`0.1.0` initially, then the released version); `license` `MIT`; `engines.node` `>=22` | RD-01 AC1; AR #5,#10,#16 |
 | ST-2 | Read `package.json#bin` | `bin["fluentui-design"] === "dist/bin.js"` | RD-01 AC1; AR #4 |
 | ST-3 | Read `package.json#files` | exactly `["dist/","skills/fluentui-design/","README.md","LICENSE","CHANGELOG.md"]` | RD-01 AC1/AC11; AR #20 |
 | ST-4 | Read `package.json#dependencies` / `devDependencies` | `dependencies` is empty; `devDependencies` contains `react`, `react-dom`, `@fluentui/react-components`, `@fluentui/react-icons` | RD-01 Tech Req; AR #2 |
