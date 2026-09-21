@@ -255,6 +255,7 @@ No 🔴/🟠 findings; no re-review was required.
 | Fix | Bind the preview server explicitly to `127.0.0.1` in `playwright.config.ts`; local `test:e2e` passes (27) |
 | First automated release run | The release job failed at publish: `npm publish` → `prepublishOnly` → `verify:static` → `packaging.spec.test.ts` asserted `version === "0.1.0"`, but the release tool had already bumped to `0.1.1`. Nothing was pushed. |
 | Fix | `ST-1` now asserts plain semver; simulated post-bump `verify:static` at `0.1.1` passes |
+| Automated release validated | Dispatched `release.yml` with `patch` + `next`: published `fluentui-design@0.1.1` via OIDC with a provenance statement, tagged `next`, pushed commit/tag; `latest` remains `0.1.0` |
 
 ---
 
