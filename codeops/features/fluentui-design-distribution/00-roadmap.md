@@ -1,10 +1,10 @@
 # Roadmap: fluentui-design-distribution
 
 > **Feature-Set**: fluentui-design-distribution
-> **Status**: In Progress
+> **Status**: Done
 > **Created**: 2026-09-21
-> **Last Updated**: 2026-09-21 11:32
-> **Progress**: 0 / 1 (0%)
+> **Last Updated**: 2026-09-21 13:26
+> **Progress**: 1 / 1 (100%)
 > **CodeOps Artifact Schema**: 1
 
 ## Legend
@@ -15,4 +15,4 @@
 
 | ID | Title | RD | Plan | Stage | Status | Last Updated | Depends-on / Blocker |
 |----|-------|----|------|-------|--------|--------------|----------------------|
-| RD-01 | npm Distribution, Installation & Release | [→](requirements/RD-01-distribution-installation.md) | [→](plans/fluentui-design-distribution/00-index.md) | Executing | 🔄 | 2026-09-21 | — |
+| RD-01 | npm Distribution, Installation & Release | [→](requirements/RD-01-distribution-installation.md) | [→](plans/fluentui-design-distribution/00-index.md) | Done | ✅ | 2026-09-21 | — |

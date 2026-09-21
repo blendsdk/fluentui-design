@@ -1,8 +1,8 @@
 # Portfolio Roadmap: fluentui-design
 
 > **Status**: Active
-> **Last Updated**: 2026-09-21 11:32
-> **Features**: 1 / 2 done
+> **Last Updated**: 2026-09-21 13:26
+> **Features**: 2 / 2 done
 > **CodeOps Artifact Schema**: 1
 
 ## Legend
@@ -13,7 +13,7 @@
 
 | Feature | Roadmap | Stage Summary | Progress | Status | Last Updated |
 |---------|---------|---------------|----------|--------|--------------|
-| fluentui-design-distribution | [→](features/fluentui-design-distribution/00-roadmap.md) | 1 RD · executing | 0/1 RDs | 🔄 | 2026-09-21 |
+| fluentui-design-distribution | [→](features/fluentui-design-distribution/00-roadmap.md) | 1 RD · done | 1/1 RDs | ✅ | 2026-09-21 |
 
 ## Archived
 
