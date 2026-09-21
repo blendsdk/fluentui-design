@@ -12,6 +12,9 @@ The skill is a **separate, complementary** artifact to the API-focused `fluentui
 by the sibling `fluentui-mcp` repository. This project owns the sourced design/composition layer
 (rules, patterns, evidence); it consumes the API skill's pinned facts instead of re-scraping them.
 
+The skill is published to npm as the package **`fluentui-design`** and installed with the CLI
+(`fluentui-design skill install|status|uninstall`).
+
 ## Version baseline
 
 | Item | Value |
@@ -30,23 +33,37 @@ The root package owns the toolchain. One command is authoritative:
 | Command | Purpose |
 |---------|---------|
 | `npm run verify` | Full verification: typecheck → lint → unit tests → catalog/skill/gate checks → Playwright + axe. Use before declaring work done. |
-| `npm run verify:static` | Browser-free subset of `verify`; use for fast inner-loop checks. |
-| `npm run typecheck` | `tsc --noEmit` over scripts and configs. |
+| `npm run verify:static` | Browser-free subset of `verify` (includes `check:version`); use for fast inner-loop checks. |
+| `npm run typecheck` | `tsc --noEmit` over `src/`, `scripts/`, and configs. |
 | `npm run lint` | ESLint over the repository. |
 | `npm run test` | Vitest unit tests under `scripts/__tests__/`. |
 | `npm run test:e2e` | Playwright browser tests under `fixture/e2e/` (install Chromium once with `npx playwright install chromium`). |
+| `npm run build:cli` | Compile the CLI (`src/**` → `dist/`) with `tsconfig.build.json`. |
+| `npm run assemble` | Copy `.agents/skills/fluentui-design/` → `skills/fluentui-design/` for packaging. |
+| `npm run check:version` | Assert the three version declarations agree and no version literal is hardcoded. |
+| `npm pack --dry-run` | Inspect the publish payload (`dist/`, `skills/fluentui-design/`, `README.md`, `LICENSE`, `CHANGELOG.md`). |
 
 `verify` needs no network and no model provider. Run it after every change and before every commit.
+
+## Release
+
+`scripts/release.mjs` derives the version from conventional commits, writes `package.json` +
+`package-lock.json`, prepends a `CHANGELOG.md` section carrying the pinned baseline from
+`facts/freshness.json`, commits, tags, and publishes. It is driven by the manually dispatched
+`.github/workflows/release.yml` (npm trusted publishing / OIDC; no long-lived token). CI
+(`.github/workflows/ci.yml`) runs `npm run verify` and `npm pack --dry-run` on Node 24.
 
 ## Layout
 
 - `codeops/` — CodeOps artifacts (nested layout).
 - `codeops/features/<feature>/` — per-feature requirements, plans, and roadmaps.
-- `scripts/` — TypeScript validators, generator, and gates; tests in `scripts/__tests__/`.
+- `src/` — the installer CLI (`bin.ts`, `skill/install-skill.ts`) compiled to `dist/`.
+- `scripts/` — TypeScript validators/generator/gates plus the `.mjs` release tools; tests in `scripts/__tests__/`.
 - `sources/`, `rules/`, `research/`, `facts/` — JSON catalogs and analysis artifacts.
 - `skill/` — the authored Agent Skill (`SKILL.md` + `references/`).
 - `fixture/` — Vite + React 18 application and its Playwright specs.
 - `evaluation/` — evaluation tasks, rubric, and recorded results.
+- `.github/workflows/` — CI and release workflows.
 
 ## Generated files
 
@@ -59,6 +76,8 @@ catch divergence.
 | `rules/rules.md` | `rules/rules.json` |
 | `skill/references/index.md`, `skill/references/rules/index.md` | catalog ids and pattern frontmatter |
 | `.agents/skills/fluentui-design/**` | byte-identical mirror of `skill/` |
+| `skills/fluentui-design/**` | `npm run assemble` copy of the `.agents` mirror (git-ignored, built by `prepack`) |
+| `dist/**` | `npm run build:cli` (git-ignored) |
 
 Generated files start with a `<!-- GENERATED FILE — DO NOT EDIT` marker.
 
