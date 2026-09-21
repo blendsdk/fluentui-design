@@ -2,8 +2,8 @@
 
 > **Document**: 99-execution-plan.md
 > **Parent**: [Index](00-index.md)
-> **Last Updated**: 2026-09-21 12:47
-> **Progress**: 16/36 tasks (44%)
+> **Last Updated**: 2026-09-21 12:58
+> **Progress**: 25/36 tasks (69%)
 > **CodeOps Artifact Schema**: 1
 
 ## Overview
@@ -101,34 +101,40 @@ workflows, documentation, and the public repository. The skill content is untouc
 
 ## Phase 2: Version Integrity and Release Tooling
 
-> **Phase baseline tree**: _(recorded by the exec-plan skill)_
+> **Phase baseline tree**: fefb8ade3989f2e72c4f127bb7fcf14ff8b3b6d4
+> **Expected modification set**: `scripts/check-version.mjs`, `scripts/release.mjs`,
+> `scripts/__tests__/release.spec.test.ts`, `scripts/__tests__/release.impl.test.ts`,
+> `package.json`, `package-lock.json`, `CHANGELOG.md`, this plan document.
+> Mechanical corrections: `.d.mts` type declarations for the `.mjs` tools so the type-checked
+> `.ts` tests can import them; no runtime code.
+> **Scope mode**: strict
 
 ### Step 2.1: Specification Tests (red phase)
 
 **Reference**: [03-02](03-02-build-assemble-and-integrity.md) §Version/§Release · [07](07-testing-strategy.md) ST-17..ST-21 · AR #12,#13
 **Objective**: Encode the version and release contracts as failing tests.
 
-- [ ] 2.1.1 [spec-author] Write `scripts/__tests__/release.spec.test.ts` for ST-17..ST-21
-- [ ] 2.1.2 Confirm the red phase — the file fails because `scripts/release.mjs` and `scripts/check-version.mjs` do not exist
+- [x] 2.1.1 [spec-author] Write `scripts/__tests__/release.spec.test.ts` for ST-17..ST-21 ✅ (completed: 2026-09-21 12:58)
+- [x] 2.1.2 Confirm the red phase — the file fails because `scripts/release.mjs` and `scripts/check-version.mjs` do not exist ✅ (completed: 2026-09-21 12:58)
 
 ### Step 2.2: Implementation
 
 **Reference**: [03-02](03-02-build-assemble-and-integrity.md) §Implementation Details
 **Objective**: Implement the version-parity gate and the release tool with baseline injection.
 
-- [ ] 2.2.1 Implement the version-parity check scanning `src/` and `scripts/` — `scripts/check-version.mjs`
-- [ ] 2.2.2 Implement the release tool with baseline injection from `facts/freshness.json` — `scripts/release.mjs`
-- [ ] 2.2.3 Add `check:version` to `verify:static` — `package.json`
+- [x] 2.2.1 Implement the version-parity check scanning `src/` and `scripts/` — `scripts/check-version.mjs` ✅ (completed: 2026-09-21 12:58)
+- [x] 2.2.2 Implement the release tool with baseline injection from `facts/freshness.json` — `scripts/release.mjs` ✅ (completed: 2026-09-21 12:58)
+- [x] 2.2.3 Add `check:version` to `verify:static` — `package.json` ✅ (completed: 2026-09-21 12:58)
 
 ### Step 2.3: Green Phase and Implementation Tests
 
 **Reference**: [07](07-testing-strategy.md) §Implementation Tests
 **Objective**: Confirm green, cover tooling edges, and verify the gate.
 
-- [ ] 2.3.1 Run the release spec tests and confirm the green phase
-- [ ] 2.3.2 Add implementation tests for changelog merge ordering, empty commit set, unconventional messages, and dry-run — `scripts/__tests__/release.impl.test.ts`
-- [ ] 2.3.3 Run `npm run check:version` and confirm it passes on the clean tree
-- [ ] 2.3.4 Run `npm run verify` and confirm it passes
+- [x] 2.3.1 Run the release spec tests and confirm the green phase ✅ (completed: 2026-09-21 12:58)
+- [x] 2.3.2 Add implementation tests for changelog merge ordering, empty commit set, unconventional messages, and dry-run — `scripts/__tests__/release.impl.test.ts` ✅ (completed: 2026-09-21 12:58)
+- [x] 2.3.3 Run `npm run check:version` and confirm it passes on the clean tree ✅ (completed: 2026-09-21 12:58)
+- [x] 2.3.4 Run `npm run verify` and confirm it passes ✅ (completed: 2026-09-21 12:58)
 
 **Deliverables**:
 - Version parity enforced in the static gate
