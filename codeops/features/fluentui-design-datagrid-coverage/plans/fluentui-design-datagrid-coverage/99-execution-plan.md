@@ -2,8 +2,8 @@
 
 > **Document**: 99-execution-plan.md
 > **Parent**: [Index](00-index.md)
-> **Last Updated**: 2026-09-22 00:06
-> **Progress**: 15/18 tasks (83%)
+> **Last Updated**: 2026-09-22 00:15
+> **Progress**: 18/18 tasks (100%)
 > **CodeOps Artifact Schema**: 1
 
 ## Overview
@@ -102,13 +102,13 @@ no code, dependency, pattern-count, or decision-index change.
 
 ## Phase 5: Release
 
-> **Phase baseline tree**: _(recorded by the exec-plan skill)_
+> **Phase baseline tree**: _(release; no repository content change beyond the version files)_
 > **Expected modification set**: version files and changelog produced by the release workflow.
 > **Scope mode**: strict
 
-- [ ] 5.1.1 Ensure `main` is pushed and clean
-- [ ] 5.1.2 Dispatch `release.yml` with `version_type=minor` and `dist_tag=latest`
-- [ ] 5.1.3 Verify the published version and tag (`npm view fluentui-design dist-tags`, `git ls-remote --tags origin`)
+- [x] 5.1.1 Ensure `main` is pushed and clean ✅ (completed: 2026-09-22 00:15)
+- [x] 5.1.2 Dispatch `release.yml` with `version_type=minor` and `dist_tag=latest` ✅ (completed: 2026-09-22 00:15)
+- [x] 5.1.3 Verify the published version and tag (`npm view fluentui-design dist-tags`, `git ls-remote --tags origin`) ✅ (completed: 2026-09-22 00:15)
 
 **Deliverables**:
 - A minor release published from `main`
