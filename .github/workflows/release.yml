@@ -1,3 +1,5 @@
+# Publish a release. Dispatch it manually from the Actions tab; see
+# MAINTENANCE.md for the release and first-publish procedure.
 name: Release
 
 on:
