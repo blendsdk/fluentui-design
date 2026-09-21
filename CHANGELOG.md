@@ -8,6 +8,19 @@ Each release records three things: the skill version, the baseline
 `@fluentui/react-components` package version, and the pinned `fluentui-mcp` facts commit. See
 [MAINTENANCE.md](MAINTENANCE.md) for the re-pin procedure.
 
+## [0.1.2] - 2026-09-21
+
+### Baseline
+
+| Item | Value |
+| --- | --- |
+| `@fluentui/react-components` | 9.74.7 |
+| `fluentui-mcp` facts commit | d595d79 |
+
+### Documentation
+
+- plan: record the validated automated release
+
 ## [0.1.1] - 2026-09-21
 
 ### Baseline
