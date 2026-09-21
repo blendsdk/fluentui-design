@@ -360,14 +360,13 @@ function listFilesSync(dir: string): string[] {
       return;
     }
     for (const entry of entries) {
-      if (
-        entry.isDirectory() &&
-        (entry.name === "node_modules" ||
-          entry.name === ".git" ||
-          entry.name === "dist" ||
-          entry.name === "skills")
-      ) {
-        continue;
+      if (entry.isDirectory()) {
+        const isDependencyDir = entry.name === "node_modules" || entry.name === ".git";
+        const isBuildOutputDir =
+          current === "." && (entry.name === "dist" || entry.name === "skills");
+        if (isDependencyDir || isBuildOutputDir) {
+          continue;
+        }
       }
       const child = current === "." ? entry.name : `${current}/${entry.name}`;
       if (entry.isDirectory()) {

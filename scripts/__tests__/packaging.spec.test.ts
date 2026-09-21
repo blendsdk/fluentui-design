@@ -100,6 +100,7 @@ describe("package distribution contract", () => {
       throw new Error("package.json#publishConfig must be an object");
     }
     expect(manifest.publishConfig.access).toBe("public");
+    expect(manifest.publishConfig.registry).toBe("https://registry.npmjs.org/");
   });
 
   it("should emit to dist and include src", () => {

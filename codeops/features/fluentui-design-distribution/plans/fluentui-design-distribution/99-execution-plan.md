@@ -2,7 +2,7 @@
 
 > **Document**: 99-execution-plan.md
 > **Parent**: [Index](00-index.md)
-> **Last Updated**: 2026-09-21 12:04
+> **Last Updated**: 2026-09-21 12:47
 > **Progress**: 16/36 tasks (44%)
 > **CodeOps Artifact Schema**: 1
 
@@ -195,6 +195,22 @@ workflows, documentation, and the public repository. The skill content is untouc
 - Repository exists and `main` is pushed
 
 **Verify**: remote inspection (`git remote -v`; `git ls-remote origin main`)
+
+---
+
+## Review Evidence
+
+### Phase 1 (quality profile: strict; base lenses + security audit)
+
+| Batch | Findings | Ruling | Outcome |
+| ----- | -------- | ------ | ------- |
+| Initial review | RV-1301 🟠 (`--all`/`isTTY` dead, no TTY selection), RV-1302 🟠 (no backup-restore test) | Fix both | Fixed and verified |
+| Initial review | RV-1303, RV-1304, RV-1305, RV-1306, SA-1305 (🟡) | Fix cheap ones | Fixed and verified |
+| Initial review | RV-1307, SA-1301–1304 (🟡) | Report-only | Recorded, no action |
+| Re-review (fix diff) | RV-1401 🟠 (`main` rejection on Ctrl+D unhandled by `bin.ts`) | Fix, plus RV-1402/RV-1403 coverage | Fixed and verified |
+| Re-review (fix diff) | RV-1301, RV-1302, RV-1303, RV-1304, RV-1305, RV-1306, SA-1305 | — | Fixes verified |
+
+Security audit raised no 🔴/🟠 findings. Re-review is the single allowed pass; no third pass was run.
 
 ---
 

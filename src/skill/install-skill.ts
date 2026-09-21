@@ -15,6 +15,7 @@ import fs from "node:fs";
 import { homedir } from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import readline from "node:readline/promises";
 
 /** The skill directory name installed into every client. */
 export const SKILL_DIR_NAME = "fluentui-design";
@@ -403,7 +404,7 @@ function assertReplaceable(dest: string): void {
  * @param value - Text to sanitize.
  * @returns The text without control or display-formatting characters.
  */
-function sanitizeForDisplay(value: string): string {
+export function sanitizeForDisplay(value: string): string {
   return value.replace(
     /[\u0000-\u001f\u007f-\u009f\u200b-\u200f\u202a-\u202e\u2060-\u2064\u2066-\u2069\ufeff]/g,
     "",
@@ -440,8 +441,26 @@ export function installSkill(options: InstallOptions): InstallResult {
   cleanLeftovers(targetDir);
 
   if (link) {
-    fs.rmSync(dest, { recursive: true, force: true });
-    fs.symlinkSync(sourceDir, dest, process.platform === "win32" ? "junction" : "dir");
+    const tmpLink = path.join(targetDir, `${TEMP_PREFIX}${process.pid}`);
+    const backup = path.join(targetDir, `${BACKUP_PREFIX}${process.pid}`);
+
+    try {
+      fs.symlinkSync(sourceDir, tmpLink, process.platform === "win32" ? "junction" : "dir");
+
+      if (entryExists(dest)) {
+        fs.renameSync(dest, backup);
+      }
+
+      fs.renameSync(tmpLink, dest);
+      fs.rmSync(backup, { recursive: true, force: true });
+    } catch (error) {
+      fs.rmSync(tmpLink, { recursive: true, force: true });
+      if (entryExists(backup) && !entryExists(dest)) {
+        fs.renameSync(backup, dest);
+      }
+      throw error;
+    }
+
     return { targetDir, dest, linked: true };
   }
 
@@ -604,15 +623,54 @@ function readPackageVersion(moduleUrl: string): string {
 }
 
 /**
+ * Prompts the user to choose among the detected clients.
+ *
+ * Only called on an interactive terminal. An empty answer selects every
+ * detected client, and an out-of-range answer falls back to all of them so the
+ * command never silently installs nothing.
+ *
+ * @param detected - Detected clients.
+ * @returns The chosen clients.
+ */
+async function promptSelection(detected: DetectedClient[]): Promise<DetectedClient[]> {
+  const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+
+  try {
+    console.log("Detected agent skill directories:");
+    detected.forEach((client, index) => {
+      console.log(`  ${index + 1}. ${client.id}  ${client.globalDir}`);
+    });
+    const answer = await rl.question("Install into which? (comma-separated numbers, empty = all): ");
+    const trimmed = answer.trim();
+
+    if (trimmed === "") {
+      return detected;
+    }
+
+    const chosen = trimmed
+      .split(",")
+      .map((part) => Number.parseInt(part.trim(), 10) - 1)
+      .filter((index) => index >= 0 && index < detected.length)
+      .map((index) => detected[index])
+      .filter((client): client is DetectedClient => client !== undefined);
+
+    return chosen.length > 0 ? chosen : detected;
+  } finally {
+    rl.close();
+  }
+}
+
+/**
  * Runs the installer CLI.
  *
  * @param argv - Arguments after `skill`.
  * @param io - Injectable environment values.
  * @returns Process exit code.
  */
-export function main(argv: string[], io: InstallerIo = {}): number {
+export async function main(argv: string[], io: InstallerIo = {}): Promise<number> {
   const home = io.home ?? homedir();
   const cwd = io.cwd ?? process.cwd();
+  const isTTY = io.isTTY ?? Boolean(process.stdin.isTTY);
   const version = io.version ?? readPackageVersion(import.meta.url);
 
   const { command, options, error } = parseArgs(argv);
@@ -636,7 +694,19 @@ export function main(argv: string[], io: InstallerIo = {}): number {
     return 1;
   }
 
-  const targets = resolveTargets(options, detected);
+  let targets: string[];
+  if (options.targets.length > 0 || options.project || options.all || !isTTY) {
+    targets = resolveTargets(options, detected);
+  } else {
+    let chosen: DetectedClient[];
+    try {
+      chosen = await promptSelection(detected);
+    } catch {
+      console.error("cancelled before any change was made.");
+      return 130;
+    }
+    targets = chosen.map((client) => client.globalDir);
+  }
 
   if (targets.length === 0) {
     console.error("No target directories were selected.");

@@ -82,16 +82,16 @@ describe("skill client detection and target resolution", () => {
     expect(ids).not.toContain("agents");
   });
 
-  it("should return explicit targets verbatim", () => {
+  it("should prefer explicit targets over project directories", () => {
     const targets = resolveTargets(
       {
         targets: ["/a/skills", "/b/skills"],
-        project: false,
+        project: true,
         link: false,
         dryRun: false,
         all: false,
       },
-      [],
+      [{ id: "claude", globalDir: "/home/u/.claude/skills", projectDir: "/work/.claude/skills" }],
     );
     expect(targets).toEqual(["/a/skills", "/b/skills"]);
   });

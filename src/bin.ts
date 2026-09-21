@@ -34,7 +34,7 @@ Run 'fluentui-design skill --help' for the installer options.`);
  * @param argv - Arguments after the `fluentui-design` program name.
  * @returns Process exit code.
  */
-export function main(argv: string[]): number {
+export async function main(argv: string[]): Promise<number> {
   const [command, ...rest] = argv;
 
   if (command === undefined || command === "-h" || command === "--help") {
@@ -70,5 +70,13 @@ function isEntryPoint(): boolean {
 }
 
 if (isEntryPoint()) {
-  process.exitCode = main(process.argv.slice(2));
+  main(process.argv.slice(2)).then(
+    (code) => {
+      process.exitCode = code;
+    },
+    (error: unknown) => {
+      console.error(`error: ${error instanceof Error ? error.message : String(error)}`);
+      process.exitCode = 1;
+    },
+  );
 }
