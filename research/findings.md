@@ -138,6 +138,66 @@
 | confidence | High — stated component behavior |
 | informsRules | RULE-015 |
 
+### FND-013 — Sorting requires a compare function
+
+| Field | Value |
+| --- | --- |
+| id | FND-013 |
+| statement | A DataGrid column sorts only when its column definition supplies a `compare` function; enabling `sortable` alone does not make a column orderable, and a column without `compare` remains unsortable. |
+| kind | versioned-implementation-fact |
+| sources | SRC-046 (locator: packages/react-components/react-table/stories/src/DataGrid, Sort) and SRC-027 (repo-path: packages/react-components/react-table) |
+| versionScope | @fluentui/react-components 9.74.7 |
+| confidence | High — stated in the v9 DataGrid docs and visible in the package source |
+| informsRules | RULE-031 |
+
+### FND-014 — Composite focus and explicit cell focus modes
+
+| Field | Value |
+| --- | --- |
+| id | FND-014 |
+| statement | DataGrid uses a composite focus model with one tab stop and roving arrow keys, so a cell containing focusable controls must declare `focusMode` `group` for several controls or `none` for exactly one; a sortable header cell renders its label inside a sort button and therefore must not contain nested focusable controls. |
+| kind | versioned-implementation-fact |
+| sources | SRC-046 (locator: packages/react-components/react-table/stories/src/DataGrid, FocusableElementsInCells and CompositeNavigation) and SRC-037 (APG grid pattern) |
+| versionScope | Fluent UI React v9 |
+| confidence | High — documented component behavior |
+| informsRules | RULE-032, RULE-033, RULE-036 |
+
+### FND-015 — Column resizing is a preview capability with overflow consequences
+
+| Field | Value |
+| --- | --- |
+| id | FND-015 |
+| statement | Column resizing is a preview capability driven by `resizableColumns` and `columnSizingOptions`; with auto-fit disabled, columns may grow past the viewport, so resizing needs a container that scrolls horizontally rather than the page. |
+| kind | versioned-implementation-fact |
+| sources | SRC-046 (locator: packages/react-components/react-table/stories/src/DataGrid, ColumnResizing) and SRC-035 (WCAG 2.2 SC 1.4.10 Reflow) |
+| versionScope | Fluent UI React v9 |
+| confidence | Med — the capability is explicitly documented as preview |
+| informsRules | RULE-034 |
+
+### FND-016 — Virtualization is an extension that requires a stable renderer
+
+| Field | Value |
+| --- | --- |
+| id | FND-016 |
+| statement | DataGrid does not virtualize on its own; virtualization comes from a community extension that builds components from the row renderer, so the renderer must be memoized with a stable row key, and virtualization is adopted only after measuring a performance need. |
+| kind | versioned-implementation-fact |
+| sources | SRC-046 (locator: packages/react-components/react-table/stories/src/DataGrid, Virtualization) and SRC-027 (repo-path: packages/react-components/react-table) |
+| versionScope | Fluent UI React v9 |
+| confidence | Med — extension guidance, not a core-API guarantee |
+| informsRules | RULE-035 |
+
+### FND-017 — Sort changes are not reliably announced
+
+| Field | Value |
+| --- | --- |
+| id | FND-017 |
+| statement | The library does not reliably announce a sort-state change to assistive technology after a sortable header is invoked, even though the interaction follows the sortable-table pattern. |
+| kind | unresolved |
+| sources | SRC-046 (locator: packages/react-components/react-table/stories/src/DataGrid, Sort) |
+| versionScope | Fluent UI React v9 |
+| confidence | Med — documented known issue; behavior may change in a later release |
+| informsRules | RULE-031 |
+
 ## Risky Simplifications Register
 
 | Simplification | Verdict | Because | Sources |

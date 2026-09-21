@@ -2,8 +2,8 @@
 
 > **Document**: 99-execution-plan.md
 > **Parent**: [Index](00-index.md)
-> **Last Updated**: 2026-09-21 22:00
-> **Progress**: 0/18 tasks (0%)
+> **Last Updated**: 2026-09-22 00:01
+> **Progress**: 4/18 tasks (22%)
 > **CodeOps Artifact Schema**: 1
 
 ## Overview
@@ -22,14 +22,14 @@ no code, dependency, pattern-count, or decision-index change.
 
 ## Phase 1: Evidence
 
-> **Phase baseline tree**: _(recorded by the exec-plan skill)_
+> **Phase baseline tree**: 0b3d01a0d05cd41014d959de7b0b08ce9e528415
 > **Expected modification set**: `sources/sources.json`, `research/findings.md`, this plan document.
 > **Scope mode**: strict
 
-- [ ] 1.1.1 Confirm the red state: `SRC-046`, `FND-013`, and `RULE-031` are absent and `RULE-010.unresolved` is non-empty
-- [ ] 1.1.2 Add `SRC-046` to `sources/sources.json`
-- [ ] 1.1.3 Add `FND-013`..`FND-017` to `research/findings.md`
-- [ ] 1.1.4 Run `npm run validate:sources` and confirm it passes
+- [x] 1.1.1 Confirm the red state: `SRC-046`, `FND-013`, and `RULE-031` are absent and `RULE-010.unresolved` is non-empty ✅ (completed: 2026-09-22 00:01)
+- [x] 1.1.2 Add `SRC-046` to `sources/sources.json` ✅ (completed: 2026-09-22 00:01)
+- [x] 1.1.3 Add `FND-013`..`FND-017` to `research/findings.md` ✅ (completed: 2026-09-22 00:01)
+- [x] 1.1.4 Run `npm run validate:sources` and confirm it passes ✅ (completed: 2026-09-22 00:01)
 
 **Deliverables**:
 - SRC-046 recorded as analyzed

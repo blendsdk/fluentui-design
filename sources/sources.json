@@ -538,5 +538,21 @@
     "summary": "Discovery target: the official Fluent Web Figma kit and the Teams UI templates linked from the design getting-started and Teams pages, with version, access, and license checks.",
     "evidenceRefs": [], "conflicts": [], "linkedRuleIds": [],
     "licenseNotes": "Microsoft Fluent 2 documentation; summaries and links only; kit contents not inspected"
+  },
+  {
+    "id": "SRC-046", "seedId": null, "title": "DataGrid usage and API (v9 docs and package source)", "publisher": "Microsoft",
+    "requestedUrl": "https://github.com/microsoft/fluentui/tree/master/packages/react-components/react-table", "resolvedUrl": "https://github.com/microsoft/fluentui/tree/master/packages/react-components/react-table",
+    "category": "component-usage", "platform": "web-react", "productScope": "",
+    "tags": ["datagrid", "table", "sorting", "selection", "focus", "column-resizing", "virtualization"],
+    "applicableVersion": "Fluent UI React v9", "publicationDate": null, "retrievalDate": "2026-09-21",
+    "status": "analyzed", "accessLimitation": null, "exclusionReason": null,
+    "locators": [
+      {"kind": "repo-path", "value": "packages/react-components/react-table"},
+      {"kind": "repo-path", "value": "packages/react-components/react-table/stories/src/DataGrid"},
+      {"kind": "repo-path", "value": "packages/react-components/react-table/library/src"}
+    ],
+    "summary": "The v9 DataGrid documentation and source: declarative column definitions in which sorting requires a compare function; controlled or uncontrolled sort and selection state; a composite focus model with a per-cell focusMode; preview column resizing with sizing options; selection cells that need accessible names; and virtualization through a community extension that requires a memoized row renderer. No first-party Fluent 2 usage page exists for DataGrid or Table (both return 404), so this source is the authoritative evidence.",
+    "evidenceRefs": [], "conflicts": [], "linkedRuleIds": [],
+    "licenseNotes": "MIT (Microsoft fluentui repository); summaries only"
   }
 ]
