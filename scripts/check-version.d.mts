@@ -1,5 +1,5 @@
 /**
- * Type declarations for the version-parity check.
+ * Type declarations for the JSDoc-typed version-parity check.
  *
  * The implementation is plain ESM JavaScript so it runs under `node` without a
  * build step. These declarations give the TypeScript tests a typed surface.
@@ -21,10 +21,41 @@ export interface VersionCheckResult {
   errors: string[];
 }
 
+/** The repository inputs the parity check runs against. */
+export interface RepositoryState {
+  /** Parsed `package.json`. */
+  packageJson: { version?: unknown };
+  /** Parsed `package-lock.json`. */
+  packageLock: { version?: unknown; packages?: Record<string, { version?: unknown }> };
+  /** Files to scan for a hardcoded version literal. */
+  scanFiles: ScannedFile[];
+}
+
+/**
+ * Checks that the package version is declared once and matches its lockfile.
+ *
+ * @param packageJson - Parsed `package.json`.
+ * @param packageLock - Parsed `package-lock.json`.
+ * @param scanFiles - Files to scan for a hardcoded version literal.
+ * @returns Whether the tree is consistent, plus a message per problem found.
+ */
 export function checkVersions(
   packageJson: { version?: unknown },
   packageLock: { version?: unknown; packages?: Record<string, { version?: unknown }> },
   scanFiles: ScannedFile[],
 ): VersionCheckResult;
 
-export function main(): number;
+/**
+ * Loads the repository state the parity check runs against.
+ *
+ * @returns The parsed manifest, the parsed lockfile, and the scanned files.
+ */
+export function loadRepositoryState(): RepositoryState;
+
+/**
+ * Runs the parity check against the repository.
+ *
+ * @param load - Loader for the repository state; injectable for tests.
+ * @returns Process exit code; `0` when every declaration agrees.
+ */
+export function main(load?: () => RepositoryState): number;

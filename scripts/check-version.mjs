@@ -39,13 +39,7 @@ const EXEMPT_FILES = new Set(["package.json", "package-lock.json", "CHANGELOG.md
  * @returns True when the file is exempt because it is test-only.
  */
 function isTestFile(name) {
-  return (
-    name.includes("__tests__") ||
-    name.endsWith(".test.ts") ||
-    name.endsWith(".test.mjs") ||
-    name.endsWith(".spec.test.ts") ||
-    name.endsWith(".spec.test.mjs")
-  );
+  return name.includes("__tests__") || name.endsWith(".test.ts") || name.endsWith(".test.mjs");
 }
 
 /**
@@ -91,6 +85,8 @@ function findVersionLiterals(version, scanFiles) {
  * Collects the shipped source files that must not hardcode the version.
  *
  * @returns Relative path and content for every scannable file.
+ * @throws When a scanned directory or file cannot be read, so a permissions
+ * problem can never silently shrink the scan.
  */
 function collectScanFiles() {
   const files = [];
@@ -99,8 +95,8 @@ function collectScanFiles() {
     let paths;
     try {
       paths = listFiles(join(ROOT, dir));
-    } catch {
-      continue;
+    } catch (error) {
+      throw new Error(`cannot read ${dir}/ for the version scan: ${messageOf(error)}`);
     }
 
     for (const absolute of paths) {
@@ -108,13 +104,23 @@ function collectScanFiles() {
       if (EXEMPT_FILES.has(name) || isTestFile(name)) continue;
       try {
         files.push({ path: name, content: readFileSync(absolute, "utf-8") });
-      } catch {
-        continue;
+      } catch (error) {
+        throw new Error(`cannot read ${name} for the version scan: ${messageOf(error)}`);
       }
     }
   }
 
   return files;
+}
+
+/**
+ * Renders an unknown thrown value as a message.
+ *
+ * @param error - Value caught from a failing operation.
+ * @returns A human-readable message.
+ */
+function messageOf(error) {
+  return error instanceof Error ? error.message : String(error);
 }
 
 /**
@@ -161,21 +167,41 @@ export function checkVersions(packageJson, packageLock, scanFiles) {
 }
 
 /**
+ * Loads the repository state the parity check runs against.
+ *
+ * @returns The parsed manifest, the parsed lockfile, and the scanned files.
+ */
+export function loadRepositoryState() {
+  return {
+    packageJson: JSON.parse(readFileSync(join(ROOT, "package.json"), "utf-8")),
+    packageLock: JSON.parse(readFileSync(join(ROOT, "package-lock.json"), "utf-8")),
+    scanFiles: collectScanFiles(),
+  };
+}
+
+/**
  * Runs the parity check against the repository.
  *
+ * @param load - Loader for the repository state; injectable for tests.
  * @returns Process exit code; `0` when every declaration agrees.
  */
-export function main() {
-  const packageJson = JSON.parse(readFileSync(join(ROOT, "package.json"), "utf-8"));
-  const packageLock = JSON.parse(readFileSync(join(ROOT, "package-lock.json"), "utf-8"));
-  const result = checkVersions(packageJson, packageLock, collectScanFiles());
+export function main(load = loadRepositoryState) {
+  let state;
+  try {
+    state = load();
+  } catch (error) {
+    console.error(`error: ${messageOf(error)}`);
+    return 1;
+  }
+
+  const result = checkVersions(state.packageJson, state.packageLock, state.scanFiles);
 
   if (!result.ok) {
     for (const error of result.errors) console.error(`error: ${error}`);
     return 1;
   }
 
-  console.log(`version ok: ${packageJson.version}`);
+  console.log(`version ok: ${state.packageJson.version}`);
   return 0;
 }
 

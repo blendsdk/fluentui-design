@@ -159,7 +159,7 @@ export function buildChangelogEntry(version, date, commits, baseline) {
     .map((commit) => parseCommit(commit.subject, commit.body ?? ""))
     .filter(Boolean);
 
-  const lines = [`## ${version} — ${date}`, ""];
+  const lines = [`## [${version}] - ${date}`, ""];
 
   lines.push("### Baseline", "");
   lines.push("| Item | Value |", "| --- | --- |");
@@ -302,6 +302,7 @@ function readCommits() {
 
   return raw
     .split("\x1e")
+    .map((record) => record.replace(/^\n+/, ""))
     .filter((record) => record.trim() !== "")
     .map((record) => {
       const [subject = "", body = ""] = record.split("\x1f");
@@ -379,21 +380,25 @@ function commitAndTag(version, { ci, noGitCommit }) {
 
   run("git", ["add", "package.json", "package-lock.json", "CHANGELOG.md"]);
   run("git", ["commit", "-m", `chore(release): v${version}${ci ? " [skip ci]" : ""}`]);
-  run("git", ["tag", `v${version}`]);
+  run("git", ["tag", "-a", `v${version}`, "-m", `v${version}`]);
 }
 
 /**
  * Publishes the current package version to npm.
  *
+ * A dry run does not invoke npm at all: `npm publish --dry-run` would still run
+ * the package's `prepublishOnly` and `prepack` lifecycle scripts, which rebuild
+ * the build output. Reporting the intended publish is left to the caller.
+ *
  * @param details - Publish inputs.
  * @param details.tag - npm dist-tag (`latest`, `next`, `beta`, ...).
  * @param details.access - npm access level.
- * @param details.dryRun - Run `npm publish --dry-run` and publish nothing.
+ * @param details.dryRun - When true, publish nothing.
  */
 export function publish({ tag, access = "public", dryRun = false }) {
+  if (dryRun) return;
   const args = ["publish", "--access", access, "--tag", tag];
-  if (dryRun) args.push("--dry-run");
-  else if (process.env.CI) args.push("--provenance");
+  if (process.env.CI) args.push("--provenance");
   run("npm", args);
 }
 
@@ -505,6 +510,9 @@ export function parseCli(argv) {
   if (options.tag && !/^[A-Za-z0-9._-]+$/.test(options.tag)) {
     return { command, options, error: `invalid --tag value '${options.tag}'` };
   }
+  if (!["public", "restricted"].includes(options.access)) {
+    return { command, options, error: `--access must be public|restricted` };
+  }
 
   return { command, options };
 }
@@ -526,6 +534,17 @@ export function main(argv, overrides = {}) {
   if (command === "help") {
     printUsage();
     return 0;
+  }
+
+  // Validate command-specific requirements before any mutation, so a usage
+  // error can never leave a committed version or a pushed tag behind.
+  if ((command === "release" || command === "publish") && !options.tag) {
+    deps.error(`error: ${command} requires --tag <dist-tag>`);
+    return 2;
+  }
+  if (command !== "version" && options.noGitCommit) {
+    deps.error("error: --no-git-commit is only valid for the version command");
+    return 2;
   }
 
   try {
@@ -558,18 +577,22 @@ export function main(argv, overrides = {}) {
         return 0;
       }
 
-      if (!options.tag) {
-        deps.error("error: release requires --tag <dist-tag>");
-        return 2;
+      if (options.dryRun) {
+        deps.log(`[dry-run] would publish with --tag ${options.tag} and --access ${options.access}`);
+      } else {
+        deps.publish({ tag: options.tag, access: options.access });
       }
-      deps.publish({ tag: options.tag, access: options.access, dryRun: options.dryRun });
       if (options.gitPush && !options.dryRun) deps.gitPush();
       return 0;
     }
 
     if (command === "publish") {
-      const tag = options.tag ?? "latest";
-      deps.publish({ tag, access: options.access, dryRun: options.dryRun });
+      if (options.dryRun) {
+        deps.log(`[dry-run] would publish with --tag ${options.tag} and --access ${options.access}`);
+      } else {
+        deps.assertCleanTree();
+        deps.publish({ tag: options.tag, access: options.access });
+      }
       if (options.gitPush && !options.dryRun) deps.gitPush();
       return 0;
     }

@@ -5,7 +5,7 @@ import {
   parseCommit,
   semverBump,
 } from "../../scripts/release.mjs";
-import { checkVersions } from "../../scripts/check-version.mjs";
+import { checkVersions, main as runCheckVersion } from "../../scripts/check-version.mjs";
 
 /**
  * The pinned baseline the changelog section must record.
@@ -63,5 +63,15 @@ describe("version parity check", () => {
     const message = result.errors.join("\n");
     expect(message).toContain("package-lock.json");
     expect(message).toContain("1.2.2");
+  });
+
+  it("should exit non-zero when the declaration drifts", () => {
+    const code = runCheckVersion(() => ({
+      packageJson: { version: "1.2.3" },
+      packageLock: { version: "1.2.2", packages: { "": { version: "1.2.2" } } },
+      scanFiles: [],
+    }));
+
+    expect(code).toBe(1);
   });
 });

@@ -92,7 +92,8 @@ a Baseline table read from `facts/freshness.json` `pinned.packageVersion` and `p
 | `assemble` source missing `SKILL.md` | Throw and exit 1 | #3 |
 | `check:version` drift | Print which declaration disagrees; exit 1 | #12 |
 | Hardcoded version literal | Name the offending files; exit 1 | #12 |
-| `release` without `--tag` | Print usage; exit 1 | #13 |
+| `release` without `--tag` | Print guidance; exit 2 | #13 |
+| `publish` without `--tag` | Print guidance; exit 2 | #13 |
 | Dirty git tree during release | Refuse; exit 1 | #13 |
 | Tag already exists | Refuse; exit 1 | #13 |
 

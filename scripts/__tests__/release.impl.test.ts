@@ -1,12 +1,16 @@
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import {
   buildChangelogEntry,
   determineBump,
   main,
   mergeChangelog,
+  parseCli,
   parseCommit,
+  readBaseline,
 } from "../../scripts/release.mjs";
 import { checkVersions } from "../../scripts/check-version.mjs";
+import { isRecord } from "./test-helpers.js";
 import type { ReleaseDependencies } from "../../scripts/release.mjs";
 
 /** The pinned baseline every generated section must carry. */
@@ -85,7 +89,7 @@ describe("bump edge cases", () => {
   it("should still produce a section for an empty commit set", () => {
     const entry = buildChangelogEntry("0.2.0", "2026-10-01", [], BASELINE);
 
-    expect(entry).toContain("## 0.2.0");
+    expect(entry).toContain("## [0.2.0] - 2026-10-01");
     expect(entry).toContain("No user-facing changes");
   });
 });
@@ -98,6 +102,60 @@ describe("dry-run behavior", () => {
 
     expect(code).toBe(0);
     expect(writes).toEqual([]);
+  });
+
+  it("should not publish and write nothing for a release dry run", () => {
+    const writes: string[] = [];
+
+    const code = main(["release", "--tag", "next", "--dry-run"], makeDeps(writes));
+
+    expect(code).toBe(0);
+    expect(writes).toEqual([]);
+  });
+});
+
+describe("command validation", () => {
+  it("should reject a release without a dist-tag before any write", () => {
+    const writes: string[] = [];
+
+    const code = main(["release"], makeDeps(writes));
+
+    expect(code).toBe(2);
+    expect(writes).toEqual([]);
+  });
+
+  it("should reject a publish without a dist-tag", () => {
+    const writes: string[] = [];
+
+    const code = main(["publish"], makeDeps(writes));
+
+    expect(code).toBe(2);
+    expect(writes).toEqual([]);
+  });
+
+  it("should reject --no-git-commit outside the version command", () => {
+    const code = main(["release", "--tag", "next", "--no-git-commit"], makeDeps([]));
+
+    expect(code).toBe(2);
+  });
+
+  it("should reject an access level outside the allowlist", () => {
+    const { error } = parseCli(["publish", "--tag", "next", "--access", "everyone"]);
+
+    expect(error).toMatch(/--access/);
+  });
+});
+
+describe("baseline source", () => {
+  it("should read the pinned baseline from the facts file", () => {
+    const facts: unknown = JSON.parse(readFileSync("facts/freshness.json", "utf8"));
+    if (!isRecord(facts) || !isRecord(facts.pinned)) {
+      throw new Error("facts/freshness.json must contain a pinned object");
+    }
+    const baseline = readBaseline();
+
+    expect(baseline.packageVersion).toBe(facts.pinned.packageVersion);
+    expect(baseline.sourceCommit).toBe(facts.pinned.sourceCommit);
   });
 });
 
