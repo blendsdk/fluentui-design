@@ -1,8 +1,8 @@
 # Portfolio Roadmap: fluentui-design
 
 > **Status**: Active
-> **Last Updated**: 2026-09-22 00:15
-> **Features**: 3 / 3 done
+> **Last Updated**: 2026-09-22 00:22
+> **Features**: 3 / 4 done
 > **CodeOps Artifact Schema**: 1
 
 ## Legend
@@ -15,6 +15,7 @@
 |---------|---------|---------------|----------|--------|--------------|
 | fluentui-design-distribution | [→](features/fluentui-design-distribution/00-roadmap.md) | 1 RD · done | 1/1 RDs | ✅ | 2026-09-21 |
 | fluentui-design-datagrid-coverage | [→](features/fluentui-design-datagrid-coverage/00-roadmap.md) | 1 RD · done | 1/1 RDs | ✅ | 2026-09-22 |
+| fluentui-design-form-inputs-coverage | [→](features/fluentui-design-form-inputs-coverage/00-roadmap.md) | 1 RD · plan created | 0/1 RDs | 📋 | 2026-09-22 |
 
 ## Archived
 
