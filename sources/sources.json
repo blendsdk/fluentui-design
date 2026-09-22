@@ -456,14 +456,24 @@
     "licenseNotes": "W3C Document License; summaries and links only"
   },
   {
-    "id": "SRC-039", "seedId": null, "title": "Form input components (expansion target)", "publisher": "Microsoft",
+    "id": "SRC-039", "seedId": null, "title": "Form input components", "publisher": "Microsoft",
     "requestedUrl": "https://fluent2.microsoft.design/components/web/react", "resolvedUrl": "https://fluent2.microsoft.design/components/web/react",
     "category": "component-usage", "platform": "web-react", "productScope": "",
-    "tags": ["checkbox", "combobox", "dropdown", "input", "radiogroup", "select", "spinbutton", "switch", "textarea"],
-    "applicableVersion": "Fluent UI React v9", "publicationDate": null, "retrievalDate": "2026-09-20",
-    "status": "discovered", "accessLimitation": null, "exclusionReason": null,
-    "locators": [{"kind": "section", "value": "Mandatory catalog expansion targets"}],
-    "summary": "Discovery target: canonical v9 usage pages for the form inputs (Input, Textarea, Select, Dropdown, Combobox, Checkbox, RadioGroup, Switch, SpinButton, and date/time controls), to be resolved through the React component overview and Storybook.",
+    "tags": ["input", "textarea", "select", "dropdown", "combobox", "checkbox", "radiogroup", "switch", "field", "control-choice"],
+    "applicableVersion": "Fluent UI React v9", "publicationDate": null, "retrievalDate": "2026-09-22",
+    "status": "analyzed", "accessLimitation": null, "exclusionReason": null,
+    "locators": [
+      {"kind": "anchor", "value": "https://fluent2.microsoft.design/components/web/react/core/input/usage"},
+      {"kind": "anchor", "value": "https://fluent2.microsoft.design/components/web/react/core/textarea/usage"},
+      {"kind": "anchor", "value": "https://fluent2.microsoft.design/components/web/react/core/select/usage"},
+      {"kind": "anchor", "value": "https://fluent2.microsoft.design/components/web/react/core/dropdown/usage"},
+      {"kind": "anchor", "value": "https://fluent2.microsoft.design/components/web/react/core/combobox/usage"},
+      {"kind": "anchor", "value": "https://fluent2.microsoft.design/components/web/react/core/checkbox/usage"},
+      {"kind": "anchor", "value": "https://fluent2.microsoft.design/components/web/react/core/radiogroup/usage"},
+      {"kind": "anchor", "value": "https://fluent2.microsoft.design/components/web/react/core/switch/usage"},
+      {"kind": "anchor", "value": "https://fluent2.microsoft.design/components/web/react/core/field/usage"}
+    ],
+    "summary": "The Fluent 2 usage pages for the v9 form controls: how the value's domain selects the control, that a Checkbox is submitted while a Switch applies immediately and supports an indeterminate parent, how Dropdown and Combobox options need a plain-text value and benefit from an inline popup, and how Input carries free text. The SpinButton control has no Fluent 2 usage page and is grounded in the v9 package source instead, and DatePicker, TimePicker, and Calendar are not exports of the pinned aggregate and are out of scope.",
     "evidenceRefs": [], "conflicts": [], "linkedRuleIds": [],
     "licenseNotes": "Microsoft Fluent 2 documentation; summaries and links only"
   },

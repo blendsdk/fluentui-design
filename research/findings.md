@@ -210,6 +210,66 @@
 | confidence | High — the label is the only accessible name for a checkbox in a cell |
 | informsRules | RULE-036 |
 
+### FND-019 — The value domain selects the input control
+
+| Field | Value |
+| --- | --- |
+| id | FND-019 |
+| statement | The value's domain selects the control: `Input` or `Textarea` for free text, `RadioGroup` for a small exclusive set, `Select` for a short fixed list, `Combobox` or `Dropdown` for a long or searchable list, `Checkbox` for a submitted boolean, `Switch` for an immediate on/off, and a numeric control such as `SpinButton` for a bounded quantity. |
+| kind | official-fluent-guidance |
+| sources | SRC-039 (anchor: .../core/input/usage, .../core/checkbox/usage, .../core/dropdown/usage) and SRC-013 |
+| versionScope | Fluent 2 / Fluent UI React v9 |
+| confidence | High — stated component guidance |
+| informsRules | RULE-037, RULE-039 |
+
+### FND-020 — Switch is immediate while Checkbox is submitted
+
+| Field | Value |
+| --- | --- |
+| id | FND-020 |
+| statement | A Checkbox does not take effect until the form is submitted and supports an indeterminate state for a parent that controls a partially selected group, while a Switch changes its setting immediately; choose between them by whether the change is committed later or applied at once. |
+| kind | official-fluent-guidance |
+| sources | SRC-039 (anchor: .../core/checkbox/usage, .../core/switch/usage) |
+| versionScope | Fluent 2 / Fluent UI React v9 |
+| confidence | High — stated component guidance |
+| informsRules | RULE-038 |
+
+### FND-021 — Complex options need a plain-text value
+
+| Field | Value |
+| --- | --- |
+| id | FND-021 |
+| statement | A Dropdown or Combobox option whose visible content is complex or composed must also carry a plain-text value so the closed field and type-ahead matching read correctly. |
+| kind | official-fluent-guidance |
+| sources | SRC-039 (anchor: .../core/dropdown/usage) |
+| versionScope | Fluent 2 / Fluent UI React v9 |
+| confidence | High — stated component guidance |
+| informsRules | RULE-040 |
+
+### FND-022 — Inline popups improve assistive navigation
+
+| Field | Value |
+| --- | --- |
+| id | FND-022 |
+| statement | Rendering an option popup inline, immediately after its trigger in the DOM, improves screen-reader navigation where `aria-owns` is unsupported. |
+| kind | official-fluent-guidance |
+| sources | SRC-039 (anchor: .../core/dropdown/usage) |
+| versionScope | Fluent 2 / Fluent UI React v9 |
+| confidence | Med — stated for Safari VoiceOver |
+| informsRules | RULE-041 |
+
+### FND-023 — A bounded numeric input is explicit
+
+| Field | Value |
+| --- | --- |
+| id | FND-023 |
+| statement | SpinButton steps a numeric value; `min` and `max` clamp and announce the bounds, `step` sets the increment and the default precision, `stepPage` sets the larger Page Up/Page Down jump, and `displayValue` shows a formatted string while `value` stays numeric. |
+| kind | versioned-implementation-fact |
+| sources | SRC-027 (repo-path: packages/react-components/react-spinbutton) |
+| versionScope | @fluentui/react-components 9.74.7 |
+| confidence | High — visible in the package source |
+| informsRules | RULE-042 |
+
 ## Risky Simplifications Register
 
 | Simplification | Verdict | Because | Sources |
