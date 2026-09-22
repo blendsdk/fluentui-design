@@ -8,6 +8,31 @@ Each release records three things: the skill version, the baseline
 `@fluentui/react-components` package version, and the pinned `fluentui-mcp` facts commit. See
 [MAINTENANCE.md](MAINTENANCE.md) for the re-pin procedure.
 
+## [0.3.0] - 2026-09-22
+
+### Baseline
+
+| Item | Value |
+| --- | --- |
+| `@fluentui/react-components` | 9.74.7 |
+| `fluentui-mcp` facts commit | d595d79 |
+
+### Fixes
+
+- forms: align the numeric rule severity and provenance
+
+### Documentation
+
+- plan: correct the form-inputs coverage progress count
+- plan: add the form-inputs coverage requirements and plan
+- roadmap: complete the datagrid coverage feature
+
+### Features
+
+- forms: enrich the form pattern and regenerate the skill
+- forms: add control-choice and input rules
+- forms: analyze the form input sources
+
 ## [0.2.0] - 2026-09-21
 
 ### Baseline
