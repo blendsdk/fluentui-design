@@ -2,8 +2,8 @@
 
 > **Document**: 99-execution-plan.md
 > **Parent**: [Index](00-index.md)
-> **Last Updated**: 2026-09-22 17:27
-> **Progress**: 13/16 tasks (81%)
+> **Last Updated**: 2026-09-22 17:37
+> **Progress**: 16/16 tasks (100%)
 > **CodeOps Artifact Schema**: 1
 
 ## Overview
@@ -89,9 +89,9 @@ regenerate, verify, release. Content only.
 > **Phase baseline tree**: _(release; version files only)_
 > **Scope mode**: strict
 
-- [ ] 5.1.1 Ensure `main` is pushed and clean
-- [ ] 5.1.2 Dispatch `release.yml` with `version_type=minor` and `dist_tag=latest`
-- [ ] 5.1.3 Verify the published version and tag
+- [x] 5.1.1 Ensure `main` is pushed and clean ✅ (completed: 2026-09-22 17:37)
+- [x] 5.1.2 Dispatch `release.yml` with `version_type=minor` and `dist_tag=latest` ✅ (completed: 2026-09-22 17:37)
+- [x] 5.1.3 Verify the published version and tag ✅ (completed: 2026-09-22 17:37)
 
 **Deliverables**: a minor release published from `main`
 
