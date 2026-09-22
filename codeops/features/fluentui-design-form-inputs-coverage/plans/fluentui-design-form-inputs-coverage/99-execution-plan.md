@@ -2,8 +2,8 @@
 
 > **Document**: 99-execution-plan.md
 > **Parent**: [Index](00-index.md)
-> **Last Updated**: 2026-09-22 17:24
-> **Progress**: 4/17 tasks (24%)
+> **Last Updated**: 2026-09-22 17:25
+> **Progress**: 7/16 tasks (44%)
 > **CodeOps Artifact Schema**: 1
 
 ## Overview
@@ -37,13 +37,13 @@ regenerate, verify, release. Content only.
 
 ## Phase 2: Rules and Coverage
 
-> **Phase baseline tree**: _(recorded by the exec-plan skill)_
+> **Phase baseline tree**: 987f03f910db83c19ff5c93e244e4c8dbdf29569
 > **Expected modification set**: `rules/rules.json`, `research/coverage.md`, this plan document.
 > **Scope mode**: strict
 
-- [ ] 2.1.1 Add `RULE-037`..`RULE-042` to `rules/rules.json`
-- [ ] 2.1.2 Update the forms coverage topic and the form-page pattern row
-- [ ] 2.1.3 Run `npm run validate:all` and `npm run lint:rules` and confirm they pass
+- [x] 2.1.1 Add `RULE-037`..`RULE-042` to `rules/rules.json` ✅ (completed: 2026-09-22 17:25)
+- [x] 2.1.2 Update the forms coverage topic and the form-page pattern row ✅ (completed: 2026-09-22 17:25)
+- [x] 2.1.3 Run `npm run validate:all` and `npm run lint:rules` and confirm they pass ✅ (completed: 2026-09-22 17:25)
 
 **Deliverables**: six additive `forms` rules; coverage consistent
 
