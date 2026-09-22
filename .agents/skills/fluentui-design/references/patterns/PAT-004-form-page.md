@@ -33,8 +33,11 @@ Slider, SpinButton, Label, Button, MessageBar, and Spinner are verified exports.
 chooses its control: free text uses Input or Textarea, a small exclusive set uses RadioGroup, a short
 fixed list uses a native Select, a long or searchable list uses Combobox or Dropdown, a submitted
 boolean uses Checkbox, an immediate on/off uses Switch, and a bounded quantity uses SpinButton. A
-complex option also carries a plain-text value. The FormSection grouping and the validation schema
-are application-owned. Validation, persistence, and authorization are application responsibilities.
+complex option also carries a plain-text value. A bounded numeric field sets its minimum and
+maximum, a step that divides the range, a page step that is a multiple of the step, and a formatted
+display value that parses back to the stored number. The FormSection grouping and the validation
+schema are application-owned. Validation, persistence, and authorization are application
+responsibilities.
 
 ## Interaction flow
 

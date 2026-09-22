@@ -217,7 +217,7 @@
 | id | FND-019 |
 | statement | The value's domain selects the control: `Input` or `Textarea` for free text, `RadioGroup` for a small exclusive set, `Select` for a short fixed list, `Combobox` or `Dropdown` for a long or searchable list, `Checkbox` for a submitted boolean, `Switch` for an immediate on/off, and a numeric control such as `SpinButton` for a bounded quantity. |
 | kind | official-fluent-guidance |
-| sources | SRC-039 (anchor: .../core/input/usage, .../core/checkbox/usage, .../core/dropdown/usage) and SRC-013 |
+| sources | SRC-039 (anchor: .../core/input/usage, .../core/textarea/usage, .../core/select/usage, .../core/dropdown/usage, .../core/combobox/usage, .../core/checkbox/usage, .../core/radiogroup/usage), SRC-013, and SRC-027 (repo-path: packages/react-components/react-spinbutton) |
 | versionScope | Fluent 2 / Fluent UI React v9 |
 | confidence | High — stated component guidance |
 | informsRules | RULE-037, RULE-039 |

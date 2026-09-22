@@ -47,7 +47,7 @@ All six use `decisionArea: forms` and `supersedes: []`. `componentMapping` uses 
 | RULE-039 | Prefer a native Select for a short, fixed list | recommendation | should | A form offers a fixed set of options | Prefer a native Select for a short, fixed list of options, and choose Combobox or Dropdown when the list is long, must be searched or typed into, or needs custom option content. |
 | RULE-040 | Give every complex option a plain-text value | requirement | must | A Dropdown or Combobox option has complex or composed content | Provide a plain-text value for every Dropdown or Combobox option whose visible content is complex or composed, so the closed field and type-ahead matching use the text. |
 | RULE-041 | Render the option list inline for assistive navigation | recommendation | should | A Dropdown or Combobox renders an option popup | Prefer an inline option popup that follows the trigger in the DOM so assistive navigation reaches the list where aria-owns is unsupported. |
-| RULE-042 | Make a bounded numeric input explicit | requirement | must | A form collects a numeric value that has meaningful bounds or steps | Set the minimum and maximum on a bounded numeric input, choose a step that divides the range, set the larger page step as a multiple, and parse a formatted display value back to a number. |
+| RULE-042 | Make a bounded numeric input explicit | recommendation | should | A form collects a numeric value that has meaningful bounds or steps | Set the minimum and maximum on a bounded numeric input, choose a step that divides the range, set the larger page step as a multiple, and parse a formatted display value back to a number. |
 
 Per-rule fields:
 

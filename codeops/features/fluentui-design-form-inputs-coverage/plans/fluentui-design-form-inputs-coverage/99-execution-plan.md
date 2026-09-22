@@ -99,6 +99,21 @@ regenerate, verify, release. Content only.
 
 ---
 
+## Review Evidence
+
+Single review of the feature diff (content change; base lenses + factual grounding against the
+sibling API skill).
+
+| Batch | Findings | Ruling | Outcome |
+| ----- | -------- | ------ | ------- |
+| Review | RV-6301 🟠 `RULE-042` was `must` without normative support (SpinButton has no first-party page) | Fix | Downgraded to `should`/`recommendation` |
+| Review | RV-6302 🟡 the rationale implied typed text is clamped by the bounds | Fix | Rationale now says typed text is not clamped and the parsed value is validated separately |
+| Review | RV-6303 🟡 `RULE-037`/`RULE-038` applicability metadata contradicted their instructions | Fix | Corrected `exceptions`/`notApplicableWhen` |
+| Review | RV-6304 🟡 `FND-019`/`RULE-037` mapped nine controls but cited three anchors | Fix | Added the missing usage anchors and the SpinButton package source |
+| Review | RV-6305 🟡 `PAT-004` listed `RULE-042` without its guidance | Fix | Added the bounded-numeric guidance to the pattern |
+
+---
+
 ## Success Criteria
 
 1. All phases completed
