@@ -42,6 +42,12 @@ when it applies, and where its evidence comes from. Full provenance lives in
 | RULE-005 | must | Wrap each control in a Field that provides a visible label, and place help or error text through the Field's message slot rather than beside it. |
 | RULE-006 | should | Show a field error after the user leaves the field or submits the form, and never before the user has entered a value, so the form does not scold an untouched field. |
 | RULE-007 | should | Lay fields out in one column by default and group related fields under a shared heading, because a single reading path is easier to follow and to complete. |
+| RULE-037 | should | Choose Input or Textarea for free-form text, RadioGroup for a small exclusive set, Select for a short fixed list, Combobox or Dropdown for a long or searchable list, Checkbox for a submitted boolean, Switch for an immediate on/off, and SpinButton for a bounded numeric quantity. |
+| RULE-038 | must | Use a Switch only when the change takes effect immediately, and use a Checkbox for a value submitted with the form; give a parent Checkbox an indeterminate state when it controls a partially selected group. |
+| RULE-039 | should | Prefer a native Select for a short, fixed list of options, and choose Combobox or Dropdown when the list is long, must be searched or typed into, or needs custom option content. |
+| RULE-040 | must | Provide a plain-text value for every Dropdown or Combobox option whose visible content is complex or composed, so the closed field and type-ahead matching use the text. |
+| RULE-041 | should | Prefer an inline option popup that follows the trigger in the DOM so assistive navigation reaches the list where aria-owns is unsupported. |
+| RULE-042 | must | Set the minimum and maximum on a bounded numeric input, choose a step that divides the range, set the larger page step as a multiple, and parse a formatted display value back to a number. |
 
 ## data-grid
 

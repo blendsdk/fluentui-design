@@ -42,7 +42,7 @@
 | SRC-036 | A02 | ARIA Authoring Practices Guide | W3C | analyzed | accessibility-guidance | https://www.w3.org/WAI/ARIA/apg/ |
 | SRC-037 | A03 | APG patterns index | W3C | analyzed | accessibility-guidance | https://www.w3.org/WAI/ARIA/apg/patterns/ |
 | SRC-038 | A04 | WAI forms tutorial | W3C | analyzed | accessibility-guidance | https://www.w3.org/WAI/tutorials/forms/ |
-| SRC-039 | — | Form input components (expansion target) | Microsoft | discovered | component-usage | https://fluent2.microsoft.design/components/web/react |
+| SRC-039 | — | Form input components | Microsoft | analyzed | component-usage | https://fluent2.microsoft.design/components/web/react |
 | SRC-040 | — | Data and collection components (expansion target) | Microsoft | discovered | component-usage | https://github.com/microsoft/fluentui/tree/master/packages/react-components |
 | SRC-041 | — | Navigation and surface components (expansion target) | Microsoft | discovered | component-usage | https://fluent2.microsoft.design/components/web/react |
 | SRC-042 | — | Feedback and status components (expansion target) | Microsoft | discovered | component-usage | https://fluent2.microsoft.design/components/web/react |

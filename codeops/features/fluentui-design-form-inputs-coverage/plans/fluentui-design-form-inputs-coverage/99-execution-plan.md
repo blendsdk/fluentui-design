@@ -2,8 +2,8 @@
 
 > **Document**: 99-execution-plan.md
 > **Parent**: [Index](00-index.md)
-> **Last Updated**: 2026-09-22 17:25
-> **Progress**: 7/16 tasks (44%)
+> **Last Updated**: 2026-09-22 17:27
+> **Progress**: 12/16 tasks (75%)
 > **CodeOps Artifact Schema**: 1
 
 ## Overview
@@ -53,14 +53,14 @@ regenerate, verify, release. Content only.
 
 ## Phase 3: Pattern
 
-> **Phase baseline tree**: _(recorded by the exec-plan skill)_
+> **Phase baseline tree**: fbad74241fb53479e3f934cda41c68058b186ecd
 > **Expected modification set**: `skill/references/patterns/PAT-004-form-page.md`, generated Markdown and the `.agents` mirror, this plan document.
 > **Scope mode**: strict
 > **Ordering note**: `npm run generate` runs here so `docs.spec` can compare the generated rule index against the catalog.
 
-- [ ] 3.1.1 Enrich `PAT-004-form-page.md` (frontmatter and Component mapping, Accessibility, Edge cases, Rules applied)
-- [ ] 3.1.2 Run `npm run generate`
-- [ ] 3.1.3 Run `npm run test` and confirm the pattern and documentation specs pass
+- [x] 3.1.1 Enrich `PAT-004-form-page.md` (frontmatter and Component mapping, Accessibility, Edge cases, Rules applied) ✅ (completed: 2026-09-22 17:27)
+- [x] 3.1.2 Run `npm run generate` ✅ (completed: 2026-09-22 17:27)
+- [x] 3.1.3 Run `npm run test` and confirm the pattern and documentation specs pass ✅ (completed: 2026-09-22 17:27)
 
 **Deliverables**: pattern enriched; generated output current
 
@@ -70,13 +70,13 @@ regenerate, verify, release. Content only.
 
 ## Phase 4: Regenerate and Verify
 
-> **Phase baseline tree**: _(recorded by the exec-plan skill)_
+> **Phase baseline tree**: fbad74241fb53479e3f934cda41c68058b186ecd
 > **Expected modification set**: generated Markdown, the `.agents` mirror, `facts/freshness.json`, this plan document.
 > **Scope mode**: strict
 
-- [ ] 4.1.1 Run `npm run freshness`
-- [ ] 4.1.2 Run `npm run generate:check` and `npm run freshness -- --check` and confirm both pass
-- [ ] 4.1.3 Run `npm run verify` and confirm it passes
+- [x] 4.1.1 Run `npm run freshness` ✅ (completed: 2026-09-22 17:27)
+- [x] 4.1.2 Run `npm run generate:check` and `npm run freshness -- --check` and confirm both pass ✅ (completed: 2026-09-22 17:27)
+- [x] 4.1.3 Run `npm run verify` and confirm it passes ✅ (completed: 2026-09-22 17:27)
 
 **Deliverables**: freshness current; full verification passing
 

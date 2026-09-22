@@ -2,8 +2,8 @@
 id: PAT-004
 title: Create and edit form page
 decisions: [form-layout, field-annotation, submit-feedback]
-rules: [RULE-005, RULE-006, RULE-007, RULE-029, RULE-030]
-components: [Field, Input, Textarea, Select, Combobox, Dropdown, Option, Checkbox, Radio, RadioGroup, Switch, Slider, Label, Button, MessageBar, MessageBarBody, Spinner]
+rules: [RULE-005, RULE-006, RULE-007, RULE-029, RULE-030, RULE-037, RULE-038, RULE-039, RULE-040, RULE-041, RULE-042]
+components: [Field, Input, Textarea, Select, Combobox, Dropdown, Option, Checkbox, Radio, RadioGroup, Switch, Slider, SpinButton, Label, Button, MessageBar, MessageBarBody, Spinner]
 derived: [application-owned FormSection grouping, application-owned validation schema]
 ---
 
@@ -29,9 +29,12 @@ page for editing one or two fields in the context of a list; use the contextual-
 ## Component mapping
 
 Field, Input, Textarea, Select, Combobox, Dropdown, Option, Checkbox, Radio, RadioGroup, Switch,
-Slider, Label, Button, MessageBar, and Spinner are verified exports. The FormSection grouping and
-the validation schema are application-owned. Validation, persistence, and authorization are
-application responsibilities.
+Slider, SpinButton, Label, Button, MessageBar, and Spinner are verified exports. Each value's domain
+chooses its control: free text uses Input or Textarea, a small exclusive set uses RadioGroup, a short
+fixed list uses a native Select, a long or searchable list uses Combobox or Dropdown, a submitted
+boolean uses Checkbox, an immediate on/off uses Switch, and a bounded quantity uses SpinButton. A
+complex option also carries a plain-text value. The FormSection grouping and the validation schema
+are application-owned. Validation, persistence, and authorization are application responsibilities.
 
 ## Interaction flow
 
@@ -52,20 +55,24 @@ Short related pairs may share a row above the project's narrow breakpoint only.
 
 ## Accessibility
 
-Every control has a programmatic label and, where needed, help text tied to the control. The error
-summary is announced on submit, and focus moves to the summary or the first invalid field. The
-pending submit action keeps an accessible name.
+Every control has a programmatic label and, where needed, help text tied to the control. A complex
+option exposes its plain text as the accessible name, and an option popup follows its trigger in DOM
+order so screen-reader navigation reaches the list. A Switch applies immediately while a Checkbox is
+submitted with the form, and a parent Checkbox shows the indeterminate state for a partially
+selected group. The error summary is announced on submit, and focus moves to the summary or the
+first invalid field. The pending submit action keeps an accessible name.
 
 ## Edge cases
 
-Server-side validation errors map onto their fields and are also summarized. A duplicate submission
-is prevented while a request is pending. Leaving the page with unsaved changes triggers a
+Server-side validation errors map onto their fields and are also summarized. A numeric value with no
+meaningful step, such as a phone number, stays a plain Input rather than a SpinButton. A duplicate
+submission is prevented while a request is pending. Leaving the page with unsaved changes triggers a
 confirmation. A field whose value arrives after load shows a pending state rather than an empty
 value.
 
 ## Rules applied
 
-RULE-005, RULE-006, RULE-007, RULE-029, RULE-030
+RULE-005, RULE-006, RULE-007, RULE-029, RULE-030, RULE-037, RULE-038, RULE-039, RULE-040, RULE-041, RULE-042
 
 ## Derived decisions
 
